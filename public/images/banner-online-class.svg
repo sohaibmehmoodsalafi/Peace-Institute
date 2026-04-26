@@ -1,0 +1,66 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="160" y1="120" x2="1040" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F4F4F4"/>
+      <stop offset="1" stop-color="#E8E8E8"/>
+    </linearGradient>
+    <linearGradient id="screen" x1="300" y1="180" x2="900" y2="660" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2E2E2E"/>
+      <stop offset="1" stop-color="#111111"/>
+    </linearGradient>
+    <linearGradient id="teal" x1="260" y1="540" x2="620" y2="820" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#0E7784"/>
+      <stop offset="1" stop-color="#0A5D66"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="860" y1="160" x2="980" y2="300" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#E0B556"/>
+      <stop offset="1" stop-color="#C48F2C"/>
+    </linearGradient>
+  </defs>
+
+  <rect width="1200" height="900" rx="40" fill="url(#bg)"/>
+  <ellipse cx="610" cy="785" rx="250" ry="42" fill="#A7A7A7" fill-opacity="0.35"/>
+
+  <!-- monitor stand -->
+  <rect x="420" y="710" width="360" height="22" rx="11" fill="#B9B9B9"/>
+  <rect x="555" y="655" width="90" height="70" rx="18" fill="#D0D0D0"/>
+  <path d="M420 220C420 186 447 160 481 160H719C753 160 780 186 780 220V660C780 694 753 720 719 720H481C447 720 420 694 420 660V220Z" fill="url(#screen)"/>
+  <rect x="446" y="186" width="308" height="492" rx="20" fill="#171717" stroke="#444" stroke-width="2"/>
+
+  <!-- UI panels on screen -->
+  <rect x="468" y="205" width="112" height="20" rx="10" fill="#1B8C4F"/>
+  <rect x="468" y="236" width="164" height="18" rx="9" fill="#2A2A2A"/>
+  <rect x="468" y="267" width="140" height="18" rx="9" fill="#2A2A2A"/>
+  <rect x="468" y="298" width="150" height="18" rx="9" fill="#2A2A2A"/>
+  <rect x="468" y="329" width="122" height="18" rx="9" fill="#2A2A2A"/>
+
+  <rect x="650" y="205" width="76" height="16" rx="8" fill="#D4AF37"/>
+  <rect x="650" y="232" width="76" height="16" rx="8" fill="#2F6CF6"/>
+  <rect x="650" y="259" width="76" height="16" rx="8" fill="#1B8C4F"/>
+  <rect x="650" y="286" width="76" height="16" rx="8" fill="#C48F2C"/>
+
+  <!-- webcam -->
+  <circle cx="830" cy="170" r="34" fill="#F3F3F3" stroke="#B8B8B8" stroke-width="6"/>
+  <circle cx="830" cy="170" r="18" fill="#1D1D1D"/>
+  <circle cx="833" cy="166" r="8" fill="#78C8FF"/>
+  <circle cx="847" cy="158" r="5" fill="#78C8FF"/>
+  <rect x="818" y="201" width="24" height="20" rx="10" fill="#D9D9D9"/>
+
+  <!-- student back view -->
+  <circle cx="520" cy="470" r="102" fill="#4C3325"/>
+  <path d="M420 490C430 430 470 390 520 390C570 390 610 430 620 490L640 650H400L420 490Z" fill="url(#teal)"/>
+  <path d="M444 402C470 368 497 352 520 352C544 352 571 368 596 402C575 418 550 430 520 430C490 430 466 418 444 402Z" fill="#E7E7E7"/>
+  <path d="M398 545L365 588" stroke="#0B6570" stroke-width="22" stroke-linecap="round"/>
+  <path d="M642 545L677 588" stroke="#0B6570" stroke-width="22" stroke-linecap="round"/>
+
+  <!-- teacher in screen -->
+  <circle cx="704" cy="398" r="44" fill="#F1C6A7"/>
+  <path d="M668 400C672 360 736 360 740 400C736 428 720 450 704 458C688 450 672 428 668 400Z" fill="#0F0F0F"/>
+  <path d="M656 450C664 430 680 420 704 420C728 420 744 430 752 450V610H656V450Z" fill="#1B8C4F"/>
+  <rect x="672" y="610" width="26" height="56" rx="12" fill="#C48F2C"/>
+  <rect x="710" y="610" width="26" height="56" rx="12" fill="#C48F2C"/>
+
+  <!-- logo in screen corner -->
+  <rect x="748" y="212" width="56" height="56" rx="14" fill="url(#gold)"/>
+  <path d="M758 238H794V244H772V250H790V256H772V262H784V268H758V238Z" fill="white"/>
+</svg>

@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Peace Institute — v3 Light Layout</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:ital,wght@0,700;0,900;1,700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --green:   #1A6B3C;
+  --green-d: #0F3D22;
+  --green-l: #22874D;
+  --green-xl:#2EA85E;
+  --gold:    #C9A427;
+  --gold-l:  #E2BB3A;
+  --gold-d:  #A07E1A;
+  --cream:   #F7F4EE;
+  --cream-d: #EDE9E0;
+  --text:    #1C1C1C;
+  --muted:   #6B7280;
+  --white:   #FFFFFF;
+}
+
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--cream);color:var(--text);font-family:'Inter',sans-serif;overflow-x:hidden}
+
+/* ── Type ── */
+.serif{font-family:'Playfair Display',serif}
+.arabic{font-family:'Amiri',serif}
+.gold-text{background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.green-text{color:var(--green)}
+.underline-gold{display:inline;border-bottom:3px solid var(--gold);padding-bottom:2px}
+
+/* ── NAV ── */
+.nav{
+  background:rgba(255,255,255,.97);
+  border-bottom:1px solid rgba(26,107,60,.1);
+  padding:0 40px;height:70px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  backdrop-filter:blur(10px);
+}
+.nav-logo{display:flex;align-items:center;gap:12px}
+.logo-sq{
+  width:42px;height:42px;border-radius:10px;
+  background:linear-gradient(135deg,var(--green),var(--green-l));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:900;font-size:14px;color:#fff;letter-spacing:-.5px;
+}
+.nav-links{display:flex;align-items:center;gap:2px}
+.nav-links a{
+  padding:8px 16px;border-radius:8px;
+  color:var(--muted);font-size:.86rem;font-weight:500;
+  text-decoration:none;transition:all .2s
+}
+.nav-links a:hover{color:var(--green);background:rgba(26,107,60,.06)}
+.nav-btn{
+  background:var(--green);color:#fff;
+  padding:10px 24px;border-radius:10px;
+  font-size:.86rem;font-weight:700;text-decoration:none;
+  box-shadow:0 4px 14px rgba(26,107,60,.25);
+  transition:all .25s;margin-left:16px
+}
+.nav-btn:hover{background:var(--green-l);box-shadow:0 8px 22px rgba(26,107,60,.35);transform:translateY(-1px)}
+
+/* ── HERO ── */
+.hero{
+  position:relative;
+  min-height:600px;
+  background:linear-gradient(135deg,var(--green-d) 0%,var(--green) 60%,var(--green-l) 100%);
+  display:flex;align-items:stretch;
+  overflow:hidden;
+}
+/* Islamic geometric overlay on hero */
+.hero::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(30deg, rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 44px),
+    repeating-linear-gradient(-30deg,rgba(255,255,255,.025) 0,rgba(255,255,255,.025) 1px,transparent 1px,transparent 44px);
+  pointer-events:none;
+}
+/* Gold arc decoration */
+.hero::after{
+  content:'';position:absolute;bottom:-120px;left:-80px;
+  width:500px;height:500px;border-radius:50%;
+  border:1px solid rgba(201,164,39,.15);
+  pointer-events:none;
+}
+
+.hero-left{
+  flex:1;padding:72px 56px 72px 64px;
+  position:relative;z-index:1;display:flex;flex-direction:column;justify-content:center;
+}
+.hero-right{
+  width:400px;flex-shrink:0;
+  padding:48px 48px 48px 32px;
+  display:flex;align-items:center;
+  position:relative;z-index:1;
+}
+
+/* Form card */
+.form-card{
+  background:#fff;border-radius:20px;
+  padding:32px 28px;width:100%;
+  box-shadow:0 20px 60px rgba(0,0,0,.2),0 4px 16px rgba(0,0,0,.1);
+}
+.form-card h3{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:4px}
+.form-card p{font-size:.78rem;color:var(--muted);margin-bottom:22px}
+
+.form-select{
+  width:100%;padding:11px 14px;border-radius:10px;
+  border:1.5px solid #E5E7EB;background:#FAFAFA;
+  font-size:.84rem;color:var(--text);font-family:'Inter',sans-serif;
+  appearance:none;margin-bottom:12px;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 24 24' stroke='%236B7280' stroke-width='2'%3E%3Cpath stroke-linecap='round' stroke-linejoin='round' d='M19 9l-7 7-7-7'/%3E%3C/svg%3E");
+  background-repeat:no-repeat;background-position:right 12px center;background-size:16px;
+  transition:border-color .2s;cursor:pointer;
+}
+.form-select:focus{outline:none;border-color:var(--green)}
+
+.form-input{
+  width:100%;padding:11px 14px;border-radius:10px;
+  border:1.5px solid #E5E7EB;background:#FAFAFA;
+  font-size:.84rem;color:var(--text);font-family:'Inter',sans-serif;
+  margin-bottom:12px;transition:border-color .2s;
+}
+.form-input:focus{outline:none;border-color:var(--green)}
+.form-input::placeholder{color:#9CA3AF}
+
+.form-btn{
+  width:100%;padding:14px;border-radius:12px;
+  background:linear-gradient(135deg,var(--green),var(--green-l));
+  color:#fff;font-weight:800;font-size:.95rem;
+  border:none;cursor:pointer;font-family:'Inter',sans-serif;
+  box-shadow:0 6px 20px rgba(26,107,60,.35);
+  transition:all .3s;
+}
+.form-btn:hover{transform:translateY(-2px);box-shadow:0 10px 28px rgba(26,107,60,.45)}
+
+/* Arabic watermark in hero */
+.arabic-wm{
+  position:absolute;right:440px;top:50%;transform:translateY(-50%);
+  font-family:'Amiri',serif;font-size:11rem;font-weight:700;
+  color:rgba(255,255,255,.04);pointer-events:none;line-height:1;
+  white-space:nowrap;direction:rtl;
+}
+
+/* ── STATS BAR ── */
+.stats-bar{
+  background:#fff;
+  border-bottom:1px solid rgba(26,107,60,.08);
+  padding:24px 64px;
+  display:flex;align-items:center;justify-content:space-around;
+  flex-wrap:wrap;gap:16px;
+}
+.stat-item{text-align:center}
+.stat-item .num{font-size:1.9rem;font-weight:900;color:var(--green);font-family:'Playfair Display',serif}
+.stat-item .lbl{font-size:.72rem;color:var(--muted);text-transform:uppercase;letter-spacing:.12em;margin-top:2px}
+.stat-divider{width:1px;height:36px;background:rgba(26,107,60,.12)}
+
+/* ── FEATURES BAR ── */
+.features{
+  background:#fff;padding:64px;
+  border-top:1px solid rgba(0,0,0,.06);
+}
+.features-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:32px;max-width:1280px;margin:0 auto;
+}
+.feat{padding:0;border-right:1px solid rgba(0,0,0,.07)}
+.feat:last-child{border-right:none}
+.feat-icon{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(26,107,60,.08);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:18px;
+}
+.feat-icon svg{width:26px;height:26px;stroke:var(--green)}
+.feat h4{font-size:.95rem;font-weight:700;color:var(--text);margin-bottom:8px}
+.feat p{font-size:.8rem;color:var(--muted);line-height:1.7;margin-bottom:16px}
+.feat-link{
+  display:inline-flex;align-items:center;gap:6px;
+  font-size:.78rem;font-weight:700;color:var(--green);text-decoration:none;
+  border:1.5px solid rgba(26,107,60,.3);border-radius:8px;
+  padding:7px 14px;transition:all .25s;
+}
+.feat-link:hover{background:var(--green);color:#fff;border-color:var(--green)}
+
+/* ── SECTION HEADER ── */
+.sec-header{text-align:center;margin-bottom:48px}
+.sec-label{
+  display:inline-flex;align-items:center;gap:8px;
+  font-size:.7rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--gold);margin-bottom:14px;
+}
+.sec-label::before,.sec-label::after{content:'';width:28px;height:1px;background:var(--gold);opacity:.5}
+.sec-title{font-size:2.5rem;font-weight:900;font-family:'Playfair Display',serif;color:var(--text);line-height:1.15}
+.sec-sub{font-size:.9rem;color:var(--muted);max-width:500px;margin:12px auto 0;line-height:1.75}
+
+/* ── COURSES SECTION ── */
+.courses{background:var(--cream);padding:80px 64px}
+.courses-grid{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:24px;max-width:1280px;margin:0 auto;
+}
+/* Row 2 — 2+1 layout */
+.courses-row2{
+  display:grid;grid-template-columns:2fr 1fr;
+  gap:24px;max-width:1280px;margin:24px auto 0;
+}
+
+.course-card{
+  background:#fff;border-radius:18px;overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  transition:transform .35s,box-shadow .35s;
+  display:flex;flex-direction:column;
+}
+.course-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,.12)}
+
+.course-img{
+  height:190px;position:relative;overflow:hidden;
+  background:linear-gradient(135deg,var(--green-d),var(--green));
+  display:flex;align-items:center;justify-content:center;
+}
+.course-img-inner{
+  position:absolute;inset:0;
+  display:flex;align-items:center;justify-content:center;
+  flex-direction:column;gap:12px;
+}
+.course-img svg.big{width:56px;height:56px;stroke:rgba(255,255,255,.3);stroke-width:1}
+.course-num-bg{
+  position:absolute;bottom:-16px;right:10px;
+  font-family:'Playfair Display',serif;font-size:7rem;font-weight:900;
+  color:rgba(255,255,255,.06);line-height:1;pointer-events:none;
+}
+.course-level-badge{
+  position:absolute;top:14px;left:14px;
+  background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.3);
+  backdrop-filter:blur(8px);border-radius:999px;
+  padding:4px 12px;font-size:.68rem;font-weight:700;
+  color:#fff;letter-spacing:.08em;text-transform:uppercase;
+}
+.course-gold-bar{
+  position:absolute;bottom:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--gold),transparent);
+}
+
+.course-body{padding:24px;flex:1;display:flex;flex-direction:column}
+.course-body h3{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:6px}
+.course-body .sub{font-size:.72rem;font-weight:700;color:var(--gold);letter-spacing:.08em;text-transform:uppercase;margin-bottom:12px}
+.course-body p{font-size:.8rem;color:var(--muted);line-height:1.7;flex:1;margin-bottom:18px}
+.course-meta{display:flex;align-items:center;justify-content:space-between;padding-top:14px;border-top:1px solid rgba(0,0,0,.06)}
+.course-dur{font-size:.72rem;color:#9CA3AF;display:flex;align-items:center;gap:5px}
+.course-dur svg{width:13px;height:13px;stroke:#9CA3AF}
+.course-enroll{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--green);color:#fff;
+  font-size:.76rem;font-weight:700;
+  padding:7px 16px;border-radius:8px;text-decoration:none;
+  transition:all .25s;
+}
+.course-enroll:hover{background:var(--green-l);transform:translateX(2px)}
+
+/* Featured (wide) course card */
+.course-card-wide .course-img{height:220px}
+.course-card-wide .course-body{flex-direction:row;gap:28px;align-items:flex-start}
+.course-card-wide .course-body-text{flex:1}
+.course-card-wide .course-body-aside{
+  width:200px;flex-shrink:0;
+  background:rgba(26,107,60,.04);border:1px solid rgba(26,107,60,.1);
+  border-radius:12px;padding:16px;
+}
+
+/* ── TEACHERS SECTION ── */
+.teachers{background:#fff;padding:80px 64px}
+.teachers-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  gap:24px;max-width:1280px;margin:0 auto;
+}
+.teacher-main{
+  background:var(--green);border-radius:24px;
+  padding:0;overflow:hidden;position:relative;
+  box-shadow:0 12px 40px rgba(26,107,60,.3);
+}
+.teacher-main-img{
+  height:200px;
+  background:linear-gradient(160deg,var(--green-d),var(--green-l));
+  display:flex;align-items:center;justify-content:center;
+  position:relative;overflow:hidden;
+}
+.teacher-main-img::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:60px;
+  background:linear-gradient(to top,var(--green),transparent);
+}
+.teacher-main-avatar{
+  width:110px;height:110px;border-radius:50%;
+  background:linear-gradient(135deg,rgba(201,164,39,.3),rgba(201,164,39,.1));
+  border:3px solid rgba(201,164,39,.5);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.8rem;font-weight:900;color:var(--gold);
+  box-shadow:0 0 0 6px rgba(201,164,39,.1);
+}
+.teacher-main-body{padding:28px;color:#fff}
+.teacher-main-body h3{font-family:'Playfair Display',serif;font-size:1.25rem;font-weight:700;margin-bottom:4px}
+.teacher-main-body .role{font-size:.75rem;color:rgba(201,164,39,.9);font-weight:700;letter-spacing:.08em;text-transform:uppercase;margin-bottom:16px}
+.teacher-main-body p{font-size:.82rem;color:rgba(255,255,255,.7);line-height:1.75;margin-bottom:20px}
+.t-cred{display:flex;align-items:center;gap:8px;font-size:.78rem;color:rgba(255,255,255,.6);margin-bottom:8px}
+.t-cred svg{width:13px;height:13px;stroke:var(--gold-l);flex-shrink:0}
+.t-tags-main{display:flex;flex-wrap:wrap;gap:6px;margin-top:16px}
+.t-tag-w{padding:4px 12px;border-radius:999px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);font-size:.68rem;font-weight:700;color:#fff}
+
+/* Secondary teacher card */
+.teacher-card{
+  background:var(--cream);border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 2px 12px rgba(0,0,0,.06);
+  transition:transform .35s,box-shadow .35s;
+}
+.teacher-card:hover{transform:translateY(-5px);box-shadow:0 16px 36px rgba(0,0,0,.1)}
+
+.teacher-card-img{
+  height:160px;position:relative;
+  display:flex;align-items:center;justify-content:center;
+  overflow:hidden;
+}
+.teacher-card-img.gold-bg{background:linear-gradient(135deg,var(--gold-d),var(--gold),var(--gold-l))}
+.teacher-card-img.green-bg{background:linear-gradient(135deg,var(--green-d),var(--green-l))}
+
+.t-avatar-sm{
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,255,255,.15);border:2.5px solid rgba(255,255,255,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.8rem;font-weight:900;color:#fff;
+}
+.teacher-card-img::after{
+  content:'';position:absolute;bottom:-1px;left:0;right:0;height:50px;
+  background:linear-gradient(to top,var(--cream),transparent);
+}
+.teacher-card-body{padding:20px}
+.teacher-card-body h3{font-size:.98rem;font-weight:700;color:var(--text);margin-bottom:3px}
+.teacher-card-body .role{font-size:.72rem;color:var(--gold);font-weight:700;letter-spacing:.06em;text-transform:uppercase;margin-bottom:12px}
+.teacher-card-body p{font-size:.78rem;color:var(--muted);line-height:1.65;margin-bottom:14px}
+.t-cred-sm{display:flex;align-items:center;gap:7px;font-size:.74rem;color:var(--muted);margin-bottom:7px}
+.t-cred-sm svg{width:12px;height:12px;stroke:var(--green);flex-shrink:0}
+.t-tags{display:flex;flex-wrap:wrap;gap:5px;margin-top:12px}
+.t-tag{padding:3px 10px;border-radius:999px;background:rgba(26,107,60,.07);border:1px solid rgba(26,107,60,.15);font-size:.65rem;font-weight:700;color:var(--green)}
+
+/* ── CTA SECTION ── */
+.cta-section{
+  padding:80px 64px;
+  background:linear-gradient(135deg,var(--green-d) 0%,var(--green) 60%,#1A5C35 100%);
+  position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    repeating-linear-gradient(60deg, rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 40px),
+    repeating-linear-gradient(-60deg,rgba(255,255,255,.02) 0,rgba(255,255,255,.02) 1px,transparent 1px,transparent 40px);
+  pointer-events:none;
+}
+.cta-section::after{
+  content:'بِسْمِ اللهِ';
+  position:absolute;right:-40px;top:50%;transform:translateY(-50%);
+  font-family:'Amiri',serif;font-size:12rem;font-weight:700;
+  color:rgba(255,255,255,.03);direction:rtl;pointer-events:none;white-space:nowrap;
+}
+.cta-inner{
+  max-width:1280px;margin:0 auto;
+  display:grid;grid-template-columns:1fr auto;gap:64px;
+  align-items:center;position:relative;z-index:1;
+}
+.cta-text h2{
+  font-family:'Playfair Display',serif;
+  font-size:2.8rem;font-weight:900;color:#fff;line-height:1.15;margin-bottom:16px;
+}
+.cta-text p{font-size:.92rem;color:rgba(255,255,255,.65);line-height:1.8;max-width:480px;margin-bottom:32px}
+.arabic-ayah{
+  font-family:'Amiri',serif;font-size:1.6rem;color:var(--gold-l);
+  direction:rtl;margin-bottom:6px;opacity:.9;
+}
+.ayah-ref{font-size:.68rem;color:rgba(201,164,39,.6);letter-spacing:.15em;text-transform:uppercase;margin-bottom:28px}
+
+.cta-pills{display:flex;flex-wrap:wrap;gap:10px;margin-bottom:32px}
+.cta-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  padding:8px 16px;border-radius:999px;
+  background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+  font-size:.8rem;color:rgba(255,255,255,.85);font-weight:500;
+}
+.cta-pill svg{width:14px;height:14px;stroke:var(--gold-l);flex-shrink:0}
+
+.btn-gold{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;border-radius:12px;
+  background:linear-gradient(135deg,var(--gold-l),var(--gold),var(--gold-d));
+  color:#0F1F0A;font-weight:800;font-size:.95rem;
+  text-decoration:none;box-shadow:0 8px 24px rgba(201,164,39,.4);
+  transition:all .3s;border:none;cursor:pointer;font-family:'Inter',sans-serif;
+}
+.btn-gold:hover{transform:translateY(-2px);box-shadow:0 14px 36px rgba(201,164,39,.5)}
+.btn-wh{
+  display:inline-flex;align-items:center;gap:10px;
+  padding:16px 36px;border-radius:12px;
+  background:rgba(255,255,255,.1);border:1.5px solid rgba(255,255,255,.25);
+  color:#fff;font-weight:600;font-size:.95rem;
+  text-decoration:none;transition:all .3s;
+}
+.btn-wh:hover{background:rgba(255,255,255,.18);border-color:rgba(255,255,255,.5)}
+
+/* Stats card on right side of CTA */
+.cta-stats-card{
+  background:rgba(255,255,255,.07);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:24px;padding:36px 32px;
+  backdrop-filter:blur(8px);
+  min-width:280px;
+}
+.cta-stats-card h4{font-size:.7rem;color:rgba(201,164,39,.7);letter-spacing:.18em;text-transform:uppercase;margin-bottom:24px}
+.stat-row{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:14px 0;border-bottom:1px solid rgba(255,255,255,.07);
+}
+.stat-row:last-child{border-bottom:none}
+.stat-row .label{font-size:.8rem;color:rgba(255,255,255,.55)}
+.stat-row .value{font-size:1.4rem;font-weight:900;color:var(--gold);font-family:'Playfair Display',serif}
+
+/* WhatsApp strip */
+.wa-strip{
+  background:#fff;padding:16px 64px;
+  display:flex;align-items:center;justify-content:center;gap:16px;
+  border-top:1px solid rgba(26,107,60,.08);
+}
+.wa-icon{width:36px;height:36px;background:#25D366;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.wa-icon svg{width:20px;height:20px;fill:#fff}
+
+/* ── FOOTER ── */
+footer{background:var(--green-d);padding:56px 64px 32px;color:rgba(255,255,255,.7)}
+.footer-grid{
+  display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;
+  gap:48px;max-width:1280px;margin:0 auto 48px;
+}
+.footer-logo-wrap h3{color:#fff;font-family:'Playfair Display',serif;font-size:1.2rem;margin-bottom:4px}
+.footer-logo-wrap p{font-size:.78rem;line-height:1.7;color:rgba(255,255,255,.45);margin-top:10px;max-width:240px}
+.footer-col h4{font-size:.72rem;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.35);margin-bottom:16px}
+.footer-col a{display:block;font-size:.82rem;color:rgba(255,255,255,.5);text-decoration:none;margin-bottom:10px;transition:color .2s}
+.footer-col a:hover{color:var(--gold)}
+.footer-bottom{
+  max-width:1280px;margin:0 auto;
+  padding-top:24px;border-top:1px solid rgba(255,255,255,.08);
+  display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;
+}
+.footer-bottom p{font-size:.76rem;color:rgba(255,255,255,.3)}
+.social-links{display:flex;gap:10px}
+.social-links a{
+  width:34px;height:34px;border-radius:8px;
+  background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);
+  display:flex;align-items:center;justify-content:center;
+  transition:all .25s;text-decoration:none;
+}
+.social-links a:hover{background:var(--gold);border-color:var(--gold)}
+.social-links a svg{width:15px;height:15px;fill:rgba(255,255,255,.5);transition:fill .25s}
+.social-links a:hover svg{fill:#fff}
+
+/* ── Reveal ── */
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:none}
+.d1{transition-delay:.05s}.d2{transition-delay:.12s}.d3{transition-delay:.19s}
+.d4{transition-delay:.26s}.d5{transition-delay:.33s}.d6{transition-delay:.4s}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ─────────────────────────────────────────────────────── -->
+<nav class="nav">
+  <div class="nav-logo">
+    <div class="logo-sq">PI</div>
+    <div>
+      <div style="font-weight:800;font-size:.95rem;color:var(--text);line-height:1.1">Peace Institute</div>
+      <div style="font-size:.6rem;letter-spacing:.16em;color:var(--gold);text-transform:uppercase">Online Quran Academy</div>
+    </div>
+  </div>
+  <div class="nav-links">
+    <a href="#courses">Courses</a>
+    <a href="#teachers">Teachers</a>
+    <a href="#cta">About</a>
+    <a href="#cta">Contact</a>
+    <a href="#" class="nav-btn">Enroll Free →</a>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════
+     HERO — Full bleed green + side form
+══════════════════════════════════════════════════ -->
+<section class="hero">
+  <div class="arabic-wm">قُرْآن</div>
+
+  <!-- Left text -->
+  <div class="hero-left">
+    <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,164,39,.15);border:1px solid rgba(201,164,39,.3);border-radius:999px;padding:5px 14px;width:fit-content;margin-bottom:24px">
+      <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block"></span>
+      <span style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)">Online Quran Academy</span>
+    </div>
+
+    <h1 class="serif" style="font-size:3.6rem;font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px">
+      Begin Your<br>
+      <span style="background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Quran Journey</span><br>
+      From Home
+    </h1>
+
+    <p style="font-size:.96rem;color:rgba(255,255,255,.65);line-height:1.85;max-width:440px;margin-bottom:36px">Certified male & female teachers. One-on-one live sessions. Structured courses from Qaida to Dars-e-Nizami — for every age and level.</p>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:36px">
+      <a href="#courses" class="btn-gold">Explore Courses</a>
+      <a href="#teachers" class="btn-wh">Meet Teachers</a>
+    </div>
+
+    <!-- Trust row -->
+    <div style="display:flex;align-items:center;gap:20px;flex-wrap:wrap">
+      <div style="display:flex;align-items:center;gap:8px">
+        <div style="display:flex">
+          <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#fff;margin-right:-8px">SM</div>
+          <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--green-l),var(--green-d));border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#fff;margin-right:-8px">ZB</div>
+          <div style="width:30px;height:30px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--green-l));border:2px solid rgba(255,255,255,.3);display:flex;align-items:center;justify-content:center;font-size:.65rem;font-weight:800;color:#fff">AA</div>
+        </div>
+        <span style="font-size:.78rem;color:rgba(255,255,255,.55)">50+ Certified Teachers</span>
+      </div>
+      <div style="width:1px;height:20px;background:rgba(255,255,255,.15)"></div>
+      <div style="font-size:.78rem;color:rgba(255,255,255,.55)">★★★★★ 1,200+ Happy Students</div>
+    </div>
+  </div>
+
+  <!-- Right — enrollment form -->
+  <div class="hero-right">
+    <div class="form-card">
+      <h3>Book Your Free Trial Class</h3>
+      <p>First class is 100% free — no credit card needed.</p>
+
+      <select class="form-select">
+        <option value="" disabled selected>Select a Course</option>
+        <option>Noorani Qaida (Beginner)</option>
+        <option>Nazrah Quran (Reading)</option>
+        <option>Tajweed Course (Intermediate)</option>
+        <option>Hifz-ul-Quran (Memorization)</option>
+        <option>Tafseer-ul-Quran</option>
+        <option>Dars-e-Nizami</option>
+      </select>
+
+      <select class="form-select">
+        <option value="" disabled selected>Preferred Teacher Gender</option>
+        <option>Male Teacher</option>
+        <option>Female Teacher (Hijab)</option>
+        <option>No Preference</option>
+      </select>
+
+      <select class="form-select">
+        <option value="" disabled selected>Your Timezone</option>
+        <option>Pakistan Standard Time (PKT)</option>
+        <option>Gulf Standard Time (GST)</option>
+        <option>UK Time (BST/GMT)</option>
+        <option>US Eastern (EST)</option>
+        <option>Other</option>
+      </select>
+
+      <input class="form-input" type="text" placeholder="Your Full Name">
+      <input class="form-input" type="tel" placeholder="WhatsApp Number">
+
+      <button class="form-btn">Book Free Class →</button>
+
+      <p style="font-size:.68rem;color:#9CA3AF;text-align:center;margin-top:12px">
+        🔒 No spam. We'll only contact you to confirm your class.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ── STATS BAR ───────────────────────────────────────────────── -->
+<div class="stats-bar">
+  <div class="stat-item"><div class="num">50+</div><div class="lbl">Certified Teachers</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat-item"><div class="num">1,200+</div><div class="lbl">Active Students</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat-item"><div class="num">25+</div><div class="lbl">Countries</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat-item"><div class="num">8,500+</div><div class="lbl">Sessions Completed</div></div>
+  <div class="stat-divider"></div>
+  <div class="stat-item"><div class="num">6</div><div class="lbl">Core Courses</div></div>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     FEATURES BAR
+══════════════════════════════════════════════════ -->
+<section class="features">
+  <div class="features-grid">
+
+    <div class="feat reveal d1" style="padding-right:32px">
+      <div class="feat-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z"/></svg>
+      </div>
+      <h4>One-on-One Classes</h4>
+      <p>Personalised attention with your dedicated teacher — no group classes. Just you and your Ustadh, focused entirely on your progress.</p>
+      <a href="#" class="feat-link">Learn More →</a>
+    </div>
+
+    <div class="feat reveal d2" style="padding:0 32px">
+      <div class="feat-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>
+      </div>
+      <h4>Certified Scholars</h4>
+      <p>All teachers are graduates of renowned Islamic institutions — Mahad As Salafi, Jamia Albayan, and Burooj Institute.</p>
+      <a href="#" class="feat-link">Meet Them →</a>
+    </div>
+
+    <div class="feat reveal d3" style="padding:0 32px">
+      <div class="feat-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M9 17.25v1.007a3 3 0 01-.879 2.122L7.5 21h9l-.621-.621A3 3 0 0115 18.257V17.25m6-12V15a2.25 2.25 0 01-2.25 2.25H5.25A2.25 2.25 0 013 15V5.25m18 0A2.25 2.25 0 0018.75 3H5.25A2.25 2.25 0 003 5.25m18 0H3"/></svg>
+      </div>
+      <h4>Live Zoom Sessions</h4>
+      <p>Real-time interaction via Zoom or Google Meet. Instant correction, two-way communication, and recorded sessions for review.</p>
+      <a href="#" class="feat-link">How It Works →</a>
+    </div>
+
+    <div class="feat reveal d4" style="padding-left:32px">
+      <div class="feat-icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke-width="1.7"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <h4>Flexible Timings</h4>
+      <p>Pick any time that suits your schedule — morning, evening, or late night. We cover all timezones from the UK to Australia.</p>
+      <a href="#" class="feat-link">Book a Slot →</a>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     COURSES
+══════════════════════════════════════════════════ -->
+<section id="courses" class="courses">
+  <div style="max-width:1280px;margin:0 auto">
+
+    <div class="sec-header reveal">
+      <div class="sec-label">Our Courses</div>
+      <h2 class="sec-title">Islamic <span class="green-text">Education</span> Programs</h2>
+      <p class="sec-sub">A complete structured path — from the first Arabic letter to becoming a fully qualified Islamic scholar.</p>
+    </div>
+
+    <!-- Row 1: 3 cards -->
+    <div class="courses-grid">
+
+      <!-- Noorani Qaida -->
+      <div class="course-card reveal d1">
+        <div class="course-img" style="background:linear-gradient(135deg,#0F3D22,#1A6B3C)">
+          <div class="course-img-inner">
+            <svg class="big" fill="none" viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="font-family:'Amiri',serif;font-size:1.8rem;color:rgba(201,164,39,.6);direction:rtl">ق</div>
+          </div>
+          <span class="course-level-badge">Beginner</span>
+          <div class="course-num-bg">01</div>
+          <div class="course-gold-bar"></div>
+        </div>
+        <div class="course-body">
+          <div class="sub">Foundation Course</div>
+          <h3>Noorani Qaida</h3>
+          <p>Master the Arabic alphabet with correct pronunciation. Learn Harakat, Sukoon, Tanween and compound letters — the essential first step before reading Quran.</p>
+          <div class="course-meta">
+            <div class="course-dur">
+              <svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              3–6 months
+            </div>
+            <a href="#" class="course-enroll">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tajweed — Featured -->
+      <div class="course-card reveal d2" style="border:2px solid rgba(201,164,39,.25)">
+        <div class="course-img" style="background:linear-gradient(135deg,#5C3A00,#8B6000)">
+          <div class="course-img-inner">
+            <svg class="big" fill="none" viewBox="0 0 24 24"><path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="font-family:'Amiri',serif;font-size:1.5rem;color:rgba(255,255,255,.5)">تجويد</div>
+          </div>
+          <span class="course-level-badge" style="background:rgba(201,164,39,.25);border-color:rgba(201,164,39,.5);color:#fff">★ Most Popular</span>
+          <div class="course-num-bg">03</div>
+          <div class="course-gold-bar"></div>
+        </div>
+        <div class="course-body">
+          <div class="sub">Beautify Recitation</div>
+          <h3>Tajweed Course</h3>
+          <p>Recite the Quran exactly as revealed — with perfect Makhraj, Sifaat, Madd, Ghunna and all Tajweed rules from Ikhfa to Qalqala.</p>
+          <div class="course-meta">
+            <div class="course-dur"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>6–8 months</div>
+            <a href="#" class="course-enroll" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#0F1F0A">Enroll →</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Hifz -->
+      <div class="course-card reveal d3">
+        <div class="course-img" style="background:linear-gradient(135deg,#1A1A4A,#2D2D7A)">
+          <div class="course-img-inner">
+            <svg class="big" fill="none" viewBox="0 0 24 24"><path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="font-family:'Amiri',serif;font-size:1.5rem;color:rgba(255,255,255,.5)">حفظ</div>
+          </div>
+          <span class="course-level-badge">Advanced</span>
+          <div class="course-num-bg">04</div>
+          <div class="course-gold-bar"></div>
+        </div>
+        <div class="course-body">
+          <div class="sub">Full Memorization</div>
+          <h3>Hifz-ul-Quran</h3>
+          <p>Become a Hafiz-e-Quran with our Sabaq, Sabqi & Manzil system. Structured daily memorization with strong retention testing.</p>
+          <div class="course-meta">
+            <div class="course-dur"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>2–4 years</div>
+            <a href="#" class="course-enroll">Enroll →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Row 2: Nazrah (wide) + Dars-e-Nizami -->
+    <div class="courses-row2">
+
+      <!-- Nazrah — wide card -->
+      <div class="course-card course-card-wide reveal d4">
+        <div class="course-img" style="height:160px;background:linear-gradient(135deg,#1A3A2A,#2A6040)">
+          <div class="course-img-inner">
+            <svg class="big" fill="none" viewBox="0 0 24 24"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="font-family:'Amiri',serif;font-size:1.5rem;color:rgba(255,255,255,.5)">نظرہ</div>
+          </div>
+          <span class="course-level-badge">Elementary</span>
+          <div class="course-num-bg">02</div>
+          <div class="course-gold-bar"></div>
+        </div>
+        <div class="course-body" style="flex-direction:row;gap:28px;align-items:flex-start">
+          <div style="flex:1">
+            <div class="sub">Quran Reading</div>
+            <h3>Nazrah Quran</h3>
+            <p>Fluent Quran reading — Para by Para — from Surah Al-Fatiha to An-Nas. Build accuracy in Makhraj and Sifaat across all 30 Paras.</p>
+          </div>
+          <div style="width:180px;flex-shrink:0;background:rgba(26,107,60,.05);border:1px solid rgba(26,107,60,.12);border-radius:12px;padding:16px;margin-top:4px">
+            <div style="font-size:.65rem;color:var(--green);font-weight:700;text-transform:uppercase;letter-spacing:.1em;margin-bottom:10px">Includes</div>
+            <div style="font-size:.75rem;color:var(--muted);display:flex;flex-direction:column;gap:6px">
+              <div>✓ 30 Paras coverage</div>
+              <div>✓ Waqf & Ibtidaa rules</div>
+              <div>✓ Weekly progress report</div>
+            </div>
+            <div class="course-meta" style="margin-top:14px;padding-top:12px">
+              <div class="course-dur"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>6–12 mo</div>
+              <a href="#" class="course-enroll">Enroll →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dars-e-Nizami -->
+      <div class="course-card reveal d5">
+        <div class="course-img" style="background:linear-gradient(135deg,#1A0A00,#3A1800)">
+          <div class="course-img-inner">
+            <svg class="big" fill="none" viewBox="0 0 24 24"><path d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0112 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <div style="font-family:'Amiri',serif;font-size:1.3rem;color:rgba(255,255,255,.5)">درس نظامی</div>
+          </div>
+          <span class="course-level-badge" style="background:rgba(201,164,39,.2);border-color:rgba(201,164,39,.4)">Scholar Level</span>
+          <div class="course-num-bg">06</div>
+          <div class="course-gold-bar"></div>
+        </div>
+        <div class="course-body">
+          <div class="sub">Aalim / Aalima Course</div>
+          <h3>Dars-e-Nizami</h3>
+          <p>Complete traditional scholars' curriculum — Quran, Hadith, Fiqh, Aqeedah, Nahw & Sarf. 6–8 year program to Aalim certification.</p>
+          <div class="course-meta">
+            <div class="course-dur"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>6–8 years</div>
+            <a href="#" class="course-enroll" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));color:#0F1F0A">Apply →</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     TEACHERS
+══════════════════════════════════════════════════ -->
+<section id="teachers" class="teachers">
+  <div style="max-width:1280px;margin:0 auto">
+
+    <div class="sec-header reveal">
+      <div class="sec-label">Our Scholars</div>
+      <h2 class="sec-title">Learn From <span class="green-text">Certified</span> Islamic Scholars</h2>
+      <p class="sec-sub">Graduates of renowned institutions — teaching with decades of experience directly to your home via live sessions.</p>
+    </div>
+
+    <div class="teachers-grid">
+
+      <!-- Founder — big green card -->
+      <div class="teacher-main reveal d1">
+        <div class="teacher-main-img">
+          <div class="teacher-main-avatar">SM</div>
+        </div>
+        <div class="teacher-main-body">
+          <div class="role">Founder & Head Teacher</div>
+          <h3>Ustadh Sohaib Mehmood</h3>
+          <p>A passionate educator bridging traditional Islamic scholarship with modern digital teaching. Built Peace Institute to bring world-class Quran education to every Muslim household.</p>
+
+          <div class="t-cred"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.959 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>Graduate — Mahad As Salafi</div>
+          <div class="t-cred"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>EdTech Expert — Soft Desk Solution</div>
+          <div class="t-cred"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>Speciality: Quran & Online Education</div>
+
+          <div class="t-tags-main">
+            <span class="t-tag-w">Quran</span>
+            <span class="t-tag-w">Tajweed</span>
+            <span class="t-tag-w">Nazrah</span>
+            <span class="t-tag-w">EdTech</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Shaikh Zia -->
+      <div class="teacher-card reveal d2">
+        <div class="teacher-card-img gold-bg">
+          <div class="t-avatar-sm">ZB</div>
+        </div>
+        <div class="teacher-card-body">
+          <div class="role">Shaikh-ul-Hadith</div>
+          <h3>Shaikh Zia ul Haq Bhatti</h3>
+          <p>Renowned Islamic scholar with deep expertise in Hadith sciences & Tafseer. Currently serving as Shaikh-ul-Hadith at Burooj Institute.</p>
+          <div class="t-cred-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.955 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>Shaikh-ul-Hadith — Burooj Institute</div>
+          <div class="t-cred-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/></svg>Jamia Albayan University</div>
+          <div class="t-cred-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.955 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>Graduate — Mahad As Salafi</div>
+          <div class="t-tags">
+            <span class="t-tag">Hadith</span>
+            <span class="t-tag">Tafseer</span>
+            <span class="t-tag">Fiqh</span>
+            <span class="t-tag">Aqeedah</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Ustadh Ali -->
+      <div class="teacher-card reveal d3">
+        <div class="teacher-card-img green-bg">
+          <div class="t-avatar-sm">AA</div>
+        </div>
+        <div class="teacher-card-body">
+          <div class="role">Quran Teacher</div>
+          <h3>Ustadh Ali Akhtar</h3>
+          <p>Patient & dedicated — known for his clear teaching style guiding students of all ages from Qaida to advanced Tajweed with great care.</p>
+          <div class="t-cred-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.955 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>Graduate — Mahad As Salafi</div>
+          <div class="t-cred-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>Active Teacher — Peace Institute</div>
+          <div class="t-cred-sm"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z"/></svg>Speciality: Qaida, Nazrah & Tajweed</div>
+          <div class="t-tags">
+            <span class="t-tag">Qaida</span>
+            <span class="t-tag">Nazrah</span>
+            <span class="t-tag">Tajweed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Join teaching team -->
+    <div style="text-align:center;margin-top:40px" class="reveal">
+      <div style="display:inline-flex;align-items:center;gap:14px;background:rgba(26,107,60,.05);border:1px solid rgba(26,107,60,.15);border-radius:14px;padding:16px 28px">
+        <svg style="width:18px;height:18px;stroke:var(--green);flex-shrink:0" fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"/></svg>
+        <span style="color:var(--muted);font-size:.85rem">Are you a qualified Islamic scholar?</span>
+        <a href="#" style="color:var(--green);font-weight:700;font-size:.85rem;text-decoration:none;border-bottom:1px solid rgba(26,107,60,.3);padding-bottom:1px">Join Our Teaching Team →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── WA STRIP ─────────────────────────────────────────────────── -->
+<div class="wa-strip">
+  <div class="wa-icon">
+    <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </div>
+  <div>
+    <span style="font-weight:700;color:var(--text);font-size:.9rem">Have Questions? Chat with us on WhatsApp</span>
+    <span style="color:var(--muted);font-size:.82rem;margin-left:8px">+92 302 2702808</span>
+  </div>
+  <a href="https://wa.me/923022702808" target="_blank" style="margin-left:auto;background:#25D366;color:#fff;font-weight:700;font-size:.82rem;padding:10px 20px;border-radius:10px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(37,211,102,.3)">Chat Now →</a>
+</div>
+
+<!-- ══════════════════════════════════════════════════
+     CTA
+══════════════════════════════════════════════════ -->
+<section id="cta" class="cta-section">
+  <div class="cta-inner reveal">
+
+    <div class="cta-text">
+      <div class="arabic-ayah">وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا</div>
+      <p class="ayah-ref">"And recite the Quran with measured recitation" — Surah Muzzammil [73:4]</p>
+
+      <h2>Start Your Quran<br><span style="background:linear-gradient(135deg,var(--gold-l),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Journey Today</span></h2>
+      <p>Join thousands of students from 25+ countries. Male and female certified teachers available. First class is absolutely free — no commitment, no card.</p>
+
+      <div class="cta-pills">
+        <div class="cta-pill"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 12.75L11.25 15 15 9.75m-3-7.036A11.959 11.955 0 013.598 6 11.99 11.99 0 003 9.749c0 5.592 3.824 10.29 9 11.623 5.176-1.332 9-6.03 9-11.622 0-1.31-.21-2.571-.598-3.751h-.152c-3.196 0-6.1-1.248-8.25-3.285z"/></svg>Free Trial Class</div>
+        <div class="cta-pill"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Flexible Timings</div>
+        <div class="cta-pill"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>25+ Countries</div>
+        <div class="cta-pill"><svg fill="none" viewBox="0 0 24 24" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z"/></svg>Male & Female</div>
+      </div>
+
+      <div style="display:flex;gap:12px;flex-wrap:wrap">
+        <a href="#" class="btn-gold">Enroll Now — It's Free</a>
+        <a href="#teachers" class="btn-wh">Meet Our Scholars</a>
+      </div>
+    </div>
+
+    <!-- Stats card -->
+    <div class="cta-stats-card">
+      <h4>Our Impact</h4>
+      <div class="stat-row"><span class="label">Expert Teachers</span><span class="value">50+</span></div>
+      <div class="stat-row"><span class="label">Active Students</span><span class="value">1,200+</span></div>
+      <div class="stat-row"><span class="label">Countries</span><span class="value">25+</span></div>
+      <div class="stat-row"><span class="label">Sessions Done</span><span class="value">8,500+</span></div>
+      <div class="stat-row" style="border:none"><span class="label">Core Courses</span><span class="value">6</span></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══════════════════════════════════════════════════
+     FOOTER
+══════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-grid">
+    <div class="footer-logo-wrap">
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
+        <div style="width:36px;height:36px;border-radius:8px;background:linear-gradient(135deg,var(--green-l),var(--green-xl));display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff">PI</div>
+        <h3>Peace Institute</h3>
+      </div>
+      <p>Online Quran Academy — bringing certified Islamic education to every Muslim home worldwide.</p>
+      <div class="social-links" style="margin-top:20px">
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg></a>
+        <a href="#"><svg viewBox="0 0 24 24"><path d="M19.59 6.69a4.83 4.83 0 01-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 01-2.88 2.5 2.89 2.89 0 01-2.89-2.89 2.89 2.89 0 012.89-2.89c.28 0 .54.04.79.1V9.01a6.33 6.33 0 00-.79-.05A6.34 6.34 0 003.15 15.2a6.34 6.34 0 006.34 6.34 6.34 6.34 0 006.34-6.34V8.69a8.27 8.27 0 004.84 1.55V6.79a4.85 4.85 0 01-1.08-.1z"/></svg></a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Courses</h4>
+      <a href="#">Noorani Qaida</a>
+      <a href="#">Nazrah Quran</a>
+      <a href="#">Tajweed Course</a>
+      <a href="#">Hifz-ul-Quran</a>
+      <a href="#">Tafseer-ul-Quran</a>
+      <a href="#">Dars-e-Nizami</a>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <a href="#">About Us</a>
+      <a href="#">Our Teachers</a>
+      <a href="#">Book Free Trial</a>
+      <a href="#">Student Portal</a>
+      <a href="#">Teacher Portal</a>
+      <a href="#">Contact Us</a>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <a href="#">+92 302 2702808</a>
+      <a href="#">WhatsApp Chat</a>
+      <a href="#">info@peaceinstitute.pk</a>
+      <div style="margin-top:16px;padding:14px;background:rgba(201,164,39,.08);border:1px solid rgba(201,164,39,.15);border-radius:10px">
+        <div style="font-size:.68rem;color:var(--gold);font-weight:700;margin-bottom:6px">FREE TRIAL</div>
+        <div style="font-size:.75rem;color:rgba(255,255,255,.5);margin-bottom:10px">First class is 100% free</div>
+        <a href="#" style="display:block;background:var(--gold);color:#0F1F0A;font-weight:700;font-size:.75rem;text-align:center;padding:8px;border-radius:8px;text-decoration:none">Book Now →</a>
+      </div>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© 2025 Peace Institute. All rights reserved.</p>
+    <p style="color:rgba(201,164,39,.4);font-size:.72rem;font-family:'Amiri',serif;direction:rtl">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</p>
+  </div>
+</footer>
+
+<script>
+const obs = new IntersectionObserver(e => {
+  e.forEach(x => { if(x.isIntersecting){x.target.classList.add("in");obs.unobserve(x.target)} });
+},{threshold:0.06});
+document.querySelectorAll(".reveal").forEach(el=>{obs.observe(el);el.classList.add("in")});
+</script>
+</body>
+</html>

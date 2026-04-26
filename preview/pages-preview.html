@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Teachers & Contact Preview</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--green:#1A6B3C;--gd:#0F3D22;--gl:#22874D;--gold:#C9A427;--goldl:#E2BB3A;--cream:#F7F4EE;--creamd:#EDE9E0;--text:#1C1C1C;--muted:#6B7280;}
+*,*::before,*::after{box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:var(--cream);margin:0;}
+
+/* ── Teachers Index ── */
+.tlist-hero{background:linear-gradient(160deg,var(--gd) 0%,var(--green) 100%);padding:4rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.tlist-hero h1{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:#fff;margin-bottom:.75rem;}
+.tlist-hero h1 span{color:var(--goldl);}
+.tlist-hero p{color:rgba(255,255,255,.75);font-size:1rem;max-width:520px;margin:0 auto 1.5rem;}
+.filter-bar{display:flex;align-items:center;gap:.5rem;flex-wrap:wrap;justify-content:center;}
+.filter-chip{padding:.4rem 1rem;border-radius:99px;font-size:.8rem;font-weight:600;border:1.5px solid rgba(255,255,255,.25);color:rgba(255,255,255,.75);text-decoration:none;transition:all .2s;background:transparent;}
+.filter-chip.active{background:#fff;color:var(--green);border-color:#fff;}
+.tlist-body{max-width:1280px;margin:0 auto;padding:2.5rem 1.5rem 3rem;}
+.teacher-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:1.5rem;}
+.t-prof-card{background:#fff;border-radius:20px;overflow:hidden;box-shadow:0 2px 16px rgba(26,107,60,.07);border:1.5px solid #F0EDE6;display:flex;flex-direction:column;}
+.t-prof-top{position:relative;padding:1.5rem 1.5rem 1rem;background:linear-gradient(135deg,var(--creamd) 0%,#fff 100%);text-align:center;border-bottom:1px solid #EDE9E0;}
+.t-avatar{width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--green),var(--gl));display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800;font-size:1.4rem;margin:0 auto .75rem;}
+.t-name{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.t-spec{font-size:.8rem;color:var(--green);font-weight:600;}
+.t-stars{display:flex;align-items:center;justify-content:center;gap:.2rem;margin:.5rem 0;}
+.t-stars i{font-size:.65rem;color:#D1D5DB;}
+.t-stars i.lit{color:#F59E0B;}
+.t-stars span{font-size:.75rem;color:var(--muted);margin-left:.3rem;}
+.t-tags{display:flex;flex-wrap:wrap;gap:.35rem;justify-content:center;padding:.1rem 0 .75rem;}
+.t-tag{font-size:.7rem;font-weight:600;padding:.2rem .6rem;border-radius:99px;background:rgba(26,107,60,.08);color:var(--green);}
+.t-prof-body{padding:1rem 1.5rem 1.25rem;flex:1;display:flex;flex-direction:column;gap:.6rem;}
+.t-meta{display:flex;align-items:center;gap:1rem;flex-wrap:wrap;}
+.t-meta-item{font-size:.8rem;color:var(--muted);}
+.t-meta-item i{color:var(--green);margin-right:.25rem;font-size:.7rem;}
+.t-rate{display:flex;align-items:baseline;gap:.2rem;margin-top:auto;}
+.t-rate-num{font-size:1.2rem;font-weight:800;color:var(--text);}
+.t-rate-unit{font-size:.75rem;color:var(--muted);}
+.t-prof-foot{padding:.75rem 1.25rem;border-top:1px solid #EDE9E0;display:flex;gap:.5rem;}
+.t-btn-main{flex:1;text-align:center;padding:.55rem;border-radius:10px;background:var(--green);color:#fff;font-size:.8rem;font-weight:700;text-decoration:none;}
+.t-btn-ghost{padding:.55rem .75rem;border-radius:10px;border:1.5px solid #E5E7EB;color:var(--muted);font-size:.8rem;font-weight:600;text-decoration:none;}
+
+/* ── Contact ── */
+.contact-hero{background:linear-gradient(160deg,var(--gd) 0%,var(--green) 100%);padding:4rem 1.5rem 3rem;text-align:center;position:relative;overflow:hidden;}
+.contact-hero h1{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:700;color:#fff;margin-bottom:.75rem;}
+.contact-hero h1 span{color:var(--goldl);}
+.contact-hero p{color:rgba(255,255,255,.75);font-size:1rem;max-width:500px;margin:0 auto;}
+.contact-body{max-width:1100px;margin:0 auto;padding:3rem 1.5rem 3rem;}
+.contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;}
+.contact-card{background:#fff;border-radius:24px;box-shadow:0 2px 20px rgba(26,107,60,.08);border:1.5px solid #EDE9E0;padding:2rem;}
+.cc-title{font-size:1.2rem;font-weight:800;color:var(--text);margin-bottom:1.25rem;display:flex;align-items:center;gap:.6rem;}
+.cc-title i{color:var(--green);}
+.phone-block{display:flex;align-items:center;gap:1rem;padding:1rem 1.25rem;border-radius:14px;background:rgba(26,107,60,.05);border:1.5px solid rgba(26,107,60,.12);text-decoration:none;margin-bottom:1.25rem;}
+.phone-icon{width:48px;height:48px;flex-shrink:0;border-radius:12px;background:var(--green);display:flex;align-items:center;justify-content:center;color:#fff;font-size:.95rem;}
+.phone-label{font-size:.75rem;color:var(--muted);font-weight:600;text-transform:uppercase;letter-spacing:.05em;}
+.phone-number{font-size:1.05rem;font-weight:700;color:var(--text);}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:.6rem;width:100%;padding:.8rem;border-radius:12px;background:#25D366;color:#fff;font-weight:700;font-size:.9rem;text-decoration:none;margin-bottom:1.25rem;}
+.social-list{display:flex;flex-direction:column;gap:.6rem;}
+.social-link{display:flex;align-items:center;justify-content:space-between;padding:.85rem 1rem;border-radius:12px;border:1.5px solid #EDE9E0;text-decoration:none;}
+.social-left{display:flex;align-items:center;gap:.75rem;font-size:.875rem;color:var(--text);font-weight:500;}
+.social-left i{font-size:1rem;width:20px;text-align:center;}
+.why-list{display:flex;flex-direction:column;gap:.75rem;margin-bottom:1.5rem;}
+.why-item{display:flex;align-items:flex-start;gap:.75rem;font-size:.875rem;color:#374151;line-height:1.5;}
+.why-icon{width:28px;height:28px;flex-shrink:0;border-radius:8px;background:rgba(26,107,60,.1);display:flex;align-items:center;justify-content:center;color:var(--green);font-size:.7rem;}
+.info-banner{background:linear-gradient(135deg,var(--gd) 0%,var(--green) 100%);border-radius:16px;padding:1.5rem;display:flex;gap:1rem;align-items:flex-start;}
+.ib-icon{width:40px;height:40px;flex-shrink:0;border-radius:10px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;color:var(--goldl);font-size:.9rem;}
+.ib-title{font-size:.875rem;font-weight:700;color:#fff;margin-bottom:.3rem;}
+.ib-body{font-size:.825rem;color:rgba(255,255,255,.75);line-height:1.55;}
+.contact-cta{margin-top:2rem;background:#fff;border-radius:24px;border:1.5px solid #EDE9E0;padding:2rem 2.5rem;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:1.25rem;}
+.cta-left h3{font-size:1.1rem;font-weight:800;color:var(--text);margin-bottom:.3rem;}
+.cta-left p{font-size:.875rem;color:var(--muted);}
+.btn-green-sm{padding:.65rem 1.5rem;border-radius:10px;background:var(--green);color:#fff;font-weight:700;font-size:.875rem;text-decoration:none;}
+.btn-outline-sm{padding:.65rem 1.5rem;border-radius:10px;border:1.5px solid var(--green);color:var(--green);font-weight:700;font-size:.875rem;text-decoration:none;}
+</style>
+</head>
+<body>
+
+<!-- TEACHERS INDEX -->
+<div class="tlist-hero">
+  <h1>Meet Our <span>Certified Teachers</span></h1>
+  <p>Every teacher is verified, experienced, and dedicated to your Quranic journey.</p>
+  <div class="filter-bar">
+    <a href="#" class="filter-chip active">All Teachers</a>
+    <a href="#" class="filter-chip">Tajweed</a>
+    <a href="#" class="filter-chip">Hifz</a>
+    <a href="#" class="filter-chip">Noorani Qaida</a>
+    <a href="#" class="filter-chip">Nazrah</a>
+  </div>
+</div>
+
+<div class="tlist-body">
+  <div class="teacher-grid">
+    <!-- Card 1 -->
+    <div class="t-prof-card">
+      <div class="t-prof-top">
+        <div class="t-avatar">SM</div>
+        <div class="t-name">Sheikh Muhammad</div>
+        <div class="t-spec">Hifz & Tajweed Specialist</div>
+        <div class="t-stars">
+          <i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i>
+          <span>5.0 (128)</span>
+        </div>
+        <div class="t-tags"><span class="t-tag">Tajweed</span><span class="t-tag">Hifz</span><span class="t-tag">Nazrah</span></div>
+      </div>
+      <div class="t-prof-body">
+        <div class="t-meta">
+          <span class="t-meta-item"><i class="fas fa-briefcase"></i>12 yrs exp.</span>
+          <span class="t-meta-item"><i class="fas fa-globe"></i>Pakistan</span>
+        </div>
+        <div class="t-rate"><span class="t-rate-num">$15</span><span class="t-rate-unit">/ hour</span></div>
+      </div>
+      <div class="t-prof-foot">
+        <a href="#" class="t-btn-main">View Profile</a>
+        <a href="#" class="t-btn-ghost"><i class="fas fa-calendar-plus"></i></a>
+      </div>
+    </div>
+    <!-- Card 2 -->
+    <div class="t-prof-card">
+      <div class="t-prof-top">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#1e7a50,#2a9d6a);">ZB</div>
+        <div class="t-name">Shaikh Zubair</div>
+        <div class="t-spec">Tajweed & Arabic Grammar</div>
+        <div class="t-stars">
+          <i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star"></i>
+          <span>4.8 (87)</span>
+        </div>
+        <div class="t-tags"><span class="t-tag">Tajweed</span><span class="t-tag">Arabic</span></div>
+      </div>
+      <div class="t-prof-body">
+        <div class="t-meta">
+          <span class="t-meta-item"><i class="fas fa-briefcase"></i>8 yrs exp.</span>
+          <span class="t-meta-item"><i class="fas fa-globe"></i>Egypt</span>
+        </div>
+        <div class="t-rate"><span class="t-rate-num">$18</span><span class="t-rate-unit">/ hour</span></div>
+      </div>
+      <div class="t-prof-foot">
+        <a href="#" class="t-btn-main">View Profile</a>
+        <a href="#" class="t-btn-ghost"><i class="fas fa-calendar-plus"></i></a>
+      </div>
+    </div>
+    <!-- Card 3 -->
+    <div class="t-prof-card">
+      <div class="t-prof-top">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#8B6914,#B8870F);">AA</div>
+        <div class="t-name">Ustadha Ayesha</div>
+        <div class="t-spec">Sisters' Quran Specialist</div>
+        <div class="t-stars">
+          <i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i>
+          <span>4.9 (64)</span>
+        </div>
+        <div class="t-tags"><span class="t-tag">Qaida</span><span class="t-tag">Nazrah</span><span class="t-tag">Tajweed</span></div>
+      </div>
+      <div class="t-prof-body">
+        <div class="t-meta">
+          <span class="t-meta-item"><i class="fas fa-briefcase"></i>6 yrs exp.</span>
+          <span class="t-meta-item"><i class="fas fa-globe"></i>Pakistan</span>
+        </div>
+        <div class="t-rate"><span class="t-rate-num">$12</span><span class="t-rate-unit">/ hour</span></div>
+      </div>
+      <div class="t-prof-foot">
+        <a href="#" class="t-btn-main">View Profile</a>
+        <a href="#" class="t-btn-ghost"><i class="fas fa-calendar-plus"></i></a>
+      </div>
+    </div>
+    <!-- Card 4 -->
+    <div class="t-prof-card">
+      <div class="t-prof-top">
+        <div class="t-avatar" style="background:linear-gradient(135deg,#155e33,#1c7a44);">MH</div>
+        <div class="t-name">Maulana Hassan</div>
+        <div class="t-spec">Dars-e-Nizami</div>
+        <div class="t-stars">
+          <i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star lit"></i><i class="fas fa-star"></i>
+          <span>4.7 (41)</span>
+        </div>
+        <div class="t-tags"><span class="t-tag">Dars-e-Nizami</span><span class="t-tag">Fiqh</span></div>
+      </div>
+      <div class="t-prof-body">
+        <div class="t-meta">
+          <span class="t-meta-item"><i class="fas fa-briefcase"></i>15 yrs exp.</span>
+          <span class="t-meta-item"><i class="fas fa-globe"></i>Pakistan</span>
+        </div>
+        <div class="t-rate"><span class="t-rate-num">$20</span><span class="t-rate-unit">/ hour</span></div>
+      </div>
+      <div class="t-prof-foot">
+        <a href="#" class="t-btn-main">View Profile</a>
+        <a href="#" class="t-btn-ghost"><i class="fas fa-calendar-plus"></i></a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CONTACT PAGE -->
+<div style="padding:3rem 0 0;">
+  <div class="contact-hero">
+    <h1>Contact <span>Peace Institute</span></h1>
+    <p>Have questions about classes, scheduling, or registration? We're here to help.</p>
+  </div>
+  <div class="contact-body">
+    <div class="contact-grid">
+      <div class="contact-card">
+        <h2 class="cc-title"><i class="fas fa-headset"></i> Get in Touch</h2>
+        <a href="tel:+923022702808" class="phone-block">
+          <div class="phone-icon"><i class="fas fa-phone"></i></div>
+          <div>
+            <div class="phone-label">Phone / WhatsApp</div>
+            <div class="phone-number">+92 302 2702808</div>
+          </div>
+        </a>
+        <a href="#" class="wa-btn"><i class="fab fa-whatsapp"></i> Chat on WhatsApp</a>
+        <div class="social-list">
+          <a href="#" class="social-link">
+            <span class="social-left"><i class="fab fa-facebook" style="color:#1877F2;"></i> Facebook Page</span>
+            <i class="fas fa-arrow-up-right-from-square" style="color:var(--muted);font-size:.75rem;"></i>
+          </a>
+          <a href="#" class="social-link">
+            <span class="social-left"><i class="fab fa-instagram" style="color:#E1306C;"></i> Instagram</span>
+            <i class="fas fa-arrow-up-right-from-square" style="color:var(--muted);font-size:.75rem;"></i>
+          </a>
+          <a href="#" class="social-link">
+            <span class="social-left"><i class="fab fa-youtube" style="color:#FF0000;"></i> YouTube Channel</span>
+            <i class="fas fa-arrow-up-right-from-square" style="color:var(--muted);font-size:.75rem;"></i>
+          </a>
+        </div>
+      </div>
+      <div class="contact-card">
+        <h2 class="cc-title"><i class="fas fa-circle-question"></i> How Can We Help?</h2>
+        <div class="why-list">
+          <div class="why-item"><div class="why-icon"><i class="fas fa-book-open"></i></div>Course guidance for beginners through advanced levels</div>
+          <div class="why-item"><div class="why-icon"><i class="fas fa-clock"></i></div>Flexible class scheduling to match your timezone</div>
+          <div class="why-item"><div class="why-icon"><i class="fas fa-chalkboard-teacher"></i></div>Help selecting the right teacher & arranging trial classes</div>
+          <div class="why-item"><div class="why-icon"><i class="fas fa-credit-card"></i></div>Assistance with registration, billing & Zoom setup</div>
+          <div class="why-item"><div class="why-icon"><i class="fas fa-child"></i></div>Special support for kids and elderly students</div>
+        </div>
+        <div class="info-banner">
+          <div class="ib-icon"><i class="fas fa-bolt"></i></div>
+          <div>
+            <div class="ib-title">Quick Response</div>
+            <div class="ib-body">We typically reply within a few hours on WhatsApp and social media. Click any platform to connect now.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="contact-cta">
+      <div class="cta-left">
+        <h3>Ready to start your Quranic journey?</h3>
+        <p>Enroll today — your first trial class is completely free.</p>
+      </div>
+      <div style="display:flex;gap:.75rem;">
+        <a href="#" class="btn-green-sm"><i class="fas fa-graduation-cap" style="margin-right:.5rem;"></i>Enroll Free</a>
+        <a href="#" class="btn-outline-sm">Browse Teachers</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

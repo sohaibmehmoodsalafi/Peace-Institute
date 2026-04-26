@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Auth Pages Preview – Peace Institute</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@700;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--green:#1A6B3C;--gd:#0F3D22;--gl:#22874D;--gold:#C9A427;--goldl:#E2BB3A;--cream:#F7F4EE;--creamd:#EDE9E0;--text:#1C1C1C;--muted:#6B7280;}
+*,*::before,*::after{box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;background:#E5E7EB;margin:0;}
+h2.section-label{font-size:1.5rem;font-weight:800;text-align:center;padding:2rem;background:#fff;margin:0;border-bottom:2px solid #E5E7EB;}
+
+/* ─── LOGIN ─────────────────────────────────────── */
+.auth-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;}
+.auth-panel{background:linear-gradient(160deg,var(--gd) 0%,var(--green) 60%,#22874D 100%);display:flex;flex-direction:column;justify-content:space-between;padding:3rem;position:relative;overflow:hidden;}
+.auth-panel::before{content:'';position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:rgba(201,164,39,.12);}
+.panel-logo{display:flex;align-items:center;gap:.75rem;}
+.panel-logo-mark{width:48px;height:48px;border-radius:12px;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1.1rem;color:#fff;}
+.panel-logo-text{color:#fff;font-size:1.15rem;font-weight:700;}
+.panel-tagline{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:#fff;line-height:1.25;}
+.panel-tagline span{color:var(--goldl);}
+.panel-quote{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);border-radius:16px;padding:1.25rem 1.5rem;}
+.panel-quote p{color:rgba(255,255,255,.85);font-size:.9rem;line-height:1.6;}
+.panel-quote cite{color:var(--goldl);font-size:.8rem;display:block;margin-top:.5rem;}
+.panel-features{display:flex;flex-direction:column;gap:.75rem;}
+.panel-feat{display:flex;align-items:center;gap:.75rem;color:rgba(255,255,255,.8);font-size:.875rem;}
+.panel-feat-icon{width:32px;height:32px;border-radius:8px;background:rgba(201,164,39,.2);display:flex;align-items:center;justify-content:center;color:var(--goldl);font-size:.8rem;flex-shrink:0;}
+.auth-form-side{background:var(--cream);display:flex;align-items:center;justify-content:center;padding:3rem 2rem;}
+.auth-card{width:100%;max-width:420px;background:#fff;border-radius:24px;box-shadow:0 4px 32px rgba(26,107,60,.08);padding:2.5rem;}
+.auth-card-title{font-size:1.6rem;font-weight:800;color:var(--text);margin-bottom:.25rem;}
+.auth-card-sub{color:var(--muted);font-size:.9rem;margin-bottom:2rem;}
+.auth-label{display:block;font-size:.82rem;font-weight:600;color:var(--text);margin-bottom:.4rem;}
+.auth-input{width:100%;padding:.7rem 1rem;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.9rem;color:var(--text);background:#fff;outline:none;}
+.auth-submit{width:100%;padding:.8rem;border-radius:12px;background:var(--green);color:#fff;font-weight:700;font-size:.95rem;border:none;cursor:pointer;margin-top:.5rem;}
+.auth-divider{display:flex;align-items:center;gap:.75rem;color:var(--muted);font-size:.8rem;margin:1.25rem 0;}
+.auth-divider::before,.auth-divider::after{content:'';flex:1;height:1px;background:#E5E7EB;}
+.auth-link{color:var(--green);font-weight:600;text-decoration:none;}
+.remember-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem;}
+.remember-label{display:flex;align-items:center;gap:.5rem;font-size:.85rem;color:var(--muted);cursor:pointer;}
+
+/* ─── REGISTER ──────────────────────────────────── */
+.reg-page{background:var(--cream);padding:4rem 1.5rem;}
+.reg-wrap{width:100%;max-width:580px;margin:0 auto;}
+.reg-badge{display:inline-flex;align-items:center;gap:.5rem;background:rgba(26,107,60,.1);color:var(--green);font-size:.78rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:.35rem .85rem;border-radius:99px;margin-bottom:1.25rem;}
+.role-toggle{display:flex;gap:.5rem;background:#fff;border:1.5px solid #E5E7EB;border-radius:14px;padding:.35rem;margin-bottom:1.75rem;}
+.role-tab{flex:1;display:flex;align-items:center;justify-content:center;gap:.5rem;padding:.6rem 1rem;border-radius:10px;font-size:.875rem;font-weight:600;text-decoration:none;color:var(--muted);}
+.role-tab.active{background:var(--green);color:#fff;box-shadow:0 2px 8px rgba(26,107,60,.25);}
+.reg-card{background:#fff;border-radius:24px;box-shadow:0 4px 32px rgba(26,107,60,.08);padding:2.5rem;}
+.reg-card-title{font-size:1.5rem;font-weight:800;color:var(--text);margin-bottom:.25rem;}
+.reg-card-sub{color:var(--muted);font-size:.875rem;margin-bottom:2rem;}
+.frm-row{display:grid;gap:1rem;}
+.frm-row.cols-2{grid-template-columns:1fr 1fr;}
+.frm-group{display:flex;flex-direction:column;gap:.4rem;}
+.frm-label{font-size:.82rem;font-weight:600;color:var(--text);}
+.frm-label .req{color:#DC2626;}
+.frm-label .opt{color:var(--muted);font-weight:400;font-size:.75rem;}
+.frm-input,.frm-select{width:100%;padding:.7rem 1rem;border:1.5px solid #D1D5DB;border-radius:10px;font-size:.875rem;color:var(--text);background:#fff;outline:none;}
+.reg-submit{width:100%;padding:.85rem;border-radius:12px;background:var(--green);color:#fff;font-weight:700;font-size:.95rem;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:.5rem;margin-top:.5rem;}
+.trust-strip{display:flex;align-items:center;justify-content:center;gap:1.5rem;margin-top:1.5rem;flex-wrap:wrap;}
+.trust-item{display:flex;align-items:center;gap:.4rem;font-size:.78rem;color:var(--muted);}
+.trust-item i{color:var(--green);}
+</style>
+</head>
+<body>
+
+<!-- LOGIN PAGE -->
+<h2 class="section-label">Login Page</h2>
+<div class="auth-wrap" style="height:auto;min-height:600px;">
+  <div class="auth-panel">
+    <div class="panel-logo">
+      <div class="panel-logo-mark">PI</div>
+      <span class="panel-logo-text">Peace Institute</span>
+    </div>
+    <div>
+      <p class="panel-tagline">Learn the Quran<br>from <span>certified scholars</span></p>
+      <p style="color:rgba(255,255,255,.65);font-size:.9rem;margin-top:.75rem;">One-on-one live Zoom sessions. Flexible timings. Every age welcome.</p>
+    </div>
+    <div class="panel-features">
+      <div class="panel-feat"><div class="panel-feat-icon"><i class="fas fa-video"></i></div>Live Zoom classes, any timezone</div>
+      <div class="panel-feat"><div class="panel-feat-icon"><i class="fas fa-graduation-cap"></i></div>Certified male &amp; female teachers</div>
+      <div class="panel-feat"><div class="panel-feat-icon"><i class="fas fa-child"></i></div>Kids, adults, beginners &amp; advanced</div>
+      <div class="panel-feat"><div class="panel-feat-icon"><i class="fas fa-globe"></i></div>Students from 40+ countries</div>
+    </div>
+    <div class="panel-quote">
+      <p>اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ</p>
+      <cite>Surah Al-Alaq 96:1 — "Read in the name of your Lord who created."</cite>
+    </div>
+  </div>
+  <div class="auth-form-side">
+    <div class="auth-card">
+      <h1 class="auth-card-title">Welcome back</h1>
+      <p class="auth-card-sub">Sign in to your account to continue</p>
+      <div style="margin-bottom:1rem;">
+        <label class="auth-label">Email Address</label>
+        <input class="auth-input" type="email" placeholder="you@example.com">
+      </div>
+      <div style="margin-bottom:1rem;">
+        <label class="auth-label">Password</label>
+        <input class="auth-input" type="password" placeholder="••••••••">
+      </div>
+      <div class="remember-row">
+        <label class="remember-label"><input type="checkbox"> Remember me</label>
+      </div>
+      <button class="auth-submit">Sign In &nbsp;<i class="fas fa-arrow-right"></i></button>
+      <div class="auth-divider">or</div>
+      <p style="text-align:center;font-size:.875rem;color:var(--muted);">Don't have an account? <a href="#" class="auth-link">Create one free</a></p>
+      <p style="text-align:center;font-size:.75rem;color:#9CA3AF;margin-top:1.5rem;">Are you a teacher? <a href="#" class="auth-link" style="font-size:.75rem;">Apply to teach →</a></p>
+    </div>
+  </div>
+</div>
+
+<!-- REGISTER PAGE -->
+<h2 class="section-label" style="margin-top:3rem;">Register Page (Student)</h2>
+<div class="reg-page">
+  <div class="reg-wrap">
+    <div style="text-align:center;">
+      <span class="reg-badge"><i class="fas fa-star"></i> Free to Join</span>
+      <h1 style="font-size:2rem;font-weight:800;color:var(--text);margin-bottom:.3rem;">Start Learning Today</h1>
+      <p style="color:var(--muted);font-size:.95rem;margin-bottom:1.5rem;">Create your free student account in under a minute</p>
+    </div>
+    <div class="role-toggle">
+      <span class="role-tab active"><i class="fas fa-graduation-cap"></i> Student</span>
+      <span class="role-tab"><i class="fas fa-chalkboard-teacher"></i> Teacher</span>
+    </div>
+    <div class="reg-card">
+      <h2 class="reg-card-title">Create Your Account</h2>
+      <p class="reg-card-sub">All fields marked * are required.</p>
+      <div style="display:flex;flex-direction:column;gap:1rem;">
+        <div class="frm-row cols-2">
+          <div class="frm-group">
+            <label class="frm-label">Full Name <span class="req">*</span></label>
+            <input class="frm-input" type="text" placeholder="Your full name">
+          </div>
+          <div class="frm-group">
+            <label class="frm-label">Phone <span class="opt">(optional)</span></label>
+            <input class="frm-input" type="tel" placeholder="+1 234 567 890">
+          </div>
+        </div>
+        <div class="frm-group">
+          <label class="frm-label">Email Address <span class="req">*</span></label>
+          <input class="frm-input" type="email" placeholder="you@example.com">
+        </div>
+        <div class="frm-group">
+          <label class="frm-label">Your Timezone</label>
+          <select class="frm-select"><option>UTC</option><option>America/New_York</option><option>Europe/London</option></select>
+        </div>
+        <div class="frm-row cols-2">
+          <div class="frm-group">
+            <label class="frm-label">Password <span class="req">*</span></label>
+            <input class="frm-input" type="password" placeholder="Min. 8 characters">
+          </div>
+          <div class="frm-group">
+            <label class="frm-label">Confirm Password <span class="req">*</span></label>
+            <input class="frm-input" type="password" placeholder="Repeat password">
+          </div>
+        </div>
+        <button class="reg-submit"><i class="fas fa-user-plus"></i> Create Free Account</button>
+      </div>
+      <div class="auth-divider" style="margin-top:1.25rem;">already have an account?</div>
+      <p style="text-align:center;font-size:.875rem;color:var(--muted);"><a href="#" class="auth-link">Sign in to your account →</a></p>
+    </div>
+    <div class="trust-strip">
+      <div class="trust-item"><i class="fas fa-shield-alt"></i> Secure & Private</div>
+      <div class="trust-item"><i class="fas fa-lock"></i> No credit card needed</div>
+      <div class="trust-item"><i class="fas fa-check-circle"></i> Free trial class</div>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

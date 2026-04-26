@@ -1,0 +1,34 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(php --version)",
+      "Bash(composer --version)",
+      "PowerShell(php --version)",
+      "PowerShell(composer --version)",
+      "mcp__Claude_Preview__preview_start",
+      "mcp__Claude_in_Chrome__tabs_context_mcp",
+      "Bash(Start-Process \"chrome.exe\" \"D:\\\\Peace Institute\\\\Website\\\\preview\\\\courses-preview.html\" -ErrorAction SilentlyContinue)",
+      "Bash(Start-Sleep -Seconds 4)",
+      "Bash(Write-Host \"opened\")",
+      "Bash(xdg-open \"D:/Peace Institute/Website/preview/courses-preview.html\")",
+      "Bash(google-chrome \"D:/Peace Institute/Website/preview/courses-preview.html\")",
+      "Bash(chromium-browser \"D:/Peace Institute/Website/preview/courses-preview.html\")",
+      "PowerShell(Start-Process $filePath)",
+      "PowerShell($filePath = \"D:\\\\Peace Institute\\\\Website\\\\preview\\\\courses-preview.html\")",
+      "PowerShell(node --version 2>$null)",
+      "PowerShell(npx --version 2>$null)",
+      "PowerShell($php = Get-Command php -ErrorAction SilentlyContinue; if \\($php\\) { php --version } else { Write-Host \"PHP not in PATH\"; $candidates = @\\('C:\\\\laragon\\\\bin\\\\php\\\\php.exe','C:\\\\xampp\\\\php\\\\php.exe','C:\\\\tools\\\\php\\\\php.exe','C:\\\\php\\\\php.exe'\\); foreach \\($p in $candidates\\) { if \\(Test-Path $p\\) { Write-Host \"Found: $p\"; & $p --version; break } } })",
+      "PowerShell(php -c \"D:\\\\Peace Institute\\\\Website\\\\php-cli.ini\" --version 2>&1)",
+      "PowerShell(head -1)",
+      "PowerShell(php -c \"D:\\\\Peace Institute\\\\Website\\\\php-cli.ini\" --version)",
+      "PowerShell(Set-Location \"D:\\\\Peace Institute\\\\Website\"; $job = Start-Job -ScriptBlock { Set-Location \"D:\\\\Peace Institute\\\\Website\"; php -c \"D:\\\\Peace Institute\\\\Website\\\\php-cli.ini\" artisan serve --host=127.0.0.1 --port=8001 }; Start-Sleep -Seconds 4; Write-Host \"Job state: $\\($job.State\\)\")",
+      "PowerShell(Set-Location \"D:\\\\Peace Institute\\\\Website\"; $proc = [System.Diagnostics.Process]::new\\(\\); $proc.StartInfo.FileName = \"php\"; $proc.StartInfo.Arguments = '-c \"D:\\\\Peace Institute\\\\Website\\\\php-cli.ini\" artisan serve --host=127.0.0.1 --port=8001'; $proc.StartInfo.WorkingDirectory = \"D:\\\\Peace Institute\\\\Website\"; $proc.StartInfo.UseShellExecute = $true; $proc.StartInfo.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden; $proc.Start\\(\\); Write-Host \"PID: $\\($proc.Id\\)\"; Start-Sleep -Seconds 5; $test = Test-NetConnection -ComputerName 127.0.0.1 -Port 8001 -WarningAction SilentlyContinue; Write-Host \"Port open: $\\($test.TcpTestSucceeded\\)\")",
+      "PowerShell(Start-Sleep -Seconds 5; $test = Test-NetConnection -ComputerName 127.0.0.1 -Port 8001 -WarningAction SilentlyContinue; Write-Host \"Port 8001 open: $\\($test.TcpTestSucceeded\\)\")",
+      "PowerShell(Start-Sleep -Seconds 6; $r = Test-NetConnection -ComputerName 127.0.0.1 -Port 8002 -WarningAction SilentlyContinue; Write-Host \"Port 8002: $\\($r.TcpTestSucceeded\\)\"; Get-Content \"C:\\\\Users\\\\3TEE\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Peace-Institute-Website\\\\b1d87fbb-f295-42d5-acfd-19b67ddb43fc\\\\tasks\\\\bd1smvp6g.output\" -ErrorAction SilentlyContinue | Select-Object -Last 5)",
+      "PowerShell(Start-Sleep -Seconds 5; $r = Test-NetConnection -ComputerName 127.0.0.1 -Port 8003 -WarningAction SilentlyContinue; Write-Host \"Port 8003: $\\($r.TcpTestSucceeded\\)\"; Get-Content \"C:\\\\Users\\\\3TEE\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Peace-Institute-Website\\\\b1d87fbb-f295-42d5-acfd-19b67ddb43fc\\\\tasks\\\\brc96hf49.output\" -ErrorAction SilentlyContinue | Select-Object -Last 5)",
+      "PowerShell(Get-Command ngrok -ErrorAction SilentlyContinue)",
+      "PowerShell(Get-Command cloudflared -ErrorAction SilentlyContinue)",
+      "PowerShell(node -e \"require\\('localtunnel'\\)\" 2>&1)"
+    ]
+  }
+}

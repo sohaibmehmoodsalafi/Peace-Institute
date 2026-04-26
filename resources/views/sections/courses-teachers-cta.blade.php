@@ -1,0 +1,770 @@
+{{--
+╔══════════════════════════════════════════════════════════════════════╗
+║         PEACE INSTITUTE — Courses · Teachers · CTA Sections         ║
+║         Colors: Forest Green #1A6B3C · Gold #C9A427 · Black         ║
+╚══════════════════════════════════════════════════════════════════════╝
+--}}
+
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peace Institute – Courses & Teachers</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        pi: {
+                            green:      '#1A6B3C',
+                            'green-d':  '#124D2B',
+                            'green-l':  '#22874D',
+                            gold:       '#C9A427',
+                            'gold-l':   '#E2BB3A',
+                            'gold-d':   '#A07E1A',
+                            dark:       '#0C0C0C',
+                            surface:    '#F7F5F0',
+                        }
+                    },
+                    fontFamily: {
+                        sans:   ['Inter', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    },
+                    animation: {
+                        'fade-up':   'fadeUp 0.6s ease forwards',
+                        'shimmer':   'shimmer 2.5s infinite',
+                        'float':     'float 3s ease-in-out infinite',
+                    },
+                    keyframes: {
+                        fadeUp:  { '0%': { opacity:'0', transform:'translateY(28px)' }, '100%': { opacity:'1', transform:'translateY(0)' } },
+                        shimmer: { '0%,100%': { opacity:.7 }, '50%': { opacity:1 } },
+                        float:   { '0%,100%': { transform:'translateY(0)' }, '50%': { transform:'translateY(-8px)' } },
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* ── Global ───────────────────────────────────────────────── */
+        *, *::before, *::after { box-sizing: border-box; }
+        body { background: #0C0C0C; color: #fff; font-family: 'Inter', sans-serif; }
+
+        /* ── Logo gradient text ───────────────────────────────────── */
+        .gold-text  { background: linear-gradient(135deg, #E2BB3A, #C9A427, #A07E1A);
+                      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .green-text { background: linear-gradient(135deg, #22874D, #1A6B3C);
+                      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+
+        /* ── Geometric background pattern (Islamic inspired) ──────── */
+        .geo-bg {
+            background-image:
+                repeating-linear-gradient(45deg,  rgba(201,164,39,.028) 0px, rgba(201,164,39,.028) 1px, transparent 1px, transparent 30px),
+                repeating-linear-gradient(-45deg, rgba(26,107,60,.025)  0px, rgba(26,107,60,.025)  1px, transparent 1px, transparent 30px);
+        }
+
+        /* ── Section label pill ───────────────────────────────────── */
+        .section-pill {
+            display: inline-flex; align-items: center; gap: 8px;
+            padding: 6px 18px; border-radius: 999px;
+            background: rgba(201,164,39,.10);
+            border: 1px solid rgba(201,164,39,.30);
+            font-size: .72rem; font-weight: 600; letter-spacing: .12em;
+            text-transform: uppercase; color: #C9A427;
+        }
+
+        /* ── Course Cards ─────────────────────────────────────────── */
+        .course-card {
+            position: relative; overflow: hidden;
+            background: #111;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 20px;
+            transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+        }
+        .course-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(135deg, rgba(26,107,60,.12) 0%, transparent 60%);
+            opacity: 0; transition: opacity .35s;
+        }
+        .course-card:hover { transform: translateY(-6px); border-color: rgba(201,164,39,.35); box-shadow: 0 20px 50px rgba(0,0,0,.5), 0 0 0 1px rgba(201,164,39,.12); }
+        .course-card:hover::before { opacity: 1; }
+        .course-card:hover .course-icon-wrap { background: #1A6B3C; }
+        .course-card:hover .course-icon-wrap svg { color: #C9A427; }
+
+        .course-icon-wrap {
+            width: 52px; height: 52px; border-radius: 14px;
+            background: rgba(26,107,60,.15);
+            border: 1px solid rgba(26,107,60,.30);
+            display: flex; align-items: center; justify-content: center;
+            flex-shrink: 0;
+            transition: background .3s;
+        }
+        .course-icon-wrap svg { width: 26px; height: 26px; color: #1A6B3C; transition: color .3s; }
+
+        .course-number {
+            position: absolute; top: 18px; right: 20px;
+            font-size: 3.5rem; font-weight: 900; line-height: 1;
+            color: rgba(255,255,255,.03);
+            pointer-events: none; user-select: none;
+        }
+
+        .feature-dot::before { content: ''; display: inline-block; width: 5px; height: 5px; border-radius: 50%; background: #C9A427; margin-right: 8px; flex-shrink: 0; }
+        .feature-dot { display: flex; align-items: center; font-size: .8rem; color: #9ca3af; }
+
+        /* ── Divider ──────────────────────────────────────────────── */
+        .divider-gold { height: 1px; background: linear-gradient(90deg, transparent, #C9A427, #1A6B3C, transparent); }
+
+        /* ── Teacher Cards ────────────────────────────────────────── */
+        .teacher-card {
+            background: #111;
+            border: 1px solid rgba(255,255,255,.06);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: transform .35s, border-color .35s, box-shadow .35s;
+        }
+        .teacher-card:hover { transform: translateY(-8px); border-color: rgba(26,107,60,.5); box-shadow: 0 25px 55px rgba(0,0,0,.5), 0 0 30px rgba(26,107,60,.08); }
+
+        .teacher-avatar {
+            width: 88px; height: 88px; border-radius: 50%;
+            background: linear-gradient(135deg, #1A6B3C, #124D2B);
+            border: 3px solid rgba(201,164,39,.4);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 2rem; font-weight: 800; color: #C9A427;
+            flex-shrink: 0;
+            box-shadow: 0 8px 25px rgba(0,0,0,.4);
+        }
+
+        .badge-tag {
+            display: inline-block;
+            padding: 3px 11px; border-radius: 999px;
+            font-size: .68rem; font-weight: 600;
+            background: rgba(201,164,39,.10);
+            border: 1px solid rgba(201,164,39,.25);
+            color: #C9A427;
+        }
+
+        .credential-item {
+            display: flex; align-items: flex-start; gap: 8px;
+            font-size: .82rem; color: #9ca3af;
+        }
+        .credential-item svg { width: 14px; height: 14px; color: #1A6B3C; flex-shrink: 0; margin-top: 2px; }
+
+        /* ── CTA ──────────────────────────────────────────────────── */
+        .cta-card {
+            background: linear-gradient(135deg, #0F3D22 0%, #1A6B3C 40%, #0F3D22 100%);
+            border: 1px solid rgba(201,164,39,.25);
+            border-radius: 32px;
+            position: relative; overflow: hidden;
+        }
+        .cta-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(ellipse 80% 60% at 50% -20%, rgba(201,164,39,.15) 0%, transparent 65%);
+            pointer-events: none;
+        }
+        .cta-card::after {
+            content: '';
+            position: absolute; bottom: -60px; right: -60px;
+            width: 260px; height: 260px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(201,164,39,.08) 0%, transparent 70%);
+            pointer-events: none;
+        }
+
+        .cta-btn-primary {
+            background: linear-gradient(135deg, #E2BB3A, #C9A427, #A07E1A);
+            color: #0C0C0C; font-weight: 800;
+            padding: 14px 36px; border-radius: 12px;
+            font-size: .95rem; letter-spacing: .02em;
+            box-shadow: 0 8px 24px rgba(201,164,39,.35);
+            transition: all .3s; border: none; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .cta-btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 32px rgba(201,164,39,.45); filter: brightness(1.08); }
+
+        .cta-btn-secondary {
+            background: rgba(255,255,255,.07);
+            border: 1.5px solid rgba(255,255,255,.25);
+            color: #fff; font-weight: 600;
+            padding: 14px 36px; border-radius: 12px;
+            font-size: .95rem;
+            transition: all .3s; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+        }
+        .cta-btn-secondary:hover { background: rgba(255,255,255,.13); border-color: rgba(255,255,255,.5); }
+
+        .cta-stat { text-align: center; }
+        .cta-stat-num { font-size: 2rem; font-weight: 900; color: #C9A427; line-height: 1.1; }
+        .cta-stat-label { font-size: .78rem; color: rgba(255,255,255,.6); margin-top: 2px; }
+
+        /* ── Scroll-reveal ────────────────────────────────────────── */
+        .reveal { opacity: 0; transform: translateY(30px); transition: opacity .7s ease, transform .7s ease; }
+        .reveal.visible { opacity: 1; transform: translateY(0); }
+        .reveal-delay-1 { transition-delay: .1s; }
+        .reveal-delay-2 { transition-delay: .2s; }
+        .reveal-delay-3 { transition-delay: .3s; }
+        .reveal-delay-4 { transition-delay: .4s; }
+        .reveal-delay-5 { transition-delay: .5s; }
+        .reveal-delay-6 { transition-delay: .6s; }
+
+        /* ── Diamond logo decoration ──────────────────────────────── */
+        .diamond-deco {
+            width: 10px; height: 10px;
+            background: #C9A427;
+            transform: rotate(45deg);
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body class="geo-bg">
+
+{{-- ╔══════════════════════════════════════════════════════════════╗ --}}
+{{-- ║                    1. COURSES SECTION                        ║ --}}
+{{-- ╚══════════════════════════════════════════════════════════════╝ --}}
+
+<section id="courses" class="py-24 px-4 relative">
+
+    {{-- Subtle top gradient glow --}}
+    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[700px] h-[350px] rounded-full pointer-events-none"
+         style="background:radial-gradient(ellipse, rgba(26,107,60,.12) 0%, transparent 70%);"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+
+        {{-- Section Header --}}
+        <div class="text-center mb-16 reveal">
+            <span class="section-pill">
+                <span class="diamond-deco" style="width:7px;height:7px"></span>
+                Our Courses
+            </span>
+            <h2 class="mt-5 text-4xl md:text-5xl font-black text-white leading-tight tracking-tight">
+                Comprehensive
+                <span class="gold-text"> Islamic </span>
+                <br class="hidden md:block">
+                <span class="green-text">Education</span>
+                Programs
+            </h2>
+            <p class="mt-4 text-gray-400 max-w-xl mx-auto text-base leading-relaxed">
+                From foundational Arabic letters to advanced scholarly training — we offer a complete
+                path for every level of learner.
+            </p>
+            <div class="divider-gold w-32 mx-auto mt-6"></div>
+        </div>
+
+        {{-- Courses Grid --}}
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+            {{-- ── Course 1: Qaida ─────────────────────────────────── --}}
+            <div class="course-card p-7 reveal reveal-delay-1">
+                <span class="course-number">01</span>
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="course-icon-wrap">
+                        {{-- Book / Arabic letters icon --}}
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M12 6.25278V19.2528M12 6.25278C10.8321 5.47686 9.24649 5 7.5 5C5.75351 5 4.16789 5.47686 3 6.25278V19.2528C4.16789 18.4769 5.75351 18 7.5 18C9.24649 18 10.8321 18.4769 12 19.2528M12 6.25278C13.1679 5.47686 14.7535 5 16.5 5C18.2465 5 19.8321 5.47686 21 6.25278V19.2528C19.8321 18.4769 18.2465 18 16.5 18C14.7535 18 13.1679 18.4769 12 19.2528" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="badge-tag mb-2">Beginner</div>
+                        <h3 class="text-white font-bold text-lg leading-snug">Noorani Qaida</h3>
+                        <p class="text-pi-gold text-xs font-medium mt-0.5">Foundation Course</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                    Master the Arabic alphabet with correct pronunciation. The essential foundation
+                    before reading the Holy Quran.
+                </p>
+                <div class="space-y-2">
+                    <div class="feature-dot">Arabic letters recognition (Haroof e Tahajji)</div>
+                    <div class="feature-dot">Basic Makharij-ul-Huroof (pronunciation)</div>
+                    <div class="feature-dot">Harkat — Zabar, Zer, Pesh, Sukoon</div>
+                    <div class="feature-dot">Haroof joining & compound letters</div>
+                </div>
+                <div class="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-xs text-gray-500">Duration: 3–6 months</span>
+                    <a href="{{ route('register', 'student') }}" class="text-pi-gold text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                        Enroll
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            {{-- ── Course 2: Nazrah ─────────────────────────────────── --}}
+            <div class="course-card p-7 reveal reveal-delay-2">
+                <span class="course-number">02</span>
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="course-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="badge-tag mb-2">Elementary</div>
+                        <h3 class="text-white font-bold text-lg leading-snug">Nazrah Quran</h3>
+                        <p class="text-pi-gold text-xs font-medium mt-0.5">Quran Reading</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                    Develop fluent and accurate reading of the Holy Quran from Surah Al-Fatiha to
+                    Surah An-Nas with confidence.
+                </p>
+                <div class="space-y-2">
+                    <div class="feature-dot">Fluent Quran recitation (Para by Para)</div>
+                    <div class="feature-dot">Correct makhraj & sifaat of letters</div>
+                    <div class="feature-dot">Complete Quran reading (30 Paras)</div>
+                    <div class="feature-dot">Waqf & Ibtidaa rules</div>
+                </div>
+                <div class="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-xs text-gray-500">Duration: 6–12 months</span>
+                    <a href="{{ route('register', 'student') }}" class="text-pi-gold text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                        Enroll
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            {{-- ── Course 3: Tajweed ────────────────────────────────── --}}
+            <div class="course-card p-7 reveal reveal-delay-3" style="border-color: rgba(201,164,39,.18)">
+                {{-- Featured indicator --}}
+                <div class="absolute top-0 right-6 w-16 h-1 rounded-b-full" style="background:linear-gradient(90deg,#1A6B3C,#C9A427)"></div>
+                <span class="course-number">03</span>
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="course-icon-wrap" style="background:rgba(201,164,39,.12);border-color:rgba(201,164,39,.3)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#C9A427" stroke-width="1.8">
+                            <path d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="badge-tag mb-2">Intermediate</div>
+                        <h3 class="text-white font-bold text-lg leading-snug">Tajweed Course</h3>
+                        <p class="text-pi-gold text-xs font-medium mt-0.5">Beautify Recitation</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                    Learn the science of Tajweed to recite the Quran as revealed — with perfect rhythm,
+                    melody, and precision.
+                </p>
+                <div class="space-y-2">
+                    <div class="feature-dot">Ikhfa, Idgham, Iqlab, Izhar rules</div>
+                    <div class="feature-dot">Qalqala, Madd, Ghunna & more</div>
+                    <div class="feature-dot">Makharij-ul-Huroof (advanced)</div>
+                    <div class="feature-dot">Practical recitation & correction</div>
+                </div>
+                <div class="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-xs text-gray-500">Duration: 6–8 months</span>
+                    <a href="{{ route('register', 'student') }}" class="text-pi-gold text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                        Enroll
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            {{-- ── Course 4: Hifz ───────────────────────────────────── --}}
+            <div class="course-card p-7 reveal reveal-delay-4">
+                <span class="course-number">04</span>
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="course-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="badge-tag mb-2">Advanced</div>
+                        <h3 class="text-white font-bold text-lg leading-snug">Hifz-ul-Quran</h3>
+                        <p class="text-pi-gold text-xs font-medium mt-0.5">Full Memorization</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                    Become a Hafiz-e-Quran with our structured memorization system — daily sabaq,
+                    sabqi and manzil system for strong retention.
+                </p>
+                <div class="space-y-2">
+                    <div class="feature-dot">Full 30 Paras memorization</div>
+                    <div class="feature-dot">Daily Sabaq + Sabqi + Manzil</div>
+                    <div class="feature-dot">Strong retention techniques</div>
+                    <div class="feature-dot">Regular testing & progress tracking</div>
+                </div>
+                <div class="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-xs text-gray-500">Duration: 2–4 years</span>
+                    <a href="{{ route('register', 'student') }}" class="text-pi-gold text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                        Enroll
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            {{-- ── Course 5: Tafseer ────────────────────────────────── --}}
+            <div class="course-card p-7 reveal reveal-delay-5">
+                <span class="course-number">05</span>
+                <div class="flex items-start gap-4 mb-5">
+                    <div class="course-icon-wrap">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                            <path d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="badge-tag mb-2">Advanced</div>
+                        <h3 class="text-white font-bold text-lg leading-snug">Tafseer-ul-Quran</h3>
+                        <p class="text-pi-gold text-xs font-medium mt-0.5">Deep Understanding</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-5">
+                    Go beyond reading — understand the meanings, wisdom, and divine guidance
+                    embedded in every verse of the Holy Quran.
+                </p>
+                <div class="space-y-2">
+                    <div class="feature-dot">Word-by-word translation & meaning</div>
+                    <div class="feature-dot">Shaan-e-Nuzool (context of revelation)</div>
+                    <div class="feature-dot">Scholarly Tafseer references</div>
+                    <div class="feature-dot">Practical life lessons from Quran</div>
+                </div>
+                <div class="mt-6 pt-5 border-t border-white/5 flex items-center justify-between">
+                    <span class="text-xs text-gray-500">Duration: 1–2 years</span>
+                    <a href="{{ route('register', 'student') }}" class="text-pi-gold text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                        Enroll
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+            {{-- ── Course 6: Dars-e-Nizami ──────────────────────────── --}}
+            <div class="course-card p-7 reveal reveal-delay-6" style="background:linear-gradient(135deg,#0F2A1A,#111)">
+                <div class="absolute top-0 left-0 w-full h-full pointer-events-none" style="background:radial-gradient(ellipse at top right, rgba(201,164,39,.06) 0%, transparent 60%)"></div>
+                <span class="course-number" style="color:rgba(201,164,39,.06)">06</span>
+                <div class="flex items-start gap-4 mb-5 relative z-10">
+                    <div class="course-icon-wrap" style="background:rgba(26,107,60,.25);border-color:rgba(26,107,60,.5)">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="#1A6B3C" stroke-width="1.8">
+                            <path d="M12 14l9-5-9-5-9 5 9 5z"/><path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/><path d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222" stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <div class="badge-tag mb-2" style="background:rgba(26,107,60,.2);border-color:rgba(26,107,60,.4);color:#22874D">Scholar Level</div>
+                        <h3 class="text-white font-bold text-lg leading-snug">Dars-e-Nizami</h3>
+                        <p class="text-pi-gold text-xs font-medium mt-0.5">Aalim / Aalima Course</p>
+                    </div>
+                </div>
+                <p class="text-gray-400 text-sm leading-relaxed mb-5 relative z-10">
+                    The complete traditional Islamic scholars' curriculum — designed for those who wish
+                    to dedicate their lives to Islamic knowledge.
+                </p>
+                <div class="space-y-2 relative z-10">
+                    <div class="feature-dot">Quran, Hadith, Fiqh & Aqeedah</div>
+                    <div class="feature-dot">Arabic Grammar (Nahw & Sarf)</div>
+                    <div class="feature-dot">Usool-ul-Fiqh & Usool-ul-Hadith</div>
+                    <div class="feature-dot">Full scholar-level training</div>
+                </div>
+                <div class="mt-6 pt-5 border-t border-white/5 flex items-center justify-between relative z-10">
+                    <span class="text-xs text-gray-500">Duration: 6–8 years</span>
+                    <a href="{{ route('register', 'student') }}" class="text-pi-gold text-sm font-semibold flex items-center gap-1 hover:gap-2 transition-all">
+                        Enroll
+                        <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                    </a>
+                </div>
+            </div>
+
+        </div>{{-- /grid --}}
+    </div>
+</section>
+
+
+{{-- ╔══════════════════════════════════════════════════════════════╗ --}}
+{{-- ║                   2. TEACHERS SECTION                        ║ --}}
+{{-- ╚══════════════════════════════════════════════════════════════╝ --}}
+
+<section id="teachers" class="py-24 px-4 relative" style="background:linear-gradient(180deg,#0C0C0C 0%,#0A1510 50%,#0C0C0C 100%)">
+
+    <div class="absolute inset-0 geo-bg opacity-60 pointer-events-none"></div>
+
+    {{-- Glow --}}
+    <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] pointer-events-none"
+         style="background:radial-gradient(ellipse, rgba(26,107,60,.1) 0%, transparent 70%)"></div>
+
+    <div class="max-w-7xl mx-auto relative z-10">
+
+        {{-- Section Header --}}
+        <div class="text-center mb-16 reveal">
+            <span class="section-pill">
+                <span class="diamond-deco" style="width:7px;height:7px"></span>
+                Meet Our Scholars
+            </span>
+            <h2 class="mt-5 text-4xl md:text-5xl font-black text-white leading-tight">
+                Learn From
+                <span class="green-text"> Certified </span>
+                <br class="hidden md:block">
+                <span class="gold-text">Islamic Scholars</span>
+            </h2>
+            <p class="mt-4 text-gray-400 max-w-xl mx-auto text-base leading-relaxed">
+                Our teachers are graduates of renowned Islamic institutions with years of
+                experience in Quran education and Islamic sciences.
+            </p>
+            <div class="divider-gold w-32 mx-auto mt-6"></div>
+        </div>
+
+        {{-- Teachers Grid --}}
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            {{-- ── Teacher 1: Ustadh Sohaib ────────────────────────── --}}
+            <div class="teacher-card reveal reveal-delay-1">
+                {{-- Green header bar --}}
+                <div class="h-2 w-full" style="background:linear-gradient(90deg,#1A6B3C,#C9A427)"></div>
+
+                <div class="p-7">
+                    {{-- Avatar + name --}}
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class="teacher-avatar">SM</div>
+                        <div>
+                            <h3 class="text-white font-bold text-lg leading-snug">Ustadh Sohaib Mehmood</h3>
+                            <p class="text-pi-gold text-sm font-medium">Founder — Peace Institute</p>
+                        </div>
+                    </div>
+
+                    {{-- Bio --}}
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        A passionate educator who combines traditional Islamic knowledge with modern digital
+                        teaching methods. Dedicated to making quality Quran education accessible worldwide.
+                    </p>
+
+                    <div class="divider-gold mb-5"></div>
+
+                    {{-- Credentials --}}
+                    <div class="space-y-3">
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Graduate — Mahad As Salafi</span>
+                        </div>
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Digital Education Expert — Soft Desk Solution</span>
+                        </div>
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Speciality: Quran + Digital Education</span>
+                        </div>
+                    </div>
+
+                    {{-- Tags --}}
+                    <div class="flex flex-wrap gap-2 mt-5">
+                        <span class="badge-tag">Quran</span>
+                        <span class="badge-tag">Tajweed</span>
+                        <span class="badge-tag">EdTech</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ── Teacher 2: Shaikh Zia ul Haq ────────────────────── --}}
+            <div class="teacher-card reveal reveal-delay-2" style="border-color:rgba(26,107,60,.2)">
+                <div class="h-2 w-full" style="background:linear-gradient(90deg,#C9A427,#1A6B3C)"></div>
+
+                <div class="p-7">
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class="teacher-avatar" style="background:linear-gradient(135deg,#C9A427,#A07E1A);color:#0C0C0C">ZB</div>
+                        <div>
+                            <h3 class="text-white font-bold text-lg leading-snug">Shaikh Zia ul Haq Bhatti</h3>
+                            <p class="text-pi-gold text-sm font-medium">Shaikh-ul-Hadith</p>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        A renowned Islamic scholar with deep expertise in Hadith sciences and Quranic Tafseer.
+                        Currently serving as Shaikh-ul-Hadith at Burooj Institute with decades of teaching experience.
+                    </p>
+
+                    <div class="divider-gold mb-5"></div>
+
+                    <div class="space-y-3">
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Shaikh-ul-Hadith — Burooj Institute</span>
+                        </div>
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Jamia Albayan University</span>
+                        </div>
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Graduate — Mahad As Salafi</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 mt-5">
+                        <span class="badge-tag">Hadith</span>
+                        <span class="badge-tag">Tafseer</span>
+                        <span class="badge-tag">Fiqh</span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ── Teacher 3: Ustadh Ali Akhtar ────────────────────── --}}
+            <div class="teacher-card reveal reveal-delay-3">
+                <div class="h-2 w-full" style="background:linear-gradient(90deg,#1A6B3C,#22874D)"></div>
+
+                <div class="p-7">
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class="teacher-avatar" style="background:linear-gradient(135deg,#22874D,#1A6B3C)">AA</div>
+                        <div>
+                            <h3 class="text-white font-bold text-lg leading-snug">Ustadh Ali Akhtar</h3>
+                            <p class="text-pi-gold text-sm font-medium">Quran Teacher</p>
+                        </div>
+                    </div>
+
+                    <p class="text-gray-400 text-sm leading-relaxed mb-6">
+                        A dedicated and patient teacher specialising in foundational Quran education.
+                        Known for his clear teaching style and ability to guide students of all ages.
+                    </p>
+
+                    <div class="divider-gold mb-5"></div>
+
+                    <div class="space-y-3">
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Graduate — Mahad As Salafi</span>
+                        </div>
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Active Teacher — Peace Institute</span>
+                        </div>
+                        <div class="credential-item">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11.049 2.927c.3-.921 1.603-.921 1.902 0l1.519 4.674a1 1 0 00.95.69h4.915c.969 0 1.371 1.24.588 1.81l-3.976 2.888a1 1 0 00-.363 1.118l1.518 4.674c.3.922-.755 1.688-1.538 1.118l-3.976-2.888a1 1 0 00-1.176 0l-3.976 2.888c-.783.57-1.838-.197-1.538-1.118l1.518-4.674a1 1 0 00-.363-1.118l-3.976-2.888c-.784-.57-.38-1.81.588-1.81h4.914a1 1 0 00.951-.69l1.519-4.674z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                            <span>Speciality: Qaida, Nazrah & Tajweed</span>
+                        </div>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 mt-5">
+                        <span class="badge-tag">Qaida</span>
+                        <span class="badge-tag">Nazrah</span>
+                        <span class="badge-tag">Tajweed</span>
+                    </div>
+                </div>
+            </div>
+
+        </div>{{-- /teachers grid --}}
+
+        {{-- Become a teacher CTA --}}
+        <div class="mt-14 text-center reveal">
+            <p class="text-gray-500 text-sm mb-3">Are you a qualified Islamic scholar?</p>
+            <a href="{{ route('register', 'teacher') }}"
+               class="inline-flex items-center gap-2 text-sm font-semibold border border-pi-green/40 text-pi-green px-6 py-3 rounded-xl hover:bg-pi-green/10 transition-all"
+               style="color:#1A6B3C;border-color:rgba(26,107,60,.4)">
+                <svg class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                Join Our Teaching Team
+            </a>
+        </div>
+
+    </div>
+</section>
+
+
+{{-- ╔══════════════════════════════════════════════════════════════╗ --}}
+{{-- ║                      3. CTA SECTION                          ║ --}}
+{{-- ╚══════════════════════════════════════════════════════════════╝ --}}
+
+<section id="cta" class="py-24 px-4">
+    <div class="max-w-6xl mx-auto">
+        <div class="cta-card p-10 md:p-16">
+
+            {{-- Islamic geometric corner deco --}}
+            <div class="absolute top-6 left-6 opacity-20">
+                <div class="w-8 h-8 border-2 border-pi-gold rotate-45" style="border-color:#C9A427"></div>
+            </div>
+            <div class="absolute bottom-6 right-6 opacity-20">
+                <div class="w-8 h-8 border-2 border-pi-gold rotate-45" style="border-color:#C9A427"></div>
+            </div>
+
+            <div class="relative z-10 text-center max-w-3xl mx-auto">
+
+                {{-- Arabic Ayah --}}
+                <div class="font-arabic text-2xl mb-4 animate-shimmer" style="color:#C9A427;direction:rtl">
+                    وَرَتِّلِ الْقُرْآنَ تَرْتِيلًا
+                </div>
+                <p class="text-xs text-pi-gold/60 mb-10 tracking-widest uppercase"
+                   style="color:rgba(201,164,39,.6)">
+                    "And recite the Quran with measured recitation." — [73:4]
+                </p>
+
+                {{-- Heading --}}
+                <h2 class="text-4xl md:text-6xl font-black text-white leading-tight mb-5">
+                    Start Your
+                    <span style="background:linear-gradient(135deg,#E2BB3A,#C9A427);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text"> Quran Journey </span>
+                    Today
+                </h2>
+                <p class="text-white/70 text-lg mb-10 leading-relaxed">
+                    Join thousands of students learning the Holy Quran with certified scholars.
+                    Your first class is completely free.
+                </p>
+
+                {{-- Feature pills --}}
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    @foreach([
+                        ['icon' => 'M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z', 'text' => 'Free Trial Class'],
+                        ['icon' => 'M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z', 'text' => 'Male & Female Teachers'],
+                        ['icon' => 'M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z', 'text' => 'Worldwide · Any Timezone'],
+                        ['icon' => 'M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z', 'text' => 'Flexible Timings'],
+                    ] as $f)
+                        <div class="flex items-center gap-2 px-4 py-2.5 rounded-full"
+                             style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12)">
+                            <svg class="w-4 h-4 flex-shrink-0" style="color:#C9A427" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <path d="{{ $f['icon'] }}" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span class="text-white/80 text-sm font-medium">{{ $f['text'] }}</span>
+                        </div>
+                    @endforeach
+                </div>
+
+                {{-- Buttons --}}
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="{{ route('register', 'student') }}" class="cta-btn-primary">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M12 6v6m0 0v6m0-6h6m-6 0H6" stroke-linecap="round"/></svg>
+                        Enroll Now — It's Free
+                    </a>
+                    <a href="{{ route('teachers') }}" class="cta-btn-secondary">
+                        <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/><path d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                        Meet Our Teachers
+                    </a>
+                </div>
+
+                {{-- Stats row --}}
+                <div class="mt-14 pt-10 border-t grid grid-cols-2 sm:grid-cols-4 gap-6"
+                     style="border-color:rgba(255,255,255,.1)">
+                    @foreach([
+                        ['50+', 'Expert Teachers'],
+                        ['1,200+', 'Active Students'],
+                        ['25+', 'Countries'],
+                        ['8,500+', 'Sessions Done'],
+                    ] as $stat)
+                        <div class="cta-stat">
+                            <div class="cta-stat-num">{{ $stat[0] }}</div>
+                            <div class="cta-stat-label">{{ $stat[1] }}</div>
+                        </div>
+                    @endforeach
+                </div>
+
+            </div>
+        </div>
+
+        {{-- Bottom peace logo watermark --}}
+        <div class="flex justify-center mt-10 opacity-20 animate-float">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rotate-45 border-2" style="border-color:#C9A427"></div>
+                <span class="text-sm tracking-[0.4em] uppercase font-light" style="color:#C9A427">Peace Institute</span>
+                <div class="w-8 h-8 rotate-45 border-2" style="border-color:#C9A427"></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{{-- ── Scroll-Reveal Script ───────────────────────────────────────────────── --}}
+<script>
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(el => {
+            if (el.isIntersecting) {
+                el.target.classList.add('visible');
+                observer.unobserve(el.target);
+            }
+        });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+</script>

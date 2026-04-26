@@ -1,0 +1,864 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Peace Institute – Online Quran Academy</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        gold: { DEFAULT: '#D4AF37', light: '#F0D060', dark: '#A08020' },
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                        arabic: ['Amiri', 'serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; }
+        body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; margin: 0; }
+        .gold-gradient { background: linear-gradient(135deg, #D4AF37, #F0D060, #A08020); }
+        .gold-text { background: linear-gradient(135deg, #D4AF37, #F0D060); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .nav-glass { background: rgba(0,0,0,0.9); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(212,175,55,0.2); }
+        .card-dark { background: #0d0d0d; border: 1px solid rgba(212,175,55,0.15); transition: all 0.3s; }
+        .card-dark:hover { border-color: rgba(212,175,55,0.4); transform: translateY(-3px); }
+        .btn-gold { background: linear-gradient(135deg, #D4AF37, #A08020); color: #000; font-weight: 700; transition: all 0.3s; }
+        .btn-gold:hover { background: linear-gradient(135deg, #F0D060, #D4AF37); box-shadow: 0 4px 20px rgba(212,175,55,0.4); transform: translateY(-1px); }
+        .btn-outline-gold { border: 1.5px solid #D4AF37; color: #D4AF37; transition: all 0.3s; }
+        .btn-outline-gold:hover { background: rgba(212,175,55,0.1); }
+        .divider-gold { height: 1px; background: linear-gradient(90deg, transparent, #D4AF37, transparent); }
+        .islamic-pattern { background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4AF37' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E"); }
+        .hero-glow { background: radial-gradient(ellipse 80% 60% at 50% 40%, rgba(212,175,55,0.08) 0%, transparent 70%); }
+        .stat-card { background: linear-gradient(135deg, #0d0d0d, #111); border: 1px solid rgba(212,175,55,0.15); }
+        .sidebar { background: #0a0a0a; border-right: 1px solid rgba(212,175,55,0.12); }
+        .sidebar-link { color: #9ca3af; transition: all 0.2s; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; gap: 10px; font-size: 0.875rem; text-decoration: none; }
+        .sidebar-link:hover, .sidebar-link.active { color: #D4AF37; background: rgba(212,175,55,0.08); }
+        .badge { font-size: 0.7rem; padding: 2px 10px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; }
+        .badge-pending  { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
+        .badge-approved { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
+        .badge-completed{ background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
+        .tab-btn { padding: 8px 20px; border-radius: 8px; font-size: 0.875rem; font-weight: 500; transition: all 0.2s; cursor: pointer; border: none; }
+        .tab-btn.active { background: linear-gradient(135deg, #D4AF37, #A08020); color: #000; }
+        .tab-btn:not(.active) { background: transparent; color: #9ca3af; }
+        .tab-btn:not(.active):hover { color: #D4AF37; }
+        .page { display: none; }
+        .page.active { display: block; }
+        .dashboard-page { display: none; }
+        .dashboard-page.active { display: flex; min-height: 100vh; }
+    </style>
+</head>
+<body class="islamic-pattern">
+
+<!-- ══════════════════════════════════════════════════════════
+     NAV
+══════════════════════════════════════════════════════════ -->
+<nav class="nav-glass fixed top-0 left-0 right-0 z-50" id="main-nav">
+    <div class="max-w-7xl mx-auto px-6">
+        <div class="flex items-center justify-between h-16">
+            <a href="#" onclick="showPage('home')" class="flex items-center gap-3 cursor-pointer">
+                <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center">
+                    <span class="text-black font-bold text-sm">PI</span>
+                </div>
+                <div>
+                    <span class="font-bold text-white">Peace Institute</span>
+                    <div class="text-xs text-yellow-400 leading-none" style="color:#D4AF37">Online Quran Academy</div>
+                </div>
+            </a>
+            <div class="hidden md:flex items-center gap-8">
+                <a href="#" onclick="showPage('home')" class="text-gray-300 hover:text-yellow-400 text-sm transition-colors" style="text-decoration:none">Home</a>
+                <a href="#" onclick="showPage('teachers')" class="text-gray-300 hover:text-yellow-400 text-sm transition-colors" style="text-decoration:none">Teachers</a>
+                <a href="#" onclick="showPage('courses')" class="text-gray-300 hover:text-yellow-400 text-sm transition-colors" style="text-decoration:none">Courses</a>
+            </div>
+            <div class="flex items-center gap-3">
+                <button onclick="showPage('login')" class="btn-outline-gold px-4 py-2 rounded-lg text-sm">Login</button>
+                <button onclick="showPage('register')" class="btn-gold px-4 py-2 rounded-lg text-sm">Get Started</button>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: HOME
+══════════════════════════════════════════════════════════ -->
+<div id="page-home" class="page active">
+
+    <!-- Hero -->
+    <section class="relative min-h-screen flex items-center justify-center overflow-hidden hero-glow pt-16">
+        <div class="absolute inset-0" style="background: radial-gradient(circle at 20% 50%, rgba(212,175,55,0.06) 0%, transparent 50%), radial-gradient(circle at 80% 20%, rgba(192,192,192,0.04) 0%, transparent 50%)"></div>
+        <div class="relative z-10 text-center px-4 max-w-4xl mx-auto py-20">
+            <div style="font-family:'Amiri',serif; color:#D4AF37; font-size:1.8rem; margin-bottom:1.5rem; direction:rtl">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+            <h1 class="text-5xl md:text-7xl font-extrabold text-white mb-6 leading-tight tracking-tight">
+                Learn <span class="gold-text">Quran</span><br>Online
+            </h1>
+            <p class="text-gray-400 text-xl mb-10 max-w-2xl mx-auto leading-relaxed">
+                One-on-one sessions with certified teachers. Qaida · Nazra · Tajweed · Hifz · Tafseer · Arabic Grammar
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center mb-16">
+                <button onclick="showPage('register')" class="btn-gold px-10 py-4 rounded-xl text-base font-semibold">
+                    <i class="fas fa-graduation-cap mr-2"></i> Start Learning Free
+                </button>
+                <button onclick="showPage('teachers')" class="btn-outline-gold px-10 py-4 rounded-xl text-base font-semibold">
+                    <i class="fas fa-search mr-2"></i> Browse Teachers
+                </button>
+            </div>
+
+            <!-- Stats -->
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-5">
+                <div class="stat-card p-5 rounded-2xl text-center">
+                    <i class="fas fa-chalkboard-teacher mb-2 text-2xl" style="color:#D4AF37"></i>
+                    <div class="text-3xl font-bold text-white">50+</div>
+                    <div class="text-gray-500 text-xs mt-1">Certified Teachers</div>
+                </div>
+                <div class="stat-card p-5 rounded-2xl text-center">
+                    <i class="fas fa-users mb-2 text-2xl" style="color:#D4AF37"></i>
+                    <div class="text-3xl font-bold text-white">1,200+</div>
+                    <div class="text-gray-500 text-xs mt-1">Happy Students</div>
+                </div>
+                <div class="stat-card p-5 rounded-2xl text-center">
+                    <i class="fas fa-video mb-2 text-2xl" style="color:#D4AF37"></i>
+                    <div class="text-3xl font-bold text-white">8,500+</div>
+                    <div class="text-gray-500 text-xs mt-1">Sessions Done</div>
+                </div>
+                <div class="stat-card p-5 rounded-2xl text-center">
+                    <i class="fas fa-globe mb-2 text-2xl" style="color:#D4AF37"></i>
+                    <div class="text-3xl font-bold text-white">25+</div>
+                    <div class="text-gray-500 text-xs mt-1">Countries</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Courses -->
+    <section class="py-24 px-6">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-14">
+                <h2 class="text-4xl font-bold text-white mb-3">Our <span class="gold-text">Courses</span></h2>
+                <p class="text-gray-500">Structured curriculum for every level</p>
+            </div>
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- Course cards -->
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center mb-5">
+                        <i class="fas fa-book-open text-black text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Qaida</h3>
+                    <p class="text-gray-500 text-sm mb-5">Learn the Arabic alphabet and basic Quran reading from scratch. Perfect for complete beginners.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs border rounded-full px-3 py-1" style="color:#D4AF37;border-color:rgba(212,175,55,0.3)">Beginner</span>
+                        <span class="text-gray-400 text-sm font-semibold">$15/session</span>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center mb-5">
+                        <i class="fas fa-quran text-black text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Tajweed</h3>
+                    <p class="text-gray-500 text-sm mb-5">Master the rules of Tajweed for beautiful and accurate Quran recitation with expert guidance.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs border rounded-full px-3 py-1" style="color:#D4AF37;border-color:rgba(212,175,55,0.3)">Intermediate</span>
+                        <span class="text-gray-400 text-sm font-semibold">$20/session</span>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center mb-5">
+                        <i class="fas fa-star-and-crescent text-black text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Hifz</h3>
+                    <p class="text-gray-500 text-sm mb-5">Memorize the Holy Quran with expert guidance, systematic revision and personal coaching.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs border rounded-full px-3 py-1" style="color:#D4AF37;border-color:rgba(212,175,55,0.3)">Advanced</span>
+                        <span class="text-gray-400 text-sm font-semibold">$25/session</span>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center mb-5">
+                        <i class="fas fa-book text-black text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Nazra</h3>
+                    <p class="text-gray-500 text-sm mb-5">Fluent reading of the Holy Quran with correct pronunciation and proper makhraj.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs border rounded-full px-3 py-1" style="color:#D4AF37;border-color:rgba(212,175,55,0.3)">Beginner</span>
+                        <span class="text-gray-400 text-sm font-semibold">$18/session</span>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center mb-5">
+                        <i class="fas fa-scroll text-black text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Tafseer</h3>
+                    <p class="text-gray-500 text-sm mb-5">Deep understanding of Quranic verses, their meanings and context with scholarly guidance.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs border rounded-full px-3 py-1" style="color:#D4AF37;border-color:rgba(212,175,55,0.3)">Advanced</span>
+                        <span class="text-gray-400 text-sm font-semibold">$25/session</span>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="w-12 h-12 gold-gradient rounded-xl flex items-center justify-center mb-5">
+                        <i class="fas fa-language text-black text-lg"></i>
+                    </div>
+                    <h3 class="text-white font-bold text-lg mb-2">Arabic Grammar</h3>
+                    <p class="text-gray-500 text-sm mb-5">Learn Nahw & Sarf to understand the Quran directly without translation.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-xs border rounded-full px-3 py-1" style="color:#D4AF37;border-color:rgba(212,175,55,0.3)">Intermediate</span>
+                        <span class="text-gray-400 text-sm font-semibold">$22/session</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Teachers -->
+    <section class="py-24 px-6 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-14">
+                <h2 class="text-4xl font-bold text-white mb-3">Featured <span class="gold-text">Teachers</span></h2>
+                <p class="text-gray-500">Expert certified Quran teachers</p>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class="w-16 h-16 rounded-full gold-gradient flex items-center justify-center text-black font-bold text-xl flex-shrink-0">YA</div>
+                        <div>
+                            <h3 class="text-white font-bold">Sheikh Yusuf Ali</h3>
+                            <p style="color:#D4AF37; font-size:0.8rem">Hifz & Tajweed</p>
+                            <div class="flex gap-0.5 mt-1">
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <span class="text-gray-500 text-xs ml-1">(48 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-5">Certified Quran teacher with 10+ years of experience. Specialized in Hifz and Tajweed with Ijazah certification.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-white font-bold text-lg">$20<span class="text-gray-500 font-normal text-sm">/hr</span></span>
+                        <button onclick="showPage('teacher-profile')" class="btn-gold px-5 py-2 rounded-lg text-sm">Book Now</button>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center text-black font-bold text-xl flex-shrink-0" style="background:linear-gradient(135deg,#C0C0C0,#E8E8E8)">FK</div>
+                        <div>
+                            <h3 class="text-white font-bold">Ustadha Fatima</h3>
+                            <p style="color:#D4AF37; font-size:0.8rem">Qaida & Nazra</p>
+                            <div class="flex gap-0.5 mt-1">
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <span class="text-gray-500 text-xs ml-1">(32 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-5">Female teacher specializing in children's Quran education. Patient and experienced with 7+ years.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-white font-bold text-lg">$18<span class="text-gray-500 font-normal text-sm">/hr</span></span>
+                        <button class="btn-gold px-5 py-2 rounded-lg text-sm">Book Now</button>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-7">
+                    <div class="flex items-center gap-4 mb-5">
+                        <div class="w-16 h-16 rounded-full flex items-center justify-center text-black font-bold text-xl flex-shrink-0" style="background:linear-gradient(135deg,#D4AF37,#8B6914)">HM</div>
+                        <div>
+                            <h3 class="text-white font-bold">Qari Hassan Malik</h3>
+                            <p style="color:#D4AF37; font-size:0.8rem">Tajweed & Tafseer</p>
+                            <div class="flex gap-0.5 mt-1">
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star text-xs text-yellow-400"></i>
+                                <i class="fas fa-star-half-alt text-xs text-yellow-400"></i>
+                                <span class="text-gray-500 text-xs ml-1">(61 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <p class="text-gray-500 text-sm mb-5">Al-Azhar graduate with 12 years experience. Expert in Tajweed, Tafseer and Arabic Grammar.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-white font-bold text-lg">$22<span class="text-gray-500 font-normal text-sm">/hr</span></span>
+                        <button class="btn-gold px-5 py-2 rounded-lg text-sm">Book Now</button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-10">
+                <button onclick="showPage('teachers')" class="btn-outline-gold px-10 py-3 rounded-xl">View All Teachers</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews -->
+    <section class="py-24 px-6 border-t border-gray-900">
+        <div class="max-w-7xl mx-auto">
+            <div class="text-center mb-14">
+                <h2 class="text-4xl font-bold text-white mb-3">Student <span class="gold-text">Reviews</span></h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="card-dark rounded-2xl p-6">
+                    <div class="flex gap-1 mb-4"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i></div>
+                    <p class="text-gray-300 text-sm mb-5 leading-relaxed">"Sheikh Yusuf is an amazing teacher! My Tajweed has improved dramatically. The booking system is so easy and the sessions are always on time."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center text-black text-xs font-bold">AK</div>
+                        <div><div class="text-white text-sm font-medium">Ahmed Khan</div><div class="text-gray-600 text-xs">Student</div></div>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-6">
+                    <div class="flex gap-1 mb-4"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i></div>
+                    <p class="text-gray-300 text-sm mb-5 leading-relaxed">"Ustadha Fatima is perfect for my daughter. Very patient and encouraging. We love the flexibility of booking classes at our preferred time."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-black text-xs font-bold" style="background:linear-gradient(135deg,#C0C0C0,#E8E8E8)">SR</div>
+                        <div><div class="text-white text-sm font-medium">Sara Rahman</div><div class="text-gray-600 text-xs">Parent</div></div>
+                    </div>
+                </div>
+                <div class="card-dark rounded-2xl p-6">
+                    <div class="flex gap-1 mb-4"><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i><i class="fas fa-star text-yellow-400"></i></div>
+                    <p class="text-gray-300 text-sm mb-5 leading-relaxed">"Peace Institute has changed my Quran journey. Qari Hassan's Tafseer classes have given me a deep understanding I never had before."</p>
+                    <div class="flex items-center gap-3">
+                        <div class="w-9 h-9 rounded-full flex items-center justify-center text-black text-xs font-bold" style="background:linear-gradient(135deg,#D4AF37,#8B6914)">OM</div>
+                        <div><div class="text-white text-sm font-medium">Omar Malik</div><div class="text-gray-600 text-xs">Student</div></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="py-24 px-6">
+        <div class="max-w-3xl mx-auto text-center">
+            <div class="rounded-3xl p-14 border" style="background:#0d0d0d;border-color:rgba(212,175,55,0.25)">
+                <div style="font-family:'Amiri',serif; color:#D4AF37; font-size:1.4rem; margin-bottom:1rem; direction:rtl">اِقْرَأْ بِاسْمِ رَبِّكَ</div>
+                <h2 class="text-4xl font-bold text-white mb-4">Begin Your <span class="gold-text">Journey Today</span></h2>
+                <p class="text-gray-500 mb-8">Join thousands learning Quran with certified teachers worldwide.</p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <button onclick="showPage('register')" class="btn-gold px-10 py-4 rounded-xl font-semibold"><i class="fas fa-graduation-cap mr-2"></i>Enroll as Student</button>
+                    <button class="btn-outline-gold px-10 py-4 rounded-xl font-semibold"><i class="fas fa-chalkboard-teacher mr-2"></i>Teach with Us</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-gray-900">
+        <div class="max-w-7xl mx-auto px-6 py-14">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div class="md:col-span-2">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center"><span class="text-black font-bold text-sm">PI</span></div>
+                        <span class="font-bold text-white text-lg">Peace Institute</span>
+                    </div>
+                    <p class="text-gray-500 text-sm max-w-xs">Professional Islamic education accessible to every Muslim, anywhere in the world.</p>
+                    <div style="font-family:'Amiri',serif;color:#D4AF37;font-size:1.2rem;margin-top:1rem;direction:rtl">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
+                </div>
+                <div>
+                    <h4 style="color:#D4AF37" class="font-semibold mb-4">Courses</h4>
+                    <ul class="space-y-2 text-gray-500 text-sm">
+                        <li>Qaida</li><li>Nazra</li><li>Tajweed</li><li>Hifz</li><li>Tafseer</li><li>Arabic Grammar</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 style="color:#D4AF37" class="font-semibold mb-4">Links</h4>
+                    <ul class="space-y-2 text-gray-500 text-sm">
+                        <li><a href="#" onclick="showPage('teachers')" class="hover:text-white transition-colors" style="text-decoration:none">Find a Teacher</a></li>
+                        <li><a href="#" onclick="showPage('register')" class="hover:text-white transition-colors" style="text-decoration:none">Become a Student</a></li>
+                        <li><a href="#" onclick="showPage('login')" class="hover:text-white transition-colors" style="text-decoration:none">Login</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="divider-gold my-8"></div>
+            <div class="flex justify-between items-center text-gray-600 text-sm">
+                <p>© 2026 Peace Institute. All rights reserved.</p>
+                <p>Built with <span style="color:#D4AF37">♥</span> for the Ummah</p>
+            </div>
+        </div>
+    </footer>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: LOGIN
+══════════════════════════════════════════════════════════ -->
+<div id="page-login" class="page pt-24 pb-16 px-4">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="w-full max-w-md">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 rounded-full gold-gradient flex items-center justify-center mx-auto mb-4"><span class="text-black font-bold text-xl">PI</span></div>
+                <h1 class="text-2xl font-bold text-white">Welcome Back</h1>
+                <p class="text-gray-500 text-sm mt-1">Sign in to your account</p>
+            </div>
+            <div class="rounded-2xl p-8" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.15)">
+                <div class="space-y-5">
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Email Address</label>
+                        <input type="email" placeholder="your@email.com" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Password</label>
+                        <input type="password" placeholder="••••••••" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                    </div>
+                    <button onclick="showDashboard('student')" class="btn-gold w-full py-3 rounded-xl font-semibold text-base">Sign In <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+                <div class="divider-gold my-6"></div>
+                <div class="flex gap-3">
+                    <button onclick="showDashboard('admin')" class="flex-1 text-xs py-2 rounded-lg border text-gray-400 hover:text-white transition-colors" style="border-color:rgba(255,255,255,0.1)">Demo as Admin</button>
+                    <button onclick="showDashboard('teacher')" class="flex-1 text-xs py-2 rounded-lg border text-gray-400 hover:text-white transition-colors" style="border-color:rgba(255,255,255,0.1)">Demo as Teacher</button>
+                    <button onclick="showDashboard('student')" class="flex-1 text-xs py-2 rounded-lg border text-gray-400 hover:text-white transition-colors" style="border-color:rgba(255,255,255,0.1)">Demo as Student</button>
+                </div>
+                <p class="text-center text-gray-600 text-sm mt-5">No account? <a href="#" onclick="showPage('register')" style="color:#D4AF37;text-decoration:none">Register here</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: REGISTER
+══════════════════════════════════════════════════════════ -->
+<div id="page-register" class="page pt-24 pb-16 px-4">
+    <div class="min-h-screen flex items-center justify-center">
+        <div class="w-full max-w-lg">
+            <div class="text-center mb-8">
+                <div class="w-16 h-16 rounded-full gold-gradient flex items-center justify-center mx-auto mb-4"><span class="text-black font-bold text-xl">PI</span></div>
+                <h1 class="text-2xl font-bold text-white">Join Peace Institute</h1>
+            </div>
+            <!-- Role Toggle -->
+            <div class="flex gap-2 mb-6 p-1 rounded-xl" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.15)">
+                <button id="reg-student-btn" onclick="setRegRole('student')" class="flex-1 py-2 rounded-lg text-sm font-medium btn-gold">
+                    <i class="fas fa-graduation-cap mr-2"></i> Student
+                </button>
+                <button id="reg-teacher-btn" onclick="setRegRole('teacher')" class="flex-1 py-2 rounded-lg text-sm font-medium text-gray-400">
+                    <i class="fas fa-chalkboard-teacher mr-2"></i> Teacher
+                </button>
+            </div>
+            <div class="rounded-2xl p-8" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.15)">
+                <div class="space-y-4">
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Full Name *</label>
+                            <input type="text" placeholder="Your Name" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Phone</label>
+                            <input type="tel" placeholder="+1 234 567" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-gray-400 text-sm mb-2">Email *</label>
+                        <input type="email" placeholder="your@email.com" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                    </div>
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Password *</label>
+                            <input type="password" placeholder="Min 8 chars" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                        </div>
+                        <div>
+                            <label class="block text-gray-400 text-sm mb-2">Confirm *</label>
+                            <input type="password" placeholder="Repeat" class="w-full rounded-lg px-4 py-3 text-white text-sm" style="background:#111;border:1px solid rgba(212,175,55,0.2);outline:none">
+                        </div>
+                    </div>
+                    <button onclick="showDashboard('student')" class="btn-gold w-full py-3 rounded-xl font-semibold">Create Account <i class="fas fa-arrow-right ml-2"></i></button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: TEACHERS
+══════════════════════════════════════════════════════════ -->
+<div id="page-teachers" class="page pt-24 pb-16 px-6">
+    <div class="max-w-7xl mx-auto">
+        <div class="text-center mb-12">
+            <h1 class="text-4xl font-bold text-white mb-3">Find Your <span class="gold-text">Perfect Teacher</span></h1>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            <!-- 4 teacher cards -->
+            <div class="card-dark rounded-2xl p-6 cursor-pointer" onclick="showPage('teacher-profile')">
+                <div class="w-16 h-16 rounded-full gold-gradient flex items-center justify-center mx-auto mb-4 text-black font-bold text-xl">YA</div>
+                <h3 class="text-white font-bold text-center">Sheikh Yusuf Ali</h3>
+                <p class="text-center text-xs mb-3" style="color:#D4AF37">Hifz & Tajweed</p>
+                <div class="flex justify-center gap-0.5 mb-3"><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i></div>
+                <div class="flex flex-wrap gap-1 justify-center mb-4"><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Hifz</span><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Tajweed</span></div>
+                <div class="flex justify-between items-center"><span class="text-white font-bold">$20<span class="text-gray-500 text-xs">/hr</span></span><button class="btn-gold px-4 py-1.5 rounded-lg text-xs">View</button></div>
+            </div>
+            <div class="card-dark rounded-2xl p-6">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-black font-bold text-xl" style="background:linear-gradient(135deg,#C0C0C0,#E8E8E8)">FK</div>
+                <h3 class="text-white font-bold text-center">Ustadha Fatima</h3>
+                <p class="text-center text-xs mb-3" style="color:#D4AF37">Qaida & Nazra</p>
+                <div class="flex justify-center gap-0.5 mb-3"><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i></div>
+                <div class="flex flex-wrap gap-1 justify-center mb-4"><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Qaida</span><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Nazra</span></div>
+                <div class="flex justify-between items-center"><span class="text-white font-bold">$18<span class="text-gray-500 text-xs">/hr</span></span><button class="btn-gold px-4 py-1.5 rounded-lg text-xs">View</button></div>
+            </div>
+            <div class="card-dark rounded-2xl p-6">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-black font-bold text-xl" style="background:linear-gradient(135deg,#D4AF37,#8B6914)">HM</div>
+                <h3 class="text-white font-bold text-center">Qari Hassan</h3>
+                <p class="text-center text-xs mb-3" style="color:#D4AF37">Tajweed & Tafseer</p>
+                <div class="flex justify-center gap-0.5 mb-3"><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star-half-alt text-xs text-yellow-400"></i></div>
+                <div class="flex flex-wrap gap-1 justify-center mb-4"><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Tafseer</span><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Arabic</span></div>
+                <div class="flex justify-between items-center"><span class="text-white font-bold">$22<span class="text-gray-500 text-xs">/hr</span></span><button class="btn-gold px-4 py-1.5 rounded-lg text-xs">View</button></div>
+            </div>
+            <div class="card-dark rounded-2xl p-6">
+                <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 text-black font-bold text-xl" style="background:linear-gradient(135deg,#4ade80,#16a34a)">AZ</div>
+                <h3 class="text-white font-bold text-center">Qari Ahmad</h3>
+                <p class="text-center text-xs mb-3" style="color:#D4AF37">Tajweed</p>
+                <div class="flex justify-center gap-0.5 mb-3"><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-yellow-400"></i><i class="fas fa-star text-xs text-gray-700"></i></div>
+                <div class="flex flex-wrap gap-1 justify-center mb-4"><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Tajweed</span><span class="text-xs rounded-full px-2 py-0.5" style="background:rgba(212,175,55,0.1);color:#D4AF37">Hifz</span></div>
+                <div class="flex justify-between items-center"><span class="text-white font-bold">$17<span class="text-gray-500 text-xs">/hr</span></span><button class="btn-gold px-4 py-1.5 rounded-lg text-xs">View</button></div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     PAGE: TEACHER PROFILE
+══════════════════════════════════════════════════════════ -->
+<div id="page-teacher-profile" class="page pt-24 pb-16 px-6">
+    <div class="max-w-5xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="space-y-5">
+                <div class="rounded-2xl p-7 text-center" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.15)">
+                    <div class="w-28 h-28 rounded-full gold-gradient flex items-center justify-center mx-auto mb-4 text-black font-bold text-4xl">YA</div>
+                    <h1 class="text-white text-xl font-bold">Sheikh Yusuf Ali</h1>
+                    <p class="text-sm mt-1" style="color:#D4AF37">Hifz & Tajweed Specialist</p>
+                    <div class="flex justify-center gap-1 mt-2"><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><i class="fas fa-star text-yellow-400 text-sm"></i><span class="text-gray-500 text-sm ml-1">5.0 (48)</span></div>
+                    <div class="divider-gold my-4"></div>
+                    <div class="space-y-3 text-sm text-left">
+                        <div class="flex justify-between"><span class="text-gray-500">Hourly Rate</span><span class="text-white font-bold">$20.00</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Experience</span><span class="text-white">10 years</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Sessions</span><span class="text-white">340+</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Nationality</span><span class="text-white">Pakistani</span></div>
+                    </div>
+                    <button onclick="showDashboard('student')" class="btn-gold w-full py-3 rounded-xl mt-5 font-semibold"><i class="fas fa-calendar-plus mr-2"></i>Book a Session</button>
+                </div>
+                <div class="rounded-2xl p-5" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h3 class="text-white font-semibold mb-3 text-sm">Availability</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between"><span class="text-gray-500">Monday – Friday</span><span style="color:#D4AF37">9am – 5pm</span></div>
+                        <div class="flex justify-between"><span class="text-gray-500">Saturday</span><span style="color:#D4AF37">10am – 2pm</span></div>
+                    </div>
+                </div>
+            </div>
+            <div class="lg:col-span-2 space-y-5">
+                <div class="rounded-2xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h2 class="text-white font-semibold mb-3">About</h2>
+                    <p class="text-gray-400 text-sm leading-relaxed">Certified Quran teacher with 10+ years of experience teaching students worldwide. I have completed my Ijazah in Quranic recitation from Al-Azhar University and specialize in Hifz and Tajweed. I have taught over 500 students from 20+ countries and am passionate about making Quran learning accessible to every Muslim.</p>
+                </div>
+                <div class="rounded-2xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h2 class="text-white font-semibold mb-4">Subjects</h2>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="rounded-full px-4 py-1.5 text-sm" style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.2);color:#D4AF37">Hifz</span>
+                        <span class="rounded-full px-4 py-1.5 text-sm" style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.2);color:#D4AF37">Tajweed</span>
+                        <span class="rounded-full px-4 py-1.5 text-sm" style="background:rgba(212,175,55,0.1);border:1px solid rgba(212,175,55,0.2);color:#D4AF37">Nazra</span>
+                    </div>
+                </div>
+                <div class="rounded-2xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h2 class="text-white font-semibold mb-5">Reviews</h2>
+                    <div class="space-y-5">
+                        <div>
+                            <div class="flex justify-between mb-1"><span class="text-white text-sm font-medium">Ahmed Khan</span><div class="flex gap-0.5"><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i></div></div>
+                            <p class="text-gray-400 text-sm">"Sheikh Yusuf is incredible. My Tajweed improved within 2 weeks. Highly recommended!"</p>
+                        </div>
+                        <div class="divider-gold"></div>
+                        <div>
+                            <div class="flex justify-between mb-1"><span class="text-white text-sm font-medium">Omar Siddiqui</span><div class="flex gap-0.5"><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i></div></div>
+                            <p class="text-gray-400 text-sm">"Memorizing Quran with Sheikh Yusuf has been a life-changing experience. Very patient teacher."</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     DASHBOARD: STUDENT
+══════════════════════════════════════════════════════════ -->
+<div id="dashboard-student" class="dashboard-page">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col min-h-screen fixed left-0 top-0 bottom-0 z-40">
+        <div class="p-5 border-b" style="border-color:rgba(212,175,55,0.1)">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center flex-shrink-0"><span class="text-black font-bold text-xs">PI</span></div>
+                <div><div class="font-bold text-white text-sm">Peace Institute</div><div class="text-xs" style="color:rgba(212,175,55,0.7)">Quran Academy</div></div>
+            </div>
+        </div>
+        <div class="p-4 border-b" style="border-color:rgba(255,255,255,0.05)">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full flex items-center justify-center text-black font-bold text-sm" style="background:linear-gradient(135deg,#D4AF37,#A08020)">AS</div>
+                <div><div class="text-sm font-medium text-white">Ahmed Student</div><div class="text-xs" style="color:#D4AF37">Student</div></div>
+            </div>
+        </div>
+        <nav class="flex-1 p-4 space-y-1">
+            <a class="sidebar-link active" href="#"><span class="w-4 text-center"><i class="fas fa-home"></i></span> Dashboard</a>
+            <a class="sidebar-link" href="#" onclick="showBookingPage()"><span class="w-4 text-center"><i class="fas fa-search"></i></span> Find Teachers</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-calendar-alt"></i></span> My Bookings</a>
+        </nav>
+        <div class="p-4 border-t" style="border-color:rgba(255,255,255,0.05)">
+            <button onclick="showPage('home')" class="sidebar-link w-full text-left"><span class="w-4 text-center"><i class="fas fa-sign-out-alt"></i></span> Logout</button>
+        </div>
+    </aside>
+    <div class="flex-1 ml-64 flex flex-col min-h-screen">
+        <header class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 border-b" style="background:rgba(5,5,5,0.9);backdrop-filter:blur(8px);border-color:rgba(255,255,255,0.05)">
+            <div><h1 class="text-lg font-semibold text-white">Student Dashboard</h1><p class="text-xs text-gray-500">Track your learning journey</p></div>
+            <div class="text-xs text-gray-500">Thu, Apr 24 2026</div>
+        </header>
+        <main class="flex-1 p-6">
+            <!-- Stats -->
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold text-white">8</div><div class="text-gray-300 text-sm mt-1">Total Sessions</div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold text-green-400">6</div><div class="text-gray-300 text-sm mt-1">Completed</div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold" style="color:#D4AF37">2</div><div class="text-gray-300 text-sm mt-1">Courses Enrolled</div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold text-white">$160</div><div class="text-gray-300 text-sm mt-1">Total Invested</div></div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <!-- Upcoming -->
+                <div class="rounded-xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <div class="flex justify-between items-center mb-5">
+                        <h3 class="text-white font-semibold">Upcoming Classes</h3>
+                        <button onclick="showBookingPage()" class="btn-gold px-4 py-1.5 text-xs rounded-lg"><i class="fas fa-plus mr-1"></i>Book</button>
+                    </div>
+                    <div class="border-b py-4" style="border-color:rgba(255,255,255,0.05)">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full gold-gradient flex items-center justify-center text-black font-bold text-sm flex-shrink-0">YA</div>
+                            <div class="flex-1">
+                                <div class="text-white text-sm font-medium">Sheikh Yusuf Ali</div>
+                                <div class="text-gray-500 text-xs">Tajweed</div>
+                                <div class="text-xs mt-1" style="color:#D4AF37"><i class="fas fa-calendar mr-1"></i>Mon, Apr 28 2026 at 10:00 AM</div>
+                            </div>
+                            <span class="badge badge-approved">Approved</span>
+                        </div>
+                        <div class="mt-2 ml-13"><a href="#" class="text-xs text-blue-400"><i class="fas fa-video mr-1"></i>Join Meeting</a></div>
+                    </div>
+                    <div class="py-4">
+                        <div class="flex items-start gap-3">
+                            <div class="w-10 h-10 rounded-full flex items-center justify-center text-black font-bold text-sm flex-shrink-0" style="background:linear-gradient(135deg,#C0C0C0,#E8E8E8)">FK</div>
+                            <div class="flex-1">
+                                <div class="text-white text-sm font-medium">Ustadha Fatima</div>
+                                <div class="text-gray-500 text-xs">Qaida</div>
+                                <div class="text-xs mt-1" style="color:#D4AF37"><i class="fas fa-calendar mr-1"></i>Wed, Apr 30 2026 at 3:00 PM</div>
+                            </div>
+                            <span class="badge badge-pending">Pending</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Courses -->
+                <div class="rounded-xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h3 class="text-white font-semibold mb-5">My Courses</h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between mb-2"><span class="text-white text-sm">Tajweed</span><span class="text-xs" style="color:#D4AF37">65%</span></div>
+                            <div class="h-2 rounded-full" style="background:#1c1c1c"><div class="h-full rounded-full gold-gradient" style="width:65%"></div></div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between mb-2"><span class="text-white text-sm">Qaida</span><span class="text-xs" style="color:#D4AF37">30%</span></div>
+                            <div class="h-2 rounded-full" style="background:#1c1c1c"><div class="h-full rounded-full gold-gradient" style="width:30%"></div></div>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t" style="border-color:rgba(255,255,255,0.05)">
+                        <h4 class="text-white text-sm font-medium mb-3">Recent History</h4>
+                        <div class="space-y-3">
+                            <div class="flex justify-between items-center text-sm">
+                                <div class="flex items-center gap-2"><div class="w-7 h-7 rounded-full gold-gradient flex items-center justify-center text-black text-xs font-bold">YA</div><span class="text-gray-400">Sheikh Yusuf</span></div>
+                                <div class="text-right"><div class="text-gray-300">$20</div><div class="flex gap-0.5 mt-0.5 justify-end"><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i><i class="fas fa-star text-yellow-400 text-xs"></i></div></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     DASHBOARD: TEACHER
+══════════════════════════════════════════════════════════ -->
+<div id="dashboard-teacher" class="dashboard-page">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col min-h-screen fixed left-0 top-0 bottom-0 z-40">
+        <div class="p-5 border-b" style="border-color:rgba(212,175,55,0.1)">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center flex-shrink-0"><span class="text-black font-bold text-xs">PI</span></div>
+                <div><div class="font-bold text-white text-sm">Peace Institute</div><div class="text-xs" style="color:rgba(212,175,55,0.7)">Quran Academy</div></div>
+            </div>
+        </div>
+        <div class="p-4 border-b" style="border-color:rgba(255,255,255,0.05)">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center text-black font-bold text-sm">YA</div>
+                <div><div class="text-sm font-medium text-white">Sheikh Yusuf Ali</div><div class="text-xs" style="color:#D4AF37">Teacher</div></div>
+            </div>
+        </div>
+        <nav class="flex-1 p-4 space-y-1">
+            <a class="sidebar-link active" href="#"><span class="w-4 text-center"><i class="fas fa-home"></i></span> Dashboard</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-calendar-check"></i></span> Sessions <span class="ml-auto text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center bg-yellow-500 text-black">3</span></a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-clock"></i></span> Availability</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-dollar-sign"></i></span> Earnings</a>
+        </nav>
+        <div class="p-4 border-t" style="border-color:rgba(255,255,255,0.05)">
+            <button onclick="showPage('home')" class="sidebar-link w-full text-left"><i class="fas fa-sign-out-alt mr-2"></i> Logout</button>
+        </div>
+    </aside>
+    <div class="flex-1 ml-64 flex flex-col min-h-screen">
+        <header class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 border-b" style="background:rgba(5,5,5,0.9);backdrop-filter:blur(8px);border-color:rgba(255,255,255,0.05)">
+            <div><h1 class="text-lg font-semibold text-white">Teacher Dashboard</h1><p class="text-xs text-gray-500">Manage sessions and earnings</p></div>
+        </header>
+        <main class="flex-1 p-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold text-white">87.5h</div><div class="text-gray-300 text-sm mt-1">Total Hours</div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold text-white">$1,487</div><div class="text-gray-300 text-sm mt-1">Total Earned</div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold" style="color:#D4AF37">$340</div><div class="text-gray-300 text-sm mt-1">Pending Payout</div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="text-2xl font-bold text-white">$255</div><div class="text-gray-300 text-sm mt-1">This Month</div></div>
+            </div>
+            <!-- Salary formula card -->
+            <div class="rounded-xl p-4 mb-6 border-l-4 flex items-center gap-3" style="background:#0d0d0d;border-color:#D4AF37">
+                <i class="fas fa-calculator text-2xl" style="color:#D4AF37"></i>
+                <div>
+                    <div class="text-white text-sm font-semibold">Salary Formula</div>
+                    <div class="text-gray-400 text-sm mt-0.5">Earned = <span class="font-mono rounded px-1.5 py-0.5 text-xs" style="background:rgba(212,175,55,0.1);color:#D4AF37">(Duration ÷ 60) × $20/hr</span> then <span class="font-mono rounded px-1.5 py-0.5 text-xs" style="background:rgba(212,175,55,0.1);color:#D4AF37">− 15% platform fee</span></div>
+                </div>
+            </div>
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <div class="rounded-xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h3 class="text-white font-semibold mb-5">Pending Bookings <span class="badge badge-pending ml-2">3</span></h3>
+                    <div class="space-y-4">
+                        <div class="border-b pb-4" style="border-color:rgba(255,255,255,0.05)">
+                            <div class="flex justify-between items-start">
+                                <div><div class="text-white text-sm">Ahmed Khan</div><div class="text-gray-500 text-xs">Tajweed · 60 min · Mon Apr 28</div></div>
+                                <div class="flex gap-2">
+                                    <button class="text-xs px-3 py-1 rounded-full" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">Approve</button>
+                                    <button class="text-xs px-3 py-1 rounded-full" style="background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-start">
+                                <div><div class="text-white text-sm">Sara Ali</div><div class="text-gray-500 text-xs">Hifz · 60 min · Tue Apr 29</div></div>
+                                <div class="flex gap-2">
+                                    <button class="text-xs px-3 py-1 rounded-full" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">Approve</button>
+                                    <button class="text-xs px-3 py-1 rounded-full" style="background:rgba(239,68,68,0.15);color:#f87171;border:1px solid rgba(239,68,68,0.3)">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="rounded-xl p-6" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                    <h3 class="text-white font-semibold mb-5">Monthly Summary – April 2026</h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between py-2 border-b text-sm" style="border-color:rgba(255,255,255,0.05)"><span class="text-gray-400"><i class="fas fa-check-circle text-green-400 mr-2"></i>Sessions</span><span class="text-green-400 font-semibold">15</span></div>
+                        <div class="flex justify-between py-2 border-b text-sm" style="border-color:rgba(255,255,255,0.05)"><span class="text-gray-400"><i class="fas fa-clock text-blue-400 mr-2"></i>Hours Worked</span><span class="text-blue-400 font-semibold">15.0h</span></div>
+                        <div class="flex justify-between py-2 border-b text-sm" style="border-color:rgba(255,255,255,0.05)"><span class="text-gray-400"><i class="fas fa-dollar-sign text-yellow-400 mr-2"></i>Gross Earnings</span><span class="text-yellow-400 font-semibold">$300</span></div>
+                        <div class="flex justify-between py-2 border-b text-sm" style="border-color:rgba(255,255,255,0.05)"><span class="text-gray-400"><i class="fas fa-percent text-red-400 mr-2"></i>Platform Fee (15%)</span><span class="text-red-400 font-semibold">-$45</span></div>
+                        <div class="flex justify-between py-2 text-sm"><span class="text-gray-400 font-semibold"><i class="fas fa-wallet mr-2" style="color:#D4AF37"></i>Net Earnings</span><span class="font-bold text-lg" style="color:#D4AF37">$255</span></div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════════════════════
+     DASHBOARD: ADMIN
+══════════════════════════════════════════════════════════ -->
+<div id="dashboard-admin" class="dashboard-page">
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col min-h-screen fixed left-0 top-0 bottom-0 z-40">
+        <div class="p-5 border-b" style="border-color:rgba(212,175,55,0.1)">
+            <div class="flex items-center gap-3">
+                <div class="w-9 h-9 rounded-full gold-gradient flex items-center justify-center flex-shrink-0"><span class="text-black font-bold text-xs">PI</span></div>
+                <div><div class="font-bold text-white text-sm">Peace Institute</div><div class="text-xs" style="color:rgba(212,175,55,0.7)">Admin Panel</div></div>
+            </div>
+        </div>
+        <nav class="flex-1 p-4 space-y-1 mt-2">
+            <a class="sidebar-link active" href="#"><span class="w-4 text-center"><i class="fas fa-chart-line"></i></span> Dashboard</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-chalkboard-teacher"></i></span> Teachers</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-users"></i></span> Students</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-calendar-alt"></i></span> Bookings</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-dollar-sign"></i></span> Earnings</a>
+            <a class="sidebar-link" href="#"><span class="w-4 text-center"><i class="fas fa-money-bill-wave"></i></span> Payouts</a>
+        </nav>
+        <div class="p-4 border-t" style="border-color:rgba(255,255,255,0.05)">
+            <button onclick="showPage('home')" class="sidebar-link w-full text-left"><i class="fas fa-sign-out-alt mr-2"></i> Logout</button>
+        </div>
+    </aside>
+    <div class="flex-1 ml-64 flex flex-col min-h-screen">
+        <header class="sticky top-0 z-30 flex items-center justify-between px-6 py-4 border-b" style="background:rgba(5,5,5,0.9);backdrop-filter:blur(8px);border-color:rgba(255,255,255,0.05)">
+            <div><h1 class="text-lg font-semibold text-white">Admin Dashboard</h1><p class="text-xs text-gray-500">Platform overview</p></div>
+        </header>
+        <main class="flex-1 p-6">
+            <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="flex justify-between"><div><div class="text-2xl font-bold text-white">50</div><div class="text-gray-300 text-sm mt-1">Active Teachers</div><div class="text-gray-600 text-xs mt-0.5">3 pending approval</div></div><i class="fas fa-chalkboard-teacher text-xl opacity-50" style="color:#D4AF37"></i></div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="flex justify-between"><div><div class="text-2xl font-bold text-white">1,247</div><div class="text-gray-300 text-sm mt-1">Total Students</div></div><i class="fas fa-users text-xl text-blue-400 opacity-50"></i></div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="flex justify-between"><div><div class="text-2xl font-bold text-white">8,560</div><div class="text-gray-300 text-sm mt-1">Sessions Done</div></div><i class="fas fa-video text-xl text-green-400 opacity-50"></i></div></div>
+                <div class="rounded-xl p-5" style="background:linear-gradient(135deg,#0d0d0d,#111);border:1px solid rgba(212,175,55,0.15)"><div class="flex justify-between"><div><div class="text-2xl font-bold text-white">$48,200</div><div class="text-gray-300 text-sm mt-1">Total Revenue</div><div class="text-gray-600 text-xs mt-0.5">$4,100 this month</div></div><i class="fas fa-dollar-sign text-xl text-purple-400 opacity-50"></i></div></div>
+            </div>
+            <!-- Alert for pending teachers -->
+            <div class="rounded-xl p-4 mb-6 flex items-center justify-between" style="background:rgba(251,191,36,0.05);border:1px solid rgba(251,191,36,0.2)">
+                <div class="flex items-center gap-3"><i class="fas fa-exclamation-circle text-yellow-400"></i><span class="text-white text-sm font-medium">3 teachers pending approval</span></div>
+                <button class="btn-gold px-4 py-1.5 text-xs rounded-lg">Review Now</button>
+            </div>
+            <!-- Recent Bookings -->
+            <div class="rounded-xl overflow-hidden" style="background:#0d0d0d;border:1px solid rgba(212,175,55,0.1)">
+                <div class="px-6 py-4 border-b flex justify-between" style="border-color:rgba(255,255,255,0.05)">
+                    <h3 class="text-white font-semibold">Recent Bookings</h3>
+                    <a href="#" class="text-xs" style="color:#D4AF37">View all</a>
+                </div>
+                <table class="w-full text-sm">
+                    <thead><tr class="text-gray-500 text-xs uppercase border-b" style="border-color:rgba(255,255,255,0.05)"><th class="text-left px-6 py-3">Ref</th><th class="text-left px-6 py-3">Student</th><th class="text-left px-6 py-3">Teacher</th><th class="text-left px-6 py-3">Date</th><th class="text-left px-6 py-3">Amount</th><th class="text-left px-6 py-3">Status</th></tr></thead>
+                    <tbody>
+                        <tr class="border-b hover:bg-white/2 transition-colors" style="border-color:rgba(255,255,255,0.04)"><td class="px-6 py-3 font-mono text-xs" style="color:#D4AF37">PI-2026-AX7K2M</td><td class="px-6 py-3 text-gray-300">Ahmed Khan</td><td class="px-6 py-3 text-gray-300">Sheikh Yusuf</td><td class="px-6 py-3 text-gray-500 text-xs">Apr 28, 2026</td><td class="px-6 py-3 text-gray-300">$20.00</td><td class="px-6 py-3"><span class="badge badge-approved">Approved</span></td></tr>
+                        <tr class="border-b hover:bg-white/2 transition-colors" style="border-color:rgba(255,255,255,0.04)"><td class="px-6 py-3 font-mono text-xs" style="color:#D4AF37">PI-2026-BZ9P1Q</td><td class="px-6 py-3 text-gray-300">Sara Rahman</td><td class="px-6 py-3 text-gray-300">Ustadha Fatima</td><td class="px-6 py-3 text-gray-500 text-xs">Apr 29, 2026</td><td class="px-6 py-3 text-gray-300">$18.00</td><td class="px-6 py-3"><span class="badge badge-pending">Pending</span></td></tr>
+                        <tr class="hover:bg-white/2 transition-colors"><td class="px-6 py-3 font-mono text-xs" style="color:#D4AF37">PI-2026-CY3R5N</td><td class="px-6 py-3 text-gray-300">Omar Siddiqui</td><td class="px-6 py-3 text-gray-300">Qari Hassan</td><td class="px-6 py-3 text-gray-500 text-xs">Apr 24, 2026</td><td class="px-6 py-3 text-gray-300">$22.00</td><td class="px-6 py-3"><span class="badge badge-completed">Completed</span></td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+    </div>
+</div>
+
+<script>
+function showPage(name) {
+    // Hide all dashboards and pages
+    document.querySelectorAll('.page, .dashboard-page').forEach(el => {
+        el.classList.remove('active');
+        el.style.display = 'none';
+    });
+    document.getElementById('main-nav').style.display = 'flex';
+    const el = document.getElementById('page-' + name);
+    if (el) { el.style.display = 'block'; el.classList.add('active'); }
+    window.scrollTo(0, 0);
+}
+
+function showDashboard(role) {
+    document.querySelectorAll('.page, .dashboard-page').forEach(el => {
+        el.classList.remove('active');
+        el.style.display = 'none';
+    });
+    document.getElementById('main-nav').style.display = 'none';
+    const el = document.getElementById('dashboard-' + role);
+    if (el) { el.style.display = 'flex'; el.classList.add('active'); }
+    window.scrollTo(0, 0);
+}
+
+function showBookingPage() { showPage('teacher-profile'); }
+
+function setRegRole(role) {
+    const sb = document.getElementById('reg-student-btn');
+    const tb = document.getElementById('reg-teacher-btn');
+    if (role === 'student') {
+        sb.className = 'flex-1 py-2 rounded-lg text-sm font-medium btn-gold';
+        tb.className = 'flex-1 py-2 rounded-lg text-sm font-medium text-gray-400';
+    } else {
+        tb.className = 'flex-1 py-2 rounded-lg text-sm font-medium btn-gold';
+        sb.className = 'flex-1 py-2 rounded-lg text-sm font-medium text-gray-400';
+    }
+}
+
+// Init
+document.querySelectorAll('.page').forEach(el => el.style.display = 'none');
+document.querySelectorAll('.dashboard-page').forEach(el => el.style.display = 'none');
+document.getElementById('page-home').style.display = 'block';
+</script>
+</body>
+</html>

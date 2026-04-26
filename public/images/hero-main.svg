@@ -1,0 +1,23 @@
+<svg width="1200" height="900" viewBox="0 0 1200 900" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bg" x1="120" y1="80" x2="1020" y2="860" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#161616"/>
+      <stop offset="1" stop-color="#070707"/>
+    </linearGradient>
+    <linearGradient id="gold" x1="220" y1="170" x2="980" y2="730" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F6DE8F"/>
+      <stop offset="0.55" stop-color="#D4AF37"/>
+      <stop offset="1" stop-color="#8F6B17"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" rx="42" fill="url(#bg)"/>
+  <circle cx="880" cy="210" r="150" fill="#39B77A" fill-opacity="0.15"/>
+  <circle cx="330" cy="710" r="230" fill="#D4AF37" fill-opacity="0.12"/>
+  <rect x="130" y="150" width="940" height="590" rx="32" stroke="url(#gold)" stroke-opacity="0.35" stroke-width="2"/>
+  <path d="M250 610C350 450 460 340 600 260C740 340 850 450 950 610" stroke="url(#gold)" stroke-width="16" stroke-linecap="round"/>
+  <path d="M320 610H880" stroke="url(#gold)" stroke-width="14" stroke-linecap="round"/>
+  <path d="M420 350H780" stroke="url(#gold)" stroke-width="12" stroke-linecap="round" opacity="0.95"/>
+  <path d="M495 300C530 328 580 354 600 390C620 354 670 328 705 300" stroke="url(#gold)" stroke-width="12" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="600" y="700" text-anchor="middle" fill="#F6DE8F" font-family="Arial, sans-serif" font-size="68" font-weight="700" letter-spacing="4">PEACE INSTITUTE</text>
+  <text x="600" y="748" text-anchor="middle" fill="#B8B8B8" font-family="Arial, sans-serif" font-size="28" letter-spacing="8">ONLINE QURAN ACADEMY</text>
+</svg>
