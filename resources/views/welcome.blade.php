@@ -7,30 +7,76 @@
 <style>
     /* ── HERO ── */
     .hero {
-        min-height: 620px;
-        background: linear-gradient(135deg, #0F3D22 0%, #1A6B3C 60%, #22874D 100%);
+        min-height: 680px;
+        background:
+            linear-gradient(135deg, rgba(8,30,15,.93) 0%, rgba(12,50,26,.89) 35%, rgba(20,80,44,.82) 70%, rgba(26,107,60,.75) 100%),
+            url('https://images.unsplash.com/photo-1585036156171-384164a8c675?w=1600&q=85&fit=crop&crop=center') center center / cover no-repeat;
         display: flex; align-items: stretch; overflow: hidden; position: relative;
     }
+    /* Decorative geometric overlay */
     .hero::before {
         content: '';
         position: absolute; inset: 0;
         background-image:
-            repeating-linear-gradient(30deg,  rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px, transparent 1px, transparent 44px),
-            repeating-linear-gradient(-30deg, rgba(255,255,255,.02) 0, rgba(255,255,255,.02) 1px, transparent 1px, transparent 44px);
+            radial-gradient(circle at 20% 80%, rgba(201,164,39,.07) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(26,107,60,.12) 0%, transparent 50%),
+            repeating-linear-gradient(30deg,  rgba(255,255,255,.015) 0, rgba(255,255,255,.015) 1px, transparent 1px, transparent 44px),
+            repeating-linear-gradient(-30deg, rgba(255,255,255,.015) 0, rgba(255,255,255,.015) 1px, transparent 1px, transparent 44px);
         pointer-events: none;
     }
-    .hero-left  { flex: 1; padding: 72px 56px 72px 64px; position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; }
-    .hero-right { width: 400px; flex-shrink: 0; padding: 48px 48px 48px 32px; display: flex; align-items: center; position: relative; z-index: 1; }
+    /* Gold corner accent */
+    .hero::after {
+        content: '';
+        position: absolute; top: 0; left: 0; right: 0; height: 3px;
+        background: linear-gradient(90deg, transparent 0%, rgba(201,164,39,.6) 30%, rgba(201,164,39,.9) 50%, rgba(201,164,39,.6) 70%, transparent 100%);
+        pointer-events: none;
+    }
+    .hero-inner { max-width: 1280px; margin: 0 auto; padding: 0 48px; width: 100%; display: flex; align-items: stretch; }
+    .hero-left  { flex: 1; padding: 88px 56px 88px 0; position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: center; }
+    .hero-right { width: 420px; flex-shrink: 0; padding: 64px 0 64px 48px; display: flex; align-items: center; position: relative; z-index: 1; }
     .arabic-wm {
-        position: absolute; right: 420px; top: 50%; transform: translateY(-50%);
-        font-family: 'Amiri', serif; font-size: 11rem; font-weight: 700;
-        color: rgba(255,255,255,.04); pointer-events: none; direction: rtl; white-space: nowrap; line-height: 1;
+        position: absolute; right: 440px; top: 50%; transform: translateY(-50%);
+        font-family: 'Amiri', serif; font-size: 13rem; font-weight: 700;
+        color: rgba(255,255,255,.03); pointer-events: none; direction: rtl; white-space: nowrap; line-height: 1;
+    }
+    /* Decorative arch shape */
+    .hero-arch {
+        position: absolute; right: 390px; top: 0; bottom: 0; width: 160px;
+        background: linear-gradient(180deg, rgba(201,164,39,.04), rgba(201,164,39,.02), rgba(201,164,39,.04));
+        border-right: 1px solid rgba(201,164,39,.08);
+        pointer-events: none; z-index: 0;
+    }
+    @media(max-width:1100px){
+        .hero-right { width: 380px; padding: 48px 32px 48px 24px; }
+    }
+    @media(max-width:900px){
+        .hero { min-height: auto; }
+        .hero-inner { flex-direction: column; padding: 0 24px; }
+        .hero-left  { padding: 56px 0 32px; }
+        .hero-right { width: 100%; padding: 0 0 56px; }
+        .arabic-wm, .hero-arch  { display: none; }
+        .hero-left h1 { font-size: clamp(2rem, 6vw, 2.8rem) !important; }
+    }
+    @media(max-width:480px){
+        .hero-inner { padding: 0 16px; }
+        .hero-left  { padding: 44px 0 24px; }
+        .hero-right { padding: 0 0 44px; }
+        .form-card  { padding: 24px 20px; }
     }
 
     /* Form card */
-    .form-card { background: #fff; border-radius: 20px; padding: 32px 28px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,.2), 0 4px 16px rgba(0,0,0,.1); }
-    .form-card h3 { font-size: 1.05rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
-    .form-card p  { font-size: .76rem; color: var(--muted); margin-bottom: 20px; }
+    .form-card {
+        background: #fff; border-radius: 24px; padding: 34px 30px; width: 100%;
+        box-shadow: 0 32px 80px rgba(0,0,0,.35), 0 8px 24px rgba(0,0,0,.15);
+        border: 1px solid rgba(255,255,255,.9);
+        position: relative; overflow: hidden;
+    }
+    .form-card::before {
+        content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+        background: linear-gradient(90deg, var(--green), var(--gold), var(--green));
+    }
+    .form-card h3 { font-size: 1.1rem; font-weight: 800; color: var(--text); margin-bottom: 4px; }
+    .form-card p  { font-size: .76rem; color: var(--muted); margin-bottom: 22px; }
     .f-select, .f-input {
         width: 100%; padding: 10px 14px; border-radius: 10px;
         border: 1.5px solid #E5E7EB; background: #FAFAFA;
@@ -194,6 +240,47 @@
     .s-row:last-child { border-bottom: none; }
     .s-row .slbl { font-size: .8rem; color: rgba(255,255,255,.5); }
     .s-row .sval { font-size: 1.4rem; font-weight: 900; color: var(--gold); font-family: 'Playfair Display', serif; }
+
+    /* ═══ RESPONSIVE ══════════════════════════════════════════════ */
+
+    /* Tablet (≤ 1024px) */
+    @media (max-width: 1024px) {
+        .teachers-grid { grid-template-columns: 1fr 1fr !important; }
+        .courses-grid  { grid-template-columns: 1fr 1fr !important; }
+    }
+
+    /* Mobile (≤ 900px) */
+    @media (max-width: 900px) {
+        .stats-bar { padding: 14px 20px !important; flex-wrap: wrap !important; gap: 14px !important; justify-content: center !important; }
+        .stat-div  { display: none !important; }
+        .features   { padding: 44px 20px !important; }
+        .feat-grid  { grid-template-columns: 1fr 1fr !important; gap: 0 !important; }
+        .feat       { padding: 22px 18px !important; border-right: none !important; border-bottom: 1px solid rgba(0,0,0,.07) !important; }
+        .feat:last-child { border-bottom: none !important; }
+        .courses        { padding: 56px 0 !important; }
+        .courses-inner  { padding: 0 20px !important; }
+        .courses-grid   { grid-template-columns: 1fr 1fr !important; }
+        .courses-row2   { grid-template-columns: 1fr !important; }
+        .c-card-wide .c-body { flex-direction: column !important; }
+        .c-body-aside   { width: 100% !important; }
+        .teachers       { padding: 56px 0 !important; }
+        .teachers-inner { padding: 0 20px !important; }
+        .teachers-grid  { grid-template-columns: 1fr 1fr !important; }
+        .cta-sec    { padding: 56px 0 !important; }
+        .cta-inner  { grid-template-columns: 1fr !important; gap: 36px !important; padding: 0 20px !important; }
+        .cta-h2     { font-size: 2rem !important; }
+        .cta-stats  { min-width: unset !important; width: 100% !important; }
+    }
+
+    /* Small mobile (≤ 600px) */
+    @media (max-width: 600px) {
+        .courses-grid  { grid-template-columns: 1fr !important; }
+        .teachers-grid { grid-template-columns: 1fr !important; }
+        .feat-grid     { grid-template-columns: 1fr !important; }
+        .stats-bar     { padding: 12px 14px !important; }
+        .cta-h2        { font-size: 1.7rem !important; }
+        .features      { padding: 36px 14px !important; }
+    }
 </style>
 @endpush
 
@@ -204,19 +291,22 @@
      ╚══════════════════════════════════════════════════╝ --}}
 <section class="hero">
     <div class="arabic-wm">قُرْآن</div>
+    <div class="hero-arch"></div>
+    <div class="hero-inner">
 
     {{-- Left text --}}
     <div class="hero-left">
 
-        <div style="display:inline-flex;align-items:center;gap:8px;background:rgba(201,164,39,.15);border:1px solid rgba(201,164,39,.3);border-radius:999px;padding:5px 14px;width:fit-content;margin-bottom:24px">
-            <span style="width:6px;height:6px;border-radius:50%;background:var(--gold);display:inline-block"></span>
-            <span style="font-size:.68rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--gold)">Online Quran Academy</span>
+        {{-- Badge --}}
+        <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(201,164,39,.12);border:1px solid rgba(201,164,39,.35);border-radius:999px;padding:6px 16px 6px 8px;width:fit-content;margin-bottom:28px;backdrop-filter:blur(8px)">
+            <span style="background:var(--gold);border-radius:999px;padding:3px 10px;font-size:.6rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#0F1F0A">New</span>
+            <span style="font-size:.72rem;font-weight:600;color:rgba(201,164,39,.9)">Free Trial Class — No Credit Card</span>
         </div>
 
-        <h1 style="font-family:'Playfair Display',serif;font-size:3.6rem;font-weight:900;color:#fff;line-height:1.1;margin-bottom:20px">
+        <h1 style="font-family:'Playfair Display',serif;font-size:3.8rem;font-weight:900;color:#fff;line-height:1.08;margin-bottom:22px;text-shadow:0 2px 20px rgba(0,0,0,.3)">
             Begin Your<br>
-            <span style="background:linear-gradient(135deg,var(--goldl),var(--gold));-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Quran Journey</span><br>
-            From Home
+            <span style="background:linear-gradient(135deg,#F0D060,var(--gold),#C9A427);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text">Quran Journey</span><br>
+            <span style="font-size:.7em;font-weight:700;color:rgba(255,255,255,.85)">From Home</span>
         </h1>
 
         <p style="font-size:.96rem;color:rgba(255,255,255,.65);line-height:1.85;max-width:440px;margin-bottom:32px">
@@ -291,6 +381,7 @@
             </p>
         </div>
     </div>
+    </div>{{-- end hero-inner --}}
 </section>
 
 

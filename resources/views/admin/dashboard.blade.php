@@ -57,7 +57,7 @@
                         <tr class="table-row">
                             <td class="py-3 text-gold-DEFAULT font-mono text-xs">{{ $booking->booking_ref }}</td>
                             <td class="py-3 text-gray-300">{{ $booking->student->user->name }}</td>
-                            <td class="py-3 text-gray-300">{{ $booking->teacher->user->name }}</td>
+                            <td class="py-3 text-gray-300">{{ $booking->teacher?->user?->name ?? '—' }}</td>
                             <td class="py-3 text-gray-500 text-xs">{{ $booking->scheduled_at->format('M d, Y') }}</td>
                             <td class="py-3"><span class="badge badge-{{ $booking->status }}">{{ $booking->status }}</span></td>
                         </tr>

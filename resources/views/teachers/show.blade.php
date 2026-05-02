@@ -6,37 +6,38 @@
 /* ── Profile hero banner ─────────────────────────────────── */
 .prof-banner{
     background:linear-gradient(160deg,var(--gd) 0%,var(--green) 100%);
-    padding:4rem 1.5rem 3rem;
+    padding:4.5rem 1.5rem 5.5rem;
     position:relative;overflow:hidden;
 }
 .prof-banner::after{
     content:'';
-    position:absolute;bottom:-1px;left:0;right:0;height:60px;
+    position:absolute;bottom:-1px;left:0;right:0;height:70px;
     background:var(--cream);
     clip-path:ellipse(55% 100% at 50% 100%);
 }
 .prof-banner-inner{
     max-width:900px;margin:0 auto;
-    display:flex;align-items:flex-end;gap:1.5rem;flex-wrap:wrap;
+    display:flex;align-items:center;gap:1.75rem;flex-wrap:wrap;
     position:relative;z-index:1;
 }
 .prof-banner-avatar{
-    width:100px;height:100px;border-radius:50%;
-    border:4px solid rgba(255,255,255,.3);
+    width:110px;height:110px;border-radius:50%;
+    border:4px solid rgba(255,255,255,.35);
     object-fit:cover;
-    box-shadow:0 4px 20px rgba(0,0,0,.3);
+    box-shadow:0 6px 24px rgba(0,0,0,.35);
     flex-shrink:0;
 }
 .prof-banner-info{flex:1;min-width:200px;}
 .prof-banner-name{
-    font-size:1.75rem;font-weight:800;color:#fff;
-    margin-bottom:.25rem;
+    font-size:2.1rem;font-weight:800;color:#fff;
+    margin-bottom:.3rem;line-height:1.15;
+    text-shadow:0 2px 8px rgba(0,0,0,.2);
 }
-.prof-banner-spec{color:var(--goldl);font-size:.9rem;font-weight:600;margin-bottom:.5rem;}
-.prof-banner-stars{display:flex;align-items:center;gap:.25rem;}
-.prof-banner-stars i{font-size:.75rem;color:rgba(255,255,255,.3);}
+.prof-banner-spec{color:var(--goldl);font-size:.95rem;font-weight:700;margin-bottom:.65rem;letter-spacing:.02em;}
+.prof-banner-stars{display:flex;align-items:center;gap:.3rem;margin-top:.1rem;}
+.prof-banner-stars i{font-size:.85rem;color:rgba(255,255,255,.25);}
 .prof-banner-stars i.lit{color:#FBBF24;}
-.prof-banner-stars span{color:rgba(255,255,255,.7);font-size:.8rem;margin-left:.4rem;}
+.prof-banner-stars span{color:rgba(255,255,255,.9);font-size:.875rem;font-weight:600;margin-left:.5rem;}
 
 /* ── Body layout ─────────────────────────────────────────── */
 .prof-body{
@@ -169,12 +170,20 @@
         <div class="prof-banner-info">
             <h1 class="prof-banner-name">{{ $teacher->user->name }}</h1>
             <div class="prof-banner-spec">{{ $teacher->specialization ?? 'Quran Teacher' }}</div>
+            @if($teacher->total_reviews > 0)
             <div class="prof-banner-stars">
                 @for($i=1;$i<=5;$i++)
-                    <i class="fas fa-star {{ $i <= $teacher->rating ? 'lit' : '' }}"></i>
+                    <i class="fas fa-star {{ $i <= round($teacher->rating) ? 'lit' : '' }}"></i>
                 @endfor
-                <span>{{ number_format($teacher->rating,1) }} · {{ $teacher->total_reviews }} reviews</span>
+                <span>{{ number_format($teacher->rating,1) }} · {{ $teacher->total_reviews }} {{ $teacher->total_reviews == 1 ? 'review' : 'reviews' }}</span>
             </div>
+            @else
+            <div class="prof-banner-stars">
+                <span style="background:rgba(255,255,255,.15);padding:.2rem .7rem;border-radius:99px;font-size:.75rem;color:rgba(255,255,255,.85);font-weight:600;">
+                    <i class="fas fa-user-check mr-1"></i> Verified Teacher
+                </span>
+            </div>
+            @endif
         </div>
     </div>
 </div>
@@ -213,11 +222,12 @@
         <div class="prof-side-card" style="margin-top:1rem;">
             <div class="psc-head">Details</div>
             <div class="psc-body" style="padding-top:.75rem;padding-bottom:.75rem;">
-                <div class="info-row">
-                    <span class="info-row-key"><i class="fas fa-dollar-sign"></i>Hourly Rate</span>
-                    <span class="info-row-val">${{ number_format($teacher->hourly_rate, 2) }}</span>
-                </div>
-                @if($teacher->nationality)
+                @if(!empty($teacher->city))
+                    <div class="info-row">
+                        <span class="info-row-key"><i class="fas fa-map-marker-alt"></i>City</span>
+                        <span class="info-row-val">{{ $teacher->city }}</span>
+                    </div>
+                @elseif($teacher->nationality)
                     <div class="info-row">
                         <span class="info-row-key"><i class="fas fa-globe"></i>Nationality</span>
                         <span class="info-row-val">{{ $teacher->nationality }}</span>
@@ -229,10 +239,18 @@
                         <span class="info-row-val">{{ $teacher->language }}</span>
                     </div>
                 @endif
+                @if($teacher->experience_years)
                 <div class="info-row">
                     <span class="info-row-key"><i class="fas fa-briefcase"></i>Experience</span>
                     <span class="info-row-val">{{ $teacher->experience_years }} years</span>
                 </div>
+                @endif
+                @if($teacher->gender)
+                <div class="info-row">
+                    <span class="info-row-key"><i class="fas fa-user"></i>Gender</span>
+                    <span class="info-row-val">{{ ucfirst($teacher->gender) }}</span>
+                </div>
+                @endif
             </div>
         </div>
 
@@ -251,16 +269,16 @@
             </div>
         @endif
 
-        {{-- Book CTA --}}
+        {{-- Enroll CTA --}}
         @auth
             @if(auth()->user()->isStudent())
-                <a href="{{ route('student.bookings.create', ['teacher_id' => $teacher->id]) }}" class="book-btn">
-                    <i class="fas fa-calendar-plus mr-2"></i> Book a Session
+                <a href="{{ route('student.enroll.create', ['teacher_id' => $teacher->id]) }}" class="book-btn">
+                    <i class="fas fa-graduation-cap mr-2"></i> Enroll with This Teacher
                 </a>
             @endif
         @else
             <a href="{{ route('register', 'student') }}" class="book-btn">
-                <i class="fas fa-calendar-plus mr-2"></i> Book a Session
+                <i class="fas fa-graduation-cap mr-2"></i> Enroll Now
             </a>
         @endauth
 
@@ -317,7 +335,7 @@
                 </span>
             </div>
 
-            @forelse($teacher->reviews->where('is_published', true)->take(6) as $review)
+            @forelse($teacher->reviews->sortByDesc('created_at')->take(6) as $review)
                 <div class="review-item">
                     <img src="{{ $review->student->user->avatar_url }}"
                          class="rev-avatar"

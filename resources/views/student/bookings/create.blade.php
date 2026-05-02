@@ -48,7 +48,7 @@
             {{-- Duration --}}
             <div>
                 <label class="block text-gray-400 text-sm mb-2">Session Duration</label>
-                <div class="grid grid-cols-4 gap-3">
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
                     @foreach([30 => '30 min', 45 => '45 min', 60 => '1 hour', 90 => '1.5 hrs'] as $mins => $label)
                         <label class="cursor-pointer">
                             <input type="radio" name="duration" value="{{ $mins }}" {{ $mins === 60 ? 'checked' : '' }} class="sr-only peer">

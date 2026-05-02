@@ -10,7 +10,7 @@ define('LARAVEL_START', microtime(true));
 | Check If The Application Is Under Maintenance
 |--------------------------------------------------------------------------
 */
-if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php')) {
+if (file_exists($maintenance = __DIR__.'/../peace_institute/storage/framework/maintenance.php')) {
     require $maintenance;
 }
 
@@ -18,22 +18,19 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
 |--------------------------------------------------------------------------
 | Register The Auto Loader
 |--------------------------------------------------------------------------
-| IMPORTANT: Yeh path shared hosting ke liye adjust kiya gaya hai.
-| Agar aap ka Laravel code public_html ke bahar hai to yeh path
-| apne server structure ke mutabiq change karo.
+| path: /home/USERNAME/peace_institute/vendor/autoload.php
+| public_html => public folder ka content
+| peace_institute => baaki sab Laravel files
 |--------------------------------------------------------------------------
 */
-
-// Shared hosting path — apne username aur folder name ke mutabiq change karo
-// Example: /home/USERNAME/peace_institute/vendor/autoload.php
-require __DIR__.'/../vendor/autoload.php';
+require __DIR__.'/../peace_institute/vendor/autoload.php';
 
 /*
 |--------------------------------------------------------------------------
 | Run The Application
 |--------------------------------------------------------------------------
 */
-$app = require_once __DIR__.'/../bootstrap/app.php';
+$app = require_once __DIR__.'/../peace_institute/bootstrap/app.php';
 
 $kernel = $app->make(Kernel::class);
 

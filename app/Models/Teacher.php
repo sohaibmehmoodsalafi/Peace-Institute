@@ -4,24 +4,49 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Builder;
 
 class Teacher extends Model
 {
     use HasFactory;
 
+    /**
+     * All teacher row IDs belonging to this user (covers duplicate profiles).
+     * Bookings/enrollments may reference any of these IDs; hasOne teacher() only yields one row.
+     */
+    public static function idsForUserId(int $userId): array
+    {
+        return static::query()
+            ->where('user_id', $userId)
+            ->orderBy('id')
+            ->pluck('id')
+            ->all();
+    }
+
+    // Auto-filter: never return teachers with deleted/missing user
+    protected static function booted(): void
+    {
+        static::addGlobalScope('has_user', function (Builder $builder) {
+            $builder->whereHas('user');
+        });
+    }
+
     protected $fillable = [
         'user_id', 'bio', 'specialization', 'experience_years', 'hourly_rate',
         'subjects', 'education', 'certification', 'nationality', 'language',
-        'gender', 'rating', 'total_reviews', 'total_sessions', 'total_earnings',
+        'gender', 'city', 'slug', 'rating', 'total_reviews', 'total_sessions', 'total_earnings',
         'pending_payout', 'status', 'is_featured',
+        'monthly_salary', 'monthly_target_classes', 'documents',
     ];
 
     protected $casts = [
-        'subjects'        => 'array',
-        'hourly_rate'     => 'float',
-        'total_earnings'  => 'float',
-        'pending_payout'  => 'float',
-        'is_featured'     => 'boolean',
+        'subjects'               => 'array',
+        'hourly_rate'            => 'float',
+        'total_earnings'         => 'float',
+        'pending_payout'         => 'float',
+        'monthly_salary'         => 'float',
+        'monthly_target_classes' => 'integer',
+        'is_featured'            => 'boolean',
     ];
 
     public function user()
@@ -59,6 +84,16 @@ class Teacher extends Model
         return $this->hasMany(Payout::class);
     }
 
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
+    }
+
+    public function salarySlips()
+    {
+        return $this->hasMany(SalarySlip::class);
+    }
+
     // Completed sessions count
     public function completedSessions()
     {
@@ -85,5 +120,10 @@ class Teacher extends Model
     public function getNameAttribute(): string
     {
         return $this->user->name;
+    }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
     }
 }

@@ -58,8 +58,8 @@
                 @forelse($bookings as $booking)
                     <tr class="table-row">
                         <td class="px-5 py-4 font-mono text-xs text-gold-DEFAULT">{{ $booking->booking_ref }}</td>
-                        <td class="px-5 py-4 text-gray-300">{{ $booking->student->user->name }}</td>
-                        <td class="px-5 py-4 text-gray-300">{{ $booking->teacher->user->name }}</td>
+                        <td class="px-5 py-4 text-gray-300">{{ $booking->student?->user?->name ?? '—' }}</td>
+                        <td class="px-5 py-4 text-gray-300">{{ $booking->teacher?->user?->name ?? '—' }}</td>
                         <td class="px-5 py-4 text-gray-500 text-xs">{{ $booking->course->name ?? '–' }}</td>
                         <td class="px-5 py-4">
                             <div class="text-gray-300 text-xs">{{ $booking->scheduled_at->format('M d, Y') }}</div>

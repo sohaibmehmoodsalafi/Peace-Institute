@@ -30,6 +30,16 @@ Route::post('/logout', [LoginController::class, 'logout'])->name('logout')->midd
 Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->group(function () {
     Route::get('/dashboard',                 [Student\DashboardController::class, 'index'])->name('dashboard');
 
+    // Course Enrollment
+    Route::post('/courses/{course}/enroll',    [Student\CourseController::class, 'enroll'])->name('courses.enroll');
+    Route::delete('/courses/{course}/unenroll',[Student\CourseController::class, 'unenroll'])->name('courses.unenroll');
+
+    // Enrollments
+    Route::get('/enroll',                    [Student\EnrollmentController::class, 'create'])->name('enroll.create');
+    Route::post('/enroll',                   [Student\EnrollmentController::class, 'store'])->name('enroll.store');
+    Route::get('/enrollments',               [Student\EnrollmentController::class, 'index'])->name('enrollments.index');
+    Route::delete('/enrollments/{enrollment}', [Student\EnrollmentController::class, 'cancel'])->name('enrollments.cancel');
+
     // Bookings
     Route::get('/bookings',                  [Student\BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/create',           [Student\BookingController::class, 'create'])->name('bookings.create');
@@ -47,7 +57,12 @@ Route::middleware(['auth', 'student'])->prefix('student')->name('student.')->gro
 // ─── Teacher Routes ───────────────────────────────────────────────────────────
 Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->group(function () {
     Route::get('/dashboard',                        [Teacher\DashboardController::class, 'index'])->name('dashboard');
-    Route::put('/profile',                          [Teacher\DashboardController::class, 'updateProfile'])->name('profile.update');
+    Route::get('/profile',                          [Teacher\ProfileController::class, 'edit'])->name('profile');
+    Route::post('/profile',                         [Teacher\ProfileController::class, 'update'])->name('profile.update');
+    Route::put('/profile',                          [Teacher\DashboardController::class, 'updateProfile'])->name('profile.update.old');
+
+    // Enrollments
+    Route::get('/enrollments',                       [Teacher\EnrollmentController::class, 'index'])->name('enrollments');
 
     // Availability
     Route::get('/availability',                     [Teacher\AvailabilityController::class, 'index'])->name('availability');
@@ -57,12 +72,17 @@ Route::middleware(['auth', 'teacher'])->prefix('teacher')->name('teacher.')->gro
     Route::get('/sessions',                         [Teacher\SessionController::class, 'bookings'])->name('sessions');
     Route::post('/sessions/{booking}/approve',      [Teacher\SessionController::class, 'approve'])->name('sessions.approve');
     Route::post('/sessions/{booking}/reject',       [Teacher\SessionController::class, 'reject'])->name('sessions.reject');
+    Route::post('/sessions/{booking}/link',         [Teacher\SessionController::class, 'updateLink'])->name('sessions.link');
     Route::post('/sessions/{session}/complete',     [Teacher\SessionController::class, 'complete'])->name('sessions.complete');
     Route::get('/sessions/history',                 [Teacher\SessionController::class, 'history'])->name('sessions.history');
 
     // Earnings
     Route::get('/earnings',                         [Teacher\EarningsController::class, 'index'])->name('earnings');
     Route::post('/earnings/payout',                 [Teacher\EarningsController::class, 'requestPayout'])->name('earnings.payout');
+
+    // Salary Slips
+    Route::get('/salary',                           [Teacher\SalaryController::class, 'index'])->name('salary.index');
+    Route::get('/salary/{slip}',                    [Teacher\SalaryController::class, 'show'])->name('salary.show');
 });
 
 // Teacher pending approval page (no teacher middleware - just auth)
@@ -96,6 +116,24 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/earnings/approve',                 [Admin\EarningsController::class, 'approve'])->name('earnings.approve');
     Route::get('/earnings/payouts',                  [Admin\EarningsController::class, 'payouts'])->name('earnings.payouts');
     Route::post('/earnings/payouts/{teacher}',       [Admin\EarningsController::class, 'processPayout'])->name('earnings.payout');
+
+    // Enrollments
+    Route::get('/enrollments',                           [Admin\EnrollmentController::class, 'index'])->name('enrollments.index');
+    Route::get('/enrollments/{enrollment}',              [Admin\EnrollmentController::class, 'show'])->name('enrollments.show');
+    Route::post('/enrollments/{enrollment}/approve',     [Admin\EnrollmentController::class, 'approve'])->name('enrollments.approve');
+    Route::post('/enrollments/{enrollment}/reject',      [Admin\EnrollmentController::class, 'reject'])->name('enrollments.reject');
+    Route::post('/enrollments/{enrollment}/pause',       [Admin\EnrollmentController::class, 'pause'])->name('enrollments.pause');
+    Route::post('/enrollments/{enrollment}/resume',      [Admin\EnrollmentController::class, 'resume'])->name('enrollments.resume');
+    Route::post('/enrollments/{enrollment}/cancel',      [Admin\EnrollmentController::class, 'cancel'])->name('enrollments.cancel');
+
+    // Salary Slips
+    Route::get('/salary',                            [Admin\SalaryController::class, 'index'])->name('salary.index');
+    Route::post('/salary/generate',                  [Admin\SalaryController::class, 'generate'])->name('salary.generate');
+    Route::get('/salary/{slip}',                     [Admin\SalaryController::class, 'show'])->name('salary.show');
+    Route::put('/salary/{slip}',                     [Admin\SalaryController::class, 'update'])->name('salary.update');
+    Route::post('/salary/{slip}/approve',            [Admin\SalaryController::class, 'approve'])->name('salary.approve');
+    Route::post('/salary/{slip}/pay',                [Admin\SalaryController::class, 'markPaid'])->name('salary.pay');
+    Route::post('/teachers/{teacher}/salary-setup',  [Admin\SalaryController::class, 'updateTeacherSalary'])->name('teachers.salary.setup');
 });
 
 // ─── Stripe Webhook (no CSRF) ─────────────────────────────────────────────────

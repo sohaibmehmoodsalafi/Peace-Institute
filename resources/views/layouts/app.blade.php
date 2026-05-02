@@ -198,12 +198,54 @@
         .d1 { transition-delay: .05s; } .d2 { transition-delay: .12s; } .d3 { transition-delay: .19s; }
         .d4 { transition-delay: .26s; } .d5 { transition-delay: .33s; } .d6 { transition-delay: .4s; }
 
-        /* Mobile nav toggle */
-        .mobile-menu { display: none; }
-        @media (max-width: 768px) {
-            .nav-links, .nav-auth-desktop { display: none; }
+        /* Mobile nav */
+        .mobile-menu-btn {
+            display: none; align-items: center; justify-content: center;
+            width: 40px; height: 40px; border-radius: 10px;
+            background: rgba(26,107,60,.08); border: 1.5px solid rgba(26,107,60,.15);
+            cursor: pointer; flex-direction: column; gap: 5px; flex-shrink: 0;
+        }
+        .mobile-menu-btn span {
+            display: block; width: 20px; height: 2px;
+            background: var(--green); border-radius: 2px; transition: all .3s;
+        }
+        .mobile-menu-btn.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+        .mobile-menu-btn.open span:nth-child(2) { opacity: 0; }
+        .mobile-menu-btn.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+        .mobile-menu {
+            display: none; position: fixed; top: 68px; left: 0; right: 0;
+            background: #fff; border-bottom: 1px solid rgba(26,107,60,.1);
+            box-shadow: 0 8px 32px rgba(0,0,0,.1); z-index: 99; padding: 16px;
+            flex-direction: column; gap: 4px;
+        }
+        .mobile-menu.open { display: flex; }
+        .mobile-menu a {
+            padding: 12px 16px; border-radius: 10px; color: var(--text);
+            font-size: .9rem; font-weight: 500; text-decoration: none;
+            transition: all .2s; display: flex; align-items: center; gap: 10px;
+        }
+        .mobile-menu a:hover { background: rgba(26,107,60,.06); color: var(--green); }
+        .mobile-menu a.active { color: var(--green); font-weight: 700; background: rgba(26,107,60,.06); }
+        .mobile-menu-divider { height: 1px; background: rgba(0,0,0,.06); margin: 8px 0; }
+        .mobile-menu-btns { display: flex; gap: 8px; padding: 8px 0 4px; }
+        .mobile-menu-btns a { flex: 1; justify-content: center; }
+
+        @media (max-width: 900px) {
+            .nav-links, .nav-auth-desktop { display: none !important; }
             .mobile-menu-btn { display: flex; }
-            .footer-grid { grid-template-columns: 1fr 1fr; }
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 28px; }
+        }
+        @media (max-width: 640px) {
+            .footer-grid { grid-template-columns: 1fr 1fr; gap: 20px; }
+            /* Stack grids on small screens */
+            [style*="grid-template-columns: repeat(3"], [style*="grid-template-columns: repeat(4"] { grid-template-columns: 1fr 1fr !important; }
+        }
+        @media (max-width: 480px) {
+            .footer-grid { grid-template-columns: 1fr; }
+            .nav-inner { padding: 0 16px; }
+            /* Full width buttons on mobile */
+            .mobile-menu-btns a { padding: 12px; font-size: .88rem; }
         }
     </style>
     @stack('styles')
@@ -212,13 +254,15 @@
 <body class="min-h-screen">
 
     @php
+        // Check actual public_html path (not Laravel's default public/)
+        $pubPath = '/home/peaceorg/public_html';
         $logoUrl = null;
-        if (file_exists(public_path('images/logo.png')))      $logoUrl = asset('images/logo.png');
-        elseif (file_exists(public_path('images/logo.svg')))  $logoUrl = asset('images/logo.svg');
+        if (file_exists("$pubPath/images/logo.png"))      $logoUrl = asset('images/logo.png');
+        elseif (file_exists("$pubPath/images/logo.svg"))  $logoUrl = asset('images/logo.svg');
 
         $logoMarkUrl = null;
-        if (file_exists(public_path('images/logo-mark.png')))     $logoMarkUrl = asset('images/logo-mark.png');
-        elseif (file_exists(public_path('images/logo-mark.svg')))  $logoMarkUrl = asset('images/logo-mark.svg');
+        if (file_exists("$pubPath/images/logo-mark.png"))     $logoMarkUrl = asset('images/logo-mark.png');
+        elseif (file_exists("$pubPath/images/logo-mark.svg"))  $logoMarkUrl = asset('images/logo-mark.svg');
 
         $socialLinks = [
             ['icon' => 'fab fa-facebook-f',  'url' => 'https://www.facebook.com/peaceinstituteglobal',    'label' => 'Facebook'],
@@ -232,32 +276,32 @@
         <div class="nav-inner">
 
             <!-- Logo -->
-            <a href="{{ route('home') }}" class="nav-logo">
-                <div class="nav-logo-mark">
-                    @if($logoMarkUrl)
-                        <img src="{{ $logoMarkUrl }}" alt="PI logo">
-                    @elseif($logoUrl)
-                        <img src="{{ $logoUrl }}" alt="PI logo">
-                    @else
-                        PI
-                    @endif
-                </div>
-                <div>
-                    <div class="nav-brand-name">Peace Institute</div>
-                    <div class="nav-brand-sub">Online Quran Academy</div>
-                </div>
+            <a href="{{ route('home') }}" class="nav-logo" style="text-decoration:none">
+                @if($logoUrl)
+                    <img src="{{ $logoUrl }}" alt="Peace Institute" style="height:52px;width:auto;object-fit:contain;display:block">
+                @elseif($logoMarkUrl)
+                    <img src="{{ $logoMarkUrl }}" alt="Peace Institute" style="height:52px;width:auto;object-fit:contain;display:block">
+                @else
+                    <div class="nav-logo-mark">PI</div>
+                    <div>
+                        <div class="nav-brand-name">Peace Institute</div>
+                        <div class="nav-brand-sub">Online Quran Academy</div>
+                    </div>
+                @endif
             </a>
 
             <!-- Desktop Links -->
-            <div class="nav-links" style="display:flex">
+            <div class="nav-links">
                 <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}">Home</a>
                 <a href="{{ route('courses') }}" class="{{ request()->routeIs('courses') ? 'active' : '' }}">Courses</a>
                 <a href="{{ route('teachers') }}" class="{{ request()->routeIs('teachers') ? 'active' : '' }}">Teachers</a>
                 <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
-                <a href="tel:+923022702808" style="color:var(--green);display:inline-flex;align-items:center;gap:6px">
-                    <i class="fas fa-phone" style="font-size:.7rem"></i> +92 302 2702808
-                </a>
             </div>
+
+            <!-- Hamburger -->
+            <button class="mobile-menu-btn" id="mobileBtn" onclick="toggleMobileMenu()" aria-label="Menu">
+                <span></span><span></span><span></span>
+            </button>
 
             <!-- Auth -->
             <div class="nav-auth-desktop" style="display:flex;align-items:center;gap:8px">
@@ -292,6 +336,34 @@
         </div>
     </nav>
 
+    <!-- ── MOBILE MENU ────────────────────────────────────────── -->
+    <div class="mobile-menu" id="mobileMenu">
+        <a href="{{ route('home') }}" class="{{ request()->routeIs('home') ? 'active' : '' }}"><i class="fas fa-home" style="width:16px;color:var(--green)"></i> Home</a>
+        <a href="{{ route('courses') }}" class="{{ request()->routeIs('courses') ? 'active' : '' }}"><i class="fas fa-book-open" style="width:16px;color:var(--green)"></i> Courses</a>
+        <a href="{{ route('teachers') }}" class="{{ request()->routeIs('teachers') ? 'active' : '' }}"><i class="fas fa-chalkboard-teacher" style="width:16px;color:var(--green)"></i> Teachers</a>
+        <a href="{{ route('contact') }}" class="{{ request()->routeIs('contact') ? 'active' : '' }}"><i class="fas fa-envelope" style="width:16px;color:var(--green)"></i> Contact</a>
+        <a href="tel:+923022702808"><i class="fas fa-phone" style="width:16px;color:var(--green)"></i> +92 302 2702808</a>
+        <div class="mobile-menu-divider"></div>
+        @auth
+            @if(auth()->user()->isAdmin())
+                <a href="{{ route('admin.dashboard') }}" class="btn-nav-primary" style="justify-content:center">Admin Dashboard</a>
+            @elseif(auth()->user()->isTeacher())
+                <a href="{{ route('teacher.dashboard') }}" class="btn-nav-primary" style="justify-content:center">Teacher Dashboard</a>
+            @else
+                <a href="{{ route('student.dashboard') }}" class="btn-nav-primary" style="justify-content:center">My Dashboard</a>
+            @endif
+            <form action="{{ route('logout') }}" method="POST">
+                @csrf
+                <button style="width:100%;padding:12px;border-radius:10px;background:rgba(0,0,0,.04);border:none;font-size:.9rem;cursor:pointer;color:var(--muted)">Logout</button>
+            </form>
+        @else
+            <div class="mobile-menu-btns">
+                <a href="{{ route('login') }}" class="btn-nav-ghost">Login</a>
+                <a href="{{ route('register') }}" class="btn-nav-primary">Enroll Free</a>
+            </div>
+        @endauth
+    </div>
+
     <!-- ── FLASH MESSAGES ───────────────────────────────────── -->
     <div style="position:fixed;top:80px;right:16px;z-index:200;display:flex;flex-direction:column;gap:8px" id="flash-msgs">
         @if(session('success'))
@@ -311,19 +383,94 @@
         @yield('content')
     </main>
 
-    <!-- ── WHATSAPP STRIP ───────────────────────────────────── -->
+    <!-- ── WHATSAPP FLOATING POPUP ────────────────────────────── -->
     @unless(request()->routeIs('admin.*') || request()->routeIs('teacher.*') || request()->routeIs('student.*'))
-    <div style="background:#fff;padding:14px 32px;display:flex;align-items:center;justify-content:center;gap:16px;border-top:1px solid rgba(26,107,60,.08);flex-wrap:wrap">
-        <div style="width:38px;height:38px;background:#25D366;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0">
-            <i class="fab fa-whatsapp" style="color:#fff;font-size:1.1rem"></i>
+    <style>
+        .wa-float { position:fixed; bottom:28px; right:28px; z-index:999; display:flex; flex-direction:column; align-items:flex-end; gap:12px; }
+        .wa-popup {
+            background:#fff; border-radius:16px; padding:16px 18px;
+            box-shadow:0 8px 40px rgba(0,0,0,.18); width:260px;
+            display:none; flex-direction:column; gap:10px;
+            animation: waSlideIn .25s ease;
+            border:1px solid rgba(37,211,102,.15);
+        }
+        .wa-popup.show { display:flex; }
+        @keyframes waSlideIn { from{opacity:0;transform:translateY(12px)} to{opacity:1;transform:none} }
+        .wa-popup-header { display:flex; align-items:center; gap:10px; padding-bottom:10px; border-bottom:1px solid #F3F4F6; }
+        .wa-popup-avatar { width:42px;height:42px;border-radius:12px;background:linear-gradient(135deg,#25D366,#128C7E);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+        .wa-popup-name { font-weight:700;font-size:.88rem;color:#1C1C1C;line-height:1.2; }
+        .wa-popup-status { font-size:.72rem;color:#25D366;display:flex;align-items:center;gap:4px; }
+        .wa-popup-msg { background:#F0FDF4;border-radius:10px 10px 10px 2px;padding:10px 12px;font-size:.82rem;color:#374151;line-height:1.55; }
+        .wa-popup-btn {
+            display:flex;align-items:center;justify-content:center;gap:8px;
+            background:#25D366;color:#fff;font-weight:700;font-size:.85rem;
+            padding:11px;border-radius:10px;text-decoration:none;
+            box-shadow:0 4px 14px rgba(37,211,102,.35);transition:all .2s;
+        }
+        .wa-popup-btn:hover { background:#22c55e;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,211,102,.45); }
+        .wa-btn {
+            width:58px;height:58px;border-radius:999px;
+            background:#25D366;border:none;cursor:pointer;
+            display:flex;align-items:center;justify-content:center;
+            box-shadow:0 6px 24px rgba(37,211,102,.5);transition:all .3s;
+            position:relative;
+        }
+        .wa-btn:hover { transform:scale(1.08);box-shadow:0 10px 32px rgba(37,211,102,.6); }
+        .wa-btn i { font-size:1.6rem;color:#fff; }
+        .wa-pulse {
+            position:absolute;top:0;right:0;width:16px;height:16px;
+            background:#ef4444;border-radius:999px;border:2px solid #fff;
+            display:flex;align-items:center;justify-content:center;
+            font-size:.55rem;font-weight:800;color:#fff;
+        }
+        @media(max-width:480px){ .wa-float{bottom:18px;right:16px;} .wa-popup{width:230px;} }
+    </style>
+
+    <div class="wa-float" id="waFloat">
+        <!-- Popup -->
+        <div class="wa-popup" id="waPopup">
+            <div class="wa-popup-header">
+                <div class="wa-popup-avatar"><i class="fab fa-whatsapp" style="color:#fff;font-size:1.3rem"></i></div>
+                <div>
+                    <div class="wa-popup-name">Peace Institute</div>
+                    <div class="wa-popup-status"><span style="width:7px;height:7px;background:#25D366;border-radius:999px;display:inline-block"></span> Typically replies instantly</div>
+                </div>
+                <button onclick="closeWa()" style="margin-left:auto;background:none;border:none;cursor:pointer;color:#9CA3AF;font-size:1rem;padding:0 0 0 8px">✕</button>
+            </div>
+            <div class="wa-popup-msg">
+                👋 Assalamu Alaikum! How can we help you today?<br><br>
+                Ask about our <strong>free trial class</strong> or any course!
+            </div>
+            <a href="https://wa.me/923022702808?text=Assalamu+Alaikum!+I+want+to+know+more+about+Peace+Institute+courses." target="_blank" class="wa-popup-btn">
+                <i class="fab fa-whatsapp"></i> Start Chat
+            </a>
         </div>
-        <span style="font-weight:600;color:var(--text);font-size:.9rem">Have questions? Chat with us on WhatsApp</span>
-        <span style="color:var(--muted);font-size:.85rem">+92 302 2702808</span>
-        <a href="https://wa.me/923022702808" target="_blank"
-           style="margin-left:auto;background:#25D366;color:#fff;font-weight:700;font-size:.82rem;padding:10px 20px;border-radius:10px;text-decoration:none;display:flex;align-items:center;gap:7px;box-shadow:0 4px 14px rgba(37,211,102,.3)">
-            Chat Now <i class="fas fa-arrow-right"></i>
-        </a>
+
+        <!-- Float Button -->
+        <button class="wa-btn" id="waBtn" onclick="toggleWa()" aria-label="WhatsApp">
+            <i class="fab fa-whatsapp" id="waIcon"></i>
+            <span class="wa-pulse">1</span>
+        </button>
     </div>
+
+    <script>
+        var waOpen = false;
+        // Auto show popup after 4 seconds
+        setTimeout(function(){ if(!waOpen){ openWa(); } }, 4000);
+
+        function toggleWa(){ waOpen ? closeWa() : openWa(); }
+        function openWa(){
+            waOpen = true;
+            document.getElementById('waPopup').classList.add('show');
+            document.getElementById('waIcon').className = 'fas fa-times';
+            document.querySelector('.wa-pulse').style.display = 'none';
+        }
+        function closeWa(){
+            waOpen = false;
+            document.getElementById('waPopup').classList.remove('show');
+            document.getElementById('waIcon').className = 'fab fa-whatsapp';
+        }
+    </script>
     @endunless
 
     <!-- ── FOOTER ────────────────────────────────────────────── -->
@@ -334,15 +481,14 @@
 
                 <!-- Brand -->
                 <div class="footer-brand">
-                    <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px">
-                        <div style="width:38px;height:38px;border-radius:8px;background:linear-gradient(135deg,var(--gl),#2EA85E);display:flex;align-items:center;justify-content:center;font-weight:900;font-size:13px;color:#fff;overflow:hidden;flex-shrink:0">
-                            @if($logoMarkUrl)
-                                <img src="{{ $logoMarkUrl }}" alt="" style="width:100%;height:100%;object-fit:contain">
-                            @else
-                                PI
-                            @endif
-                        </div>
-                        <h3>Peace Institute</h3>
+                    <div style="margin-bottom:12px">
+                        @if($logoUrl)
+                            <img src="{{ $logoUrl }}" alt="Peace Institute" style="height:60px;width:auto;object-fit:contain;filter:brightness(0) invert(1)">
+                        @elseif($logoMarkUrl)
+                            <img src="{{ $logoMarkUrl }}" alt="Peace Institute" style="height:60px;width:auto;object-fit:contain;filter:brightness(0) invert(1)">
+                        @else
+                            <h3>Peace Institute</h3>
+                        @endif
                     </div>
                     <p>Online Quran Academy — bringing certified Islamic education to every Muslim home worldwide.</p>
                     <div style="font-family:'Amiri',serif;font-size:1.1rem;color:rgba(201,164,39,.6);direction:rtl;margin-top:14px">بِسْمِ اللهِ الرَّحْمٰنِ الرَّحِيْمِ</div>
@@ -411,6 +557,30 @@
             entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); revealObs.unobserve(e.target); } });
         }, { threshold: 0.06 });
         document.querySelectorAll('.reveal').forEach(el => { revealObs.observe(el); el.classList.add('in'); });
+
+        // Mobile menu toggle
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobileMenu');
+            const btn  = document.getElementById('mobileBtn');
+            menu.classList.toggle('open');
+            btn.classList.toggle('open');
+        }
+        // Close on outside click
+        document.addEventListener('click', function(e) {
+            const menu = document.getElementById('mobileMenu');
+            const btn  = document.getElementById('mobileBtn');
+            if (menu && btn && !menu.contains(e.target) && !btn.contains(e.target)) {
+                menu.classList.remove('open');
+                btn.classList.remove('open');
+            }
+        });
+        // Close on nav link click
+        document.querySelectorAll('.mobile-menu a').forEach(a => {
+            a.addEventListener('click', () => {
+                document.getElementById('mobileMenu').classList.remove('open');
+                document.getElementById('mobileBtn').classList.remove('open');
+            });
+        });
     </script>
     @stack('scripts')
 </body>

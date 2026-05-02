@@ -25,8 +25,8 @@
 
     <style>
         body { background: #050505; color: #fff; font-family: 'Inter', sans-serif; }
-        .sidebar { background: #0a0a0a; border-right: 1px solid rgba(212,175,55,0.12); width: 260px; }
-        .sidebar-link { color: #9ca3af; transition: all 0.2s; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; gap: 10px; font-size: 0.875rem; }
+        .sidebar { background: #0a0a0a; border-right: 1px solid rgba(212,175,55,0.12); width: 260px; transition: transform .3s ease; }
+        .sidebar-link { color: #9ca3af; transition: all 0.2s; padding: 10px 16px; border-radius: 8px; display: flex; align-items: center; gap: 10px; font-size: 0.875rem; text-decoration: none; }
         .sidebar-link:hover, .sidebar-link.active { color: #D4AF37; background: rgba(212,175,55,0.08); }
         .sidebar-link .icon { width: 18px; text-align: center; }
         .gold-gradient { background: linear-gradient(135deg, #D4AF37, #F0D060, #A08020); }
@@ -34,30 +34,78 @@
         .card { background: #0d0d0d; border: 1px solid rgba(212,175,55,0.1); border-radius: 12px; }
         .card:hover { border-color: rgba(212,175,55,0.25); }
         .stat-card { background: linear-gradient(135deg, #0d0d0d, #111); border: 1px solid rgba(212,175,55,0.15); border-radius: 12px; }
-        .btn-gold { background: linear-gradient(135deg, #D4AF37, #A08020); color: #000; font-weight: 600; padding: 8px 18px; border-radius: 8px; font-size: 0.875rem; transition: all 0.3s; border: none; cursor: pointer; }
+        .btn-gold { background: linear-gradient(135deg, #D4AF37, #A08020); color: #000; font-weight: 600; padding: 8px 18px; border-radius: 8px; font-size: 0.875rem; transition: all 0.3s; border: none; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
         .btn-gold:hover { background: linear-gradient(135deg, #F0D060, #D4AF37); transform: translateY(-1px); box-shadow: 0 4px 15px rgba(212,175,55,0.35); }
-        .btn-outline { border: 1px solid rgba(212,175,55,0.3); color: #D4AF37; padding: 7px 16px; border-radius: 8px; font-size: 0.875rem; transition: all 0.2s; background: transparent; cursor: pointer; }
+        .btn-outline { border: 1px solid rgba(212,175,55,0.3); color: #D4AF37; padding: 7px 16px; border-radius: 8px; font-size: 0.875rem; transition: all 0.2s; background: transparent; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; }
         .btn-outline:hover { background: rgba(212,175,55,0.08); border-color: #D4AF37; }
-        .btn-danger { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 7px 16px; border-radius: 8px; font-size: 0.875rem; transition: all 0.2s; cursor: pointer; }
+        .btn-danger { background: rgba(239,68,68,0.15); border: 1px solid rgba(239,68,68,0.3); color: #f87171; padding: 7px 16px; border-radius: 8px; font-size: 0.875rem; transition: all 0.2s; cursor: pointer; display: inline-flex; align-items: center; }
         .btn-danger:hover { background: rgba(239,68,68,0.25); }
         .badge-pending  { background: rgba(251,191,36,0.15); color: #fbbf24; border: 1px solid rgba(251,191,36,0.3); }
         .badge-approved { background: rgba(52,211,153,0.15); color: #34d399; border: 1px solid rgba(52,211,153,0.3); }
         .badge-completed{ background: rgba(99,102,241,0.15); color: #818cf8; border: 1px solid rgba(99,102,241,0.3); }
         .badge-cancelled{ background: rgba(239,68,68,0.15); color: #f87171; border: 1px solid rgba(239,68,68,0.3); }
         .badge { font-size: 0.7rem; padding: 2px 10px; border-radius: 999px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; display: inline-block; }
-        .input-dark { background: #111; border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 0.875rem; width: 100%; }
+        .input-dark { background: #111; border: 1px solid rgba(212,175,55,0.2); color: #fff; border-radius: 8px; padding: 8px 12px; font-size: 0.875rem; }
         .input-dark:focus { outline: none; border-color: #D4AF37; box-shadow: 0 0 0 2px rgba(212,175,55,0.1); }
         .table-row { border-bottom: 1px solid rgba(255,255,255,0.04); transition: background 0.15s; }
         .table-row:hover { background: rgba(255,255,255,0.02); }
         .divider { height: 1px; background: linear-gradient(90deg, transparent, rgba(212,175,55,0.2), transparent); margin: 1rem 0; }
+
+        /* ── SIDEBAR OVERLAY (mobile) ── */
+        .sidebar-overlay {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,.7);
+            z-index: 39; backdrop-filter: blur(2px);
+        }
+        .sidebar-overlay.open { display: block; }
+
+        /* ── HAMBURGER ── */
+        .dash-hamburger {
+            display: none; flex-direction: column; justify-content: center; gap: 5px;
+            width: 38px; height: 38px; border-radius: 8px;
+            background: rgba(212,175,55,.08); border: 1px solid rgba(212,175,55,.2);
+            cursor: pointer; padding: 8px; flex-shrink: 0;
+        }
+        .dash-hamburger span { display: block; height: 2px; background: #D4AF37; border-radius: 2px; transition: all .3s; }
+
+        /* ── DESKTOP: push main content right of sidebar ── */
+        @media (min-width: 769px) {
+            .main-content { margin-left: 260px; }
+        }
+
+        /* ── MOBILE ── */
+        @media (max-width: 768px) {
+            .sidebar {
+                position: fixed; inset-y: 0; left: 0; z-index: 40;
+                transform: translateX(-100%);
+            }
+            .sidebar.open { transform: translateX(0); }
+            .dash-hamburger { display: flex; }
+            .dash-date-badge { display: none; }
+
+            /* Stack stat cards */
+            .grid.grid-cols-3, .grid.grid-cols-4 { grid-template-columns: 1fr 1fr !important; }
+
+            /* Make tables scroll */
+            .overflow-x-auto { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+            table { min-width: 500px; }
+        }
+        @media (max-width: 480px) {
+            .grid.grid-cols-2,
+            .grid.grid-cols-3,
+            .grid.grid-cols-4 { grid-template-columns: 1fr !important; }
+            .main-content { padding: 16px !important; }
+        }
     </style>
     @stack('styles')
 </head>
 <body>
 <div class="flex min-h-screen">
 
+    <!-- Mobile Overlay -->
+    <div class="sidebar-overlay" id="sidebarOverlay" onclick="closeSidebar()"></div>
+
     <!-- Sidebar -->
-    <aside class="sidebar fixed inset-y-0 left-0 z-40 flex flex-col overflow-y-auto">
+    <aside class="sidebar fixed inset-y-0 left-0 z-40 flex flex-col overflow-y-auto" id="dashSidebar">
         <!-- Logo -->
         <div class="p-5 border-b border-gold-DEFAULT/10">
             @php
@@ -141,29 +189,29 @@
     </aside>
 
     <!-- Main Content -->
-    <div class="flex-1 ml-[260px] flex flex-col min-h-screen">
+    <div class="main-content flex-1 flex flex-col min-h-screen">
         <!-- Top Bar -->
-        <header class="sticky top-0 z-30 px-6 py-4 border-b border-gold-DEFAULT/10" style="background: linear-gradient(120deg, rgba(6,6,6,0.94), rgba(12,12,12,0.92)); backdrop-filter: blur(10px);">
-            <div class="flex items-center justify-between gap-4">
-                <div class="min-w-0">
-                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] uppercase tracking-[0.25em] bg-gold-DEFAULT/10 text-gold-DEFAULT mb-2">
-                        <span class="w-1.5 h-1.5 rounded-full bg-gold-DEFAULT"></span>
-                        Peace Institute Dashboard
-                    </div>
-                    <h1 class="text-lg font-semibold text-white truncate">@yield('page-title', 'Dashboard')</h1>
-                    <p class="text-xs text-gray-500">@yield('page-subtitle', '')</p>
+        <header class="sticky top-0 z-30 px-4 py-3 border-b border-gold-DEFAULT/10" style="background: linear-gradient(120deg, rgba(6,6,6,0.94), rgba(12,12,12,0.92)); backdrop-filter: blur(10px);">
+            <div class="flex items-center gap-3">
+                <!-- Hamburger (mobile only) -->
+                <button class="dash-hamburger" onclick="openSidebar()" aria-label="Menu">
+                    <span></span><span></span><span></span>
+                </button>
+                <div class="min-w-0 flex-1">
+                    <h1 class="text-base font-semibold text-white truncate">@yield('page-title', 'Dashboard')</h1>
+                    <p class="text-xs text-gray-500 hidden sm:block">@yield('page-subtitle', '')</p>
                 </div>
-                <div class="flex items-center gap-4">
-                    <a href="{{ route('contact') }}" class="text-xs text-gray-300 hover:text-gold-DEFAULT transition-colors">Contact Us</a>
-                    <div class="text-xs text-gray-300 px-3 py-2 rounded-lg border border-gold-DEFAULT/20 bg-white/[0.02]">
-                        <i class="fas fa-calendar-alt text-gold-DEFAULT mr-2"></i>{{ now()->format('D, M d Y') }}
+                <div class="flex items-center gap-3 flex-shrink-0">
+                    <a href="{{ route('contact') }}" class="text-xs text-gray-300 hover:text-gold-DEFAULT transition-colors hidden sm:block">Contact</a>
+                    <div class="dash-date-badge text-xs text-gray-300 px-3 py-2 rounded-lg border border-gold-DEFAULT/20 bg-white/[0.02]">
+                        <i class="fas fa-calendar-alt text-gold-DEFAULT mr-1"></i>{{ now()->format('M d, Y') }}
                     </div>
                 </div>
             </div>
         </header>
 
         <!-- Page Content -->
-        <main class="flex-1 p-6">
+        <main class="flex-1 p-4 md:p-6">
 
             @if(session('success'))
                 <div class="mb-6 bg-green-900/40 border border-green-500/40 text-green-300 px-4 py-3 rounded-lg flex items-center gap-2">
@@ -191,5 +239,23 @@
 </div>
 
 @stack('scripts')
+<script>
+function openSidebar() {
+    document.getElementById('dashSidebar').classList.add('open');
+    document.getElementById('sidebarOverlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeSidebar() {
+    document.getElementById('dashSidebar').classList.remove('open');
+    document.getElementById('sidebarOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+// Close sidebar on nav link click (mobile)
+document.querySelectorAll('.sidebar-link').forEach(function(link) {
+    link.addEventListener('click', function() {
+        if (window.innerWidth <= 768) closeSidebar();
+    });
+});
+</script>
 </body>
 </html>

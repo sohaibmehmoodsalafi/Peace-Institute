@@ -23,7 +23,7 @@
                 @foreach($days as $dayNum => $dayName)
                     @php $slot = $availabilities->get($dayNum); @endphp
                     <div class="border border-white/5 rounded-xl p-4">
-                        <div class="flex items-center gap-4">
+                        <div class="flex items-center gap-4 avail-row">
                             <label class="flex items-center gap-2 w-36 cursor-pointer">
                                 <input type="checkbox" name="slots[{{ $dayNum }}][is_available]" value="1"
                                     onchange="toggleDay({{ $dayNum }}, this.checked)"
@@ -32,7 +32,7 @@
                                 <span class="text-white text-sm font-medium">{{ $dayName }}</span>
                                 <input type="hidden" name="slots[{{ $dayNum }}][day_of_week]" value="{{ $dayNum }}">
                             </label>
-                            <div class="flex items-center gap-2 flex-1 day-times-{{ $dayNum }} {{ $slot && $slot->is_available ? '' : 'opacity-40 pointer-events-none' }}">
+                            <div class="flex items-center gap-2 flex-1 avail-times day-times-{{ $dayNum }} {{ $slot && $slot->is_available ? '' : 'opacity-40 pointer-events-none' }}">
                                 <input type="time" name="slots[{{ $dayNum }}][start_time]"
                                     value="{{ $slot ? $slot->start_time : '09:00' }}"
                                     class="input-dark flex-1">
@@ -58,6 +58,15 @@
     </div>
 </div>
 @endsection
+
+@push('styles')
+<style>
+@media (max-width: 640px) {
+    .avail-row   { flex-direction: column !important; align-items: flex-start !important; gap: 10px !important; }
+    .avail-times { width: 100% !important; }
+}
+</style>
+@endpush
 
 @push('scripts')
 <script>

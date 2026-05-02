@@ -5,6 +5,7 @@
 
 @section('sidebar-nav')
     <a href="{{ route('teacher.dashboard') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
+    <a href="{{ route('teacher.profile') }}" class="sidebar-link"><span class="icon"><i class="fas fa-user-circle"></i></span> My Profile</a>
     <a href="{{ route('teacher.sessions') }}" class="sidebar-link">
         <span class="icon"><i class="fas fa-calendar-check"></i></span> Sessions
         @if(isset($pendingApproval) && $pendingApproval > 0)

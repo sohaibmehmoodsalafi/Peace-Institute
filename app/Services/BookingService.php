@@ -114,7 +114,7 @@ class BookingService
         // Get existing bookings for that day
         $bookedSlots = Booking::where('teacher_id', $teacher->id)
             ->whereDate('scheduled_at', $date->format('Y-m-d'))
-            ->whereNotIn('status', ['cancelled'])
+            ->whereNotIn('status', ['cancelled', 'rejected'])
             ->pluck('scheduled_at');
 
         $slots     = collect();
@@ -151,7 +151,7 @@ class BookingService
     {
         return !Booking::where('teacher_id', $teacher->id)
             ->where('scheduled_at', $dateTime)
-            ->whereNotIn('status', ['cancelled'])
+            ->whereNotIn('status', ['cancelled', 'rejected'])
             ->exists();
     }
 }

@@ -40,7 +40,8 @@ class Booking extends Model
 
     public function teacher()
     {
-        return $this->belongsTo(Teacher::class);
+        // Bookings must resolve the linked teacher row even if global scope would hide it.
+        return $this->belongsTo(Teacher::class)->withoutGlobalScope('has_user');
     }
 
     public function course()

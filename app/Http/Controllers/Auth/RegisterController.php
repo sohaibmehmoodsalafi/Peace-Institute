@@ -9,6 +9,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules;
 
 class RegisterController extends Controller
@@ -22,21 +23,25 @@ class RegisterController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'name'     => ['required', 'string', 'max:255'],
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'role'     => ['required', 'in:student,teacher'],
-            'phone'    => ['nullable', 'string', 'max:20'],
-            'timezone' => ['nullable', 'string'],
+            'name'          => ['required', 'string', 'max:255'],
+            'email'         => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password'      => ['required', 'confirmed', Rules\Password::defaults()],
+            'role'          => ['required', 'in:student,teacher'],
+            'phone'         => ['nullable', 'string', 'max:20'],
+            'phone_country' => ['nullable', 'string', 'max:10'],
+            'timezone'      => ['nullable', 'string'],
         ]);
 
+        $fullPhone = ($request->phone_country ?? '') . ($request->phone ?? '');
+
         $user = User::create([
-            'name'     => $request->name,
-            'email'    => $request->email,
-            'password' => Hash::make($request->password),
-            'role'     => $request->role,
-            'phone'    => $request->phone,
-            'timezone' => $request->timezone ?? 'UTC',
+            'name'               => $request->name,
+            'email'              => $request->email,
+            'password'           => Hash::make($request->password),
+            'role'               => $request->role,
+            'phone'              => $fullPhone ?: null,
+            'phone_country_code' => $request->phone_country ?? null,
+            'timezone'           => $request->timezone ?? 'UTC',
         ]);
 
         // Create role-specific profile
@@ -48,10 +53,19 @@ class RegisterController extends Controller
         }
 
         if ($request->role === 'teacher') {
+            // Generate unique slug from name
+            $base = Str::slug($user->name);
+            $slug = $base;
+            $i    = 1;
+            while (Teacher::withoutGlobalScopes()->where('slug', $slug)->exists()) {
+                $slug = $base . '-' . $i++;
+            }
+
             Teacher::create([
-                'user_id'       => $user->id,
-                'hourly_rate'   => $request->hourly_rate ?? 15.00,
-                'status'        => 'pending',
+                'user_id'     => $user->id,
+                'hourly_rate' => $request->hourly_rate ?? 15.00,
+                'status'      => 'pending',
+                'slug'        => $slug,
             ]);
             Auth::login($user);
             return redirect()->route('teacher.pending');

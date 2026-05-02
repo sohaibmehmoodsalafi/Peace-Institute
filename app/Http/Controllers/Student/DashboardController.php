@@ -3,19 +3,27 @@
 namespace App\Http\Controllers\Student;
 
 use App\Http\Controllers\Controller;
+use App\Models\Booking;
+use App\Models\Student;
 
 class DashboardController extends Controller
 {
     public function index()
     {
-        $student = auth()->user()->student;
+        $student   = auth()->user()->student;
+        $studentIds = Student::idsForUserId(auth()->id());
 
-        $upcomingBookings = $student->upcomingBookings()
+        $upcomingBookings = Booking::query()
+            ->whereIn('student_id', $studentIds)
             ->with(['teacher.user', 'course'])
+            ->whereIn('status', ['pending', 'approved'])
+            ->where('scheduled_at', '>=', now())
+            ->orderBy('scheduled_at')
             ->take(5)
             ->get();
 
-        $recentHistory = $student->bookings()
+        $recentHistory = Booking::query()
+            ->whereIn('student_id', $studentIds)
             ->with(['teacher.user', 'course'])
             ->where('status', 'completed')
             ->latest()

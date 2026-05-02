@@ -30,8 +30,10 @@ class DashboardController extends Controller
                 ->sum('amount'),
         ];
 
-        // Recent bookings
+        // Recent bookings (only with valid relations)
         $recentBookings = Booking::with(['student.user', 'teacher.user', 'course'])
+            ->whereHas('student.user')
+            ->whereHas('teacher.user')
             ->latest()
             ->take(10)
             ->get();
@@ -44,8 +46,9 @@ class DashboardController extends Controller
             ->orderByRaw('YEAR(paid_at), MONTH(paid_at)')
             ->get();
 
-        // Top teachers by earnings
+        // Top teachers by earnings (only with valid user)
         $topTeachers = Teacher::with('user')
+            ->whereHas('user')
             ->orderByDesc('total_earnings')
             ->take(5)
             ->get();

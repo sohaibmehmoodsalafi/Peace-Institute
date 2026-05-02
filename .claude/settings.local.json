@@ -28,7 +28,17 @@
       "PowerShell(Start-Sleep -Seconds 5; $r = Test-NetConnection -ComputerName 127.0.0.1 -Port 8003 -WarningAction SilentlyContinue; Write-Host \"Port 8003: $\\($r.TcpTestSucceeded\\)\"; Get-Content \"C:\\\\Users\\\\3TEE\\\\AppData\\\\Local\\\\Temp\\\\claude\\\\D--Peace-Institute-Website\\\\b1d87fbb-f295-42d5-acfd-19b67ddb43fc\\\\tasks\\\\brc96hf49.output\" -ErrorAction SilentlyContinue | Select-Object -Last 5)",
       "PowerShell(Get-Command ngrok -ErrorAction SilentlyContinue)",
       "PowerShell(Get-Command cloudflared -ErrorAction SilentlyContinue)",
-      "PowerShell(node -e \"require\\('localtunnel'\\)\" 2>&1)"
+      "PowerShell(node -e \"require\\('localtunnel'\\)\" 2>&1)",
+      "PowerShell(Get-ChildItem \"D:\\\\Peace Institute\\\\Deploy\\\\\" | Select-Object Name, @{N='Size';E={[math]::Round\\($_.Length/1MB,1\\)}}  | Format-Table)",
+      "Bash(Get-Item \"D:\\\\Peace Institute\\\\Deploy\\\\pushall.php\")",
+      "Bash(Select-Object Name, Length, LastWriteTime)",
+      "Bash(python3 -c ' *)",
+      "Read(//d/Peace Institute/Deploy/**)",
+      "Bash(python -c ' *)",
+      "Bash(git rm *)",
+      "Bash(git add *)",
+      "Bash(git config *)",
+      "Bash(git commit -m ' *)"
     ]
   }
 }

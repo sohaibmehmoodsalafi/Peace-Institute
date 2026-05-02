@@ -9,6 +9,16 @@ class Student extends Model
 {
     use HasFactory;
 
+    /** All student profile IDs for this user (duplicate rows). */
+    public static function idsForUserId(int $userId): array
+    {
+        return static::query()
+            ->where('user_id', $userId)
+            ->orderBy('id')
+            ->pluck('id')
+            ->all();
+    }
+
     protected $fillable = [
         'user_id', 'date_of_birth', 'gender', 'nationality',
         'current_level', 'learning_goals', 'total_sessions',
@@ -43,6 +53,11 @@ class Student extends Model
     public function reviews()
     {
         return $this->hasMany(Review::class);
+    }
+
+    public function enrollments()
+    {
+        return $this->hasMany(Enrollment::class);
     }
 
     public function courses()

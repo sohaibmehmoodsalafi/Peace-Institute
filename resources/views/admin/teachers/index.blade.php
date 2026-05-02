@@ -46,10 +46,10 @@
                 <tr class="table-row">
                     <td class="px-5 py-4">
                         <div class="flex items-center gap-3">
-                            <img src="{{ $teacher->user->avatar_url }}" class="w-9 h-9 rounded-full" alt="">
+                            <img src="{{ $teacher->user?->avatar_url ?? asset('images/default-avatar.png') }}" class="w-9 h-9 rounded-full" alt="">
                             <div>
-                                <div class="text-white font-medium">{{ $teacher->user->name }}</div>
-                                <div class="text-gray-500 text-xs">{{ $teacher->user->email }}</div>
+                                <div class="text-white font-medium">{{ $teacher->user?->name ?? '—' }}</div>
+                                <div class="text-gray-500 text-xs">{{ $teacher->user?->email ?? '' }}</div>
                             </div>
                         </div>
                     </td>

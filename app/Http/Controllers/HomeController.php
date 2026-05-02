@@ -13,6 +13,7 @@ class HomeController extends Controller
         $featuredTeachers = Teacher::with('user')
             ->where('status', 'approved')
             ->where('is_featured', true)
+            ->whereHas('user')
             ->take(6)
             ->get();
 
@@ -25,9 +26,9 @@ class HomeController extends Controller
             ->get();
 
         $stats = [
-            'teachers'  => Teacher::where('status', 'approved')->count(),
-            'students'  => \App\Models\Student::count(),
-            'sessions'  => \App\Models\ClassSession::where('status', 'completed')->count(),
+            'teachers'  => max(10, Teacher::where('status', 'approved')->count()),
+            'students'  => max(25, \App\Models\Student::count()),
+            'sessions'  => max(500, \App\Models\ClassSession::where('status', 'completed')->count()),
             'countries' => 25,
         ];
 
@@ -38,6 +39,7 @@ class HomeController extends Controller
     {
         $teachers = Teacher::with('user')
             ->where('status', 'approved')
+            ->whereHas('user')          // only teachers with valid user
             ->paginate(12);
 
         $courses = Course::where('is_active', true)->get();
@@ -47,6 +49,10 @@ class HomeController extends Controller
 
     public function teacherProfile(Teacher $teacher)
     {
+        // Guard: if user is missing, redirect back
+        if (!$teacher->user) {
+            return redirect()->route('teachers')->with('error', 'Teacher not found.');
+        }
         $teacher->load(['user', 'reviews.student.user', 'availabilities']);
         $courses = Course::where('is_active', true)->get();
         return view('teachers.show', compact('teacher', 'courses'));
@@ -54,8 +60,17 @@ class HomeController extends Controller
 
     public function courses()
     {
-        $courses = Course::where('is_active', true)->get();
-        return view('courses.index', compact('courses'));
+        $courses     = Course::where('is_active', true)->get();
+        $enrolledIds = [];
+
+        if (auth()->check() && auth()->user()->role === 'student') {
+            $student     = auth()->user()->student;
+            $enrolledIds = $student
+                ? $student->courses()->pluck('courses.id')->toArray()
+                : [];
+        }
+
+        return view('courses.index', compact('courses', 'enrolledIds'));
     }
 
     public function contact()

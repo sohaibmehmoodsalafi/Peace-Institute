@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Student;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use App\Models\Course;
+use App\Models\Student;
 use App\Models\Teacher;
 use App\Services\BookingService;
 use Carbon\Carbon;
@@ -16,8 +17,9 @@ class BookingController extends Controller
 
     public function index()
     {
-        $student  = auth()->user()->student;
-        $bookings = $student->bookings()
+        $student = auth()->user()->student;
+        $bookings = Booking::query()
+            ->whereIn('student_id', Student::idsForUserId(auth()->id()))
             ->with(['teacher.user', 'course', 'payment', 'review'])
             ->latest()
             ->paginate(15);
@@ -64,7 +66,9 @@ class BookingController extends Controller
             'notes'        => 'nullable|string|max:500',
         ]);
 
-        $student = auth()->user()->student;
+        $studentIds = Student::idsForUserId(auth()->id());
+        abort_if(count($studentIds) === 0, 403, 'Student profile missing.');
+        $student = Student::query()->find($studentIds[0]);
         $teacher = Teacher::findOrFail($request->teacher_id);
 
         // Verify slot is still available
@@ -92,7 +96,7 @@ class BookingController extends Controller
 
     public function cancel(Request $request, Booking $booking)
     {
-        abort_if($booking->student_id !== auth()->user()->student->id, 403);
+        abort_unless(in_array($booking->student_id, Student::idsForUserId(auth()->id()), true), 403);
         abort_if($booking->isCompleted(), 422, 'Cannot cancel a completed session.');
 
         $request->validate(['reason' => 'required|string']);
@@ -103,7 +107,7 @@ class BookingController extends Controller
 
     public function review(Request $request, Booking $booking)
     {
-        abort_if($booking->student_id !== auth()->user()->student->id, 403);
+        abort_unless(in_array($booking->student_id, Student::idsForUserId(auth()->id()), true), 403);
         abort_if(!$booking->isCompleted(), 422, 'Can only review completed sessions.');
         abort_if($booking->review, 422, 'Already reviewed.');
 
@@ -112,11 +116,9 @@ class BookingController extends Controller
             'comment' => 'nullable|string|max:500',
         ]);
 
-        $student = auth()->user()->student;
-
         \App\Models\Review::create([
             'teacher_id' => $booking->teacher_id,
-            'student_id' => $student->id,
+            'student_id' => $booking->student_id,
             'booking_id' => $booking->id,
             'rating'     => $request->rating,
             'comment'    => $request->comment,

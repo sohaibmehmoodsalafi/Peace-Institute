@@ -44,9 +44,9 @@
         @forelse($upcomingBookings as $booking)
             <div class="table-row py-4">
                 <div class="flex items-start gap-3">
-                    <img src="{{ $booking->teacher->user->avatar_url }}" class="w-10 h-10 rounded-full flex-shrink-0" alt="">
+                    <img src="{{ $booking->teacher?->user?->avatar_url ?? asset('images/default-avatar.png') }}" class="w-10 h-10 rounded-full flex-shrink-0" alt="">
                     <div class="flex-1 min-w-0">
-                        <div class="text-white text-sm font-medium">{{ $booking->teacher->user->name }}</div>
+                        <div class="text-white text-sm font-medium">{{ $booking->teacher?->user?->name ?? 'Teacher' }}</div>
                         <div class="text-gray-400 text-xs">{{ $booking->course->name ?? 'General Session' }}</div>
                         <div class="text-gold-DEFAULT text-xs mt-1">
                             <i class="fas fa-calendar mr-1"></i>
@@ -84,9 +84,9 @@
         @forelse($recentHistory as $booking)
             <div class="table-row py-4">
                 <div class="flex items-center gap-3">
-                    <img src="{{ $booking->teacher->user->avatar_url }}" class="w-9 h-9 rounded-full" alt="">
+                    <img src="{{ $booking->teacher?->user?->avatar_url ?? asset('images/default-avatar.png') }}" class="w-9 h-9 rounded-full" alt="">
                     <div class="flex-1 min-w-0">
-                        <div class="text-white text-sm">{{ $booking->teacher->user->name }}</div>
+                        <div class="text-white text-sm">{{ $booking->teacher?->user?->name ?? 'Teacher' }}</div>
                         <div class="text-gray-500 text-xs">{{ $booking->scheduled_at->format('M d, Y') }}</div>
                     </div>
                     <div class="text-right">

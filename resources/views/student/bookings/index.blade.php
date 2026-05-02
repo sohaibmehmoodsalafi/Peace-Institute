@@ -40,8 +40,8 @@
                         </td>
                         <td class="px-5 py-4">
                             <div class="flex items-center gap-2">
-                                <img src="{{ $booking->teacher->user->avatar_url }}" class="w-7 h-7 rounded-full" alt="">
-                                <span class="text-gray-300">{{ $booking->teacher->user->name }}</span>
+                                <img src="{{ $booking->teacher?->user?->avatar_url ?? asset('images/default-avatar.png') }}" class="w-7 h-7 rounded-full" alt="">
+                                <span class="text-gray-300">{{ $booking->teacher?->user?->name ?? '—' }}</span>
                             </div>
                         </td>
                         <td class="px-5 py-4 text-gray-400">{{ $booking->course->name ?? '–' }}</td>
