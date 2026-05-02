@@ -87,8 +87,10 @@ class EnrollmentController extends Controller
     // ── Cancel enrollment (pending only) ──────────────────────────
     public function cancel(Enrollment $enrollment)
     {
-        abort_unless(in_array($enrollment->student_id, Student::idsForUserId(auth()->id()), true), 403);
-        abort_if($enrollment->status !== 'pending', 422, 'Only pending enrollments can be cancelled.');
+        // Ownership check — cast to int to avoid strict type mismatch
+        $myIds = array_map('intval', Student::idsForUserId(auth()->id()));
+        abort_unless(in_array((int) $enrollment->student_id, $myIds), 403);
+        abort_if($enrollment->status !== 'pending', 403, 'This enrollment cannot be cancelled.');
 
         $enrollment->update(['status' => 'cancelled']);
 
