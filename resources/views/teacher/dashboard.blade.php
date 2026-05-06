@@ -1,20 +1,22 @@
 @extends('layouts.dashboard')
 @section('title', 'Teacher Dashboard')
 @section('page-title', 'Teacher Dashboard')
-@section('page-subtitle', 'Manage your sessions and earnings')
+@section('page-subtitle', 'Manage your classes and earnings')
 
 @section('sidebar-nav')
     <a href="{{ route('teacher.dashboard') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
-    <a href="{{ route('teacher.profile') }}" class="sidebar-link"><span class="icon"><i class="fas fa-user-circle"></i></span> My Profile</a>
+    <a href="{{ route('teacher.enrollments') }}" class="sidebar-link"><span class="icon"><i class="fas fa-book-open"></i></span> Enrollments</a>
     <a href="{{ route('teacher.sessions') }}" class="sidebar-link">
-        <span class="icon"><i class="fas fa-calendar-check"></i></span> Sessions
+        <span class="icon"><i class="fas fa-calendar-check"></i></span> Classes
         @if(isset($pendingApproval) && $pendingApproval > 0)
             <span class="ml-auto bg-yellow-500 text-black text-xs font-bold rounded-full w-5 h-5 flex items-center justify-center">{{ $pendingApproval }}</span>
         @endif
     </a>
-    <a href="{{ route('teacher.sessions.history') }}" class="sidebar-link"><span class="icon"><i class="fas fa-history"></i></span> History</a>
+    <a href="{{ route('teacher.sessions.history') }}" class="sidebar-link"><span class="icon"><i class="fas fa-history"></i></span> Class History</a>
     <a href="{{ route('teacher.availability') }}" class="sidebar-link"><span class="icon"><i class="fas fa-clock"></i></span> Availability</a>
     <a href="{{ route('teacher.earnings') }}" class="sidebar-link"><span class="icon"><i class="fas fa-dollar-sign"></i></span> Earnings</a>
+    <a href="{{ route('teacher.salary.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-file-invoice-dollar"></i></span> Salary</a>
+    <a href="{{ route('teacher.profile') }}" class="sidebar-link"><span class="icon"><i class="fas fa-user-circle"></i></span> Profile</a>
 @endsection
 
 @section('content')
@@ -48,7 +50,7 @@
     {{-- Upcoming Sessions --}}
     <div class="card p-6">
         <div class="flex items-center justify-between mb-5">
-            <h3 class="text-white font-semibold">Upcoming Sessions</h3>
+            <h3 class="text-white font-semibold">Upcoming Classes</h3>
             <a href="{{ route('teacher.sessions') }}" class="text-gold-DEFAULT text-xs hover:underline">View all</a>
         </div>
         @forelse($upcoming as $booking)
@@ -57,7 +59,7 @@
                     <img src="{{ $booking->student->user->avatar_url }}" class="w-10 h-10 rounded-full flex-shrink-0" alt="">
                     <div class="flex-1 min-w-0">
                         <div class="text-white text-sm font-medium">{{ $booking->student->user->name }}</div>
-                        <div class="text-gray-400 text-xs">{{ $booking->course->name ?? 'General Session' }}</div>
+                        <div class="text-gray-400 text-xs">{{ $booking->course->name ?? 'General Class' }}</div>
                         <div class="text-gold-DEFAULT text-xs mt-1">
                             <i class="fas fa-calendar mr-1"></i>
                             {{ $booking->scheduled_at->format('D, M d Y \a\t h:i A') }}
@@ -86,7 +88,7 @@
         @empty
             <div class="text-center text-gray-600 py-8">
                 <i class="fas fa-calendar-times text-3xl mb-3"></i>
-                <p>No upcoming sessions</p>
+                <p>No upcoming classes</p>
             </div>
         @endforelse
     </div>
@@ -96,7 +98,7 @@
         <h3 class="text-white font-semibold mb-5">Monthly Summary – {{ now()->format('F Y') }}</h3>
         <div class="space-y-4">
             @foreach([
-                ['Sessions Completed', $monthlySummary['total_sessions'], 'fa-check-circle', 'text-green-400'],
+                ['Classes Completed', $monthlySummary['total_sessions'], 'fa-check-circle', 'text-green-400'],
                 ['Hours Worked',       number_format($monthlySummary['total_hours'], 1).'h', 'fa-clock', 'text-blue-400'],
                 ['Gross Earnings',     '$'.number_format($monthlySummary['gross_earnings'], 2), 'fa-dollar-sign', 'text-yellow-400'],
                 ['Platform Fee (15%)', '$'.number_format($monthlySummary['platform_fee_total'], 2), 'fa-percent', 'text-red-400'],

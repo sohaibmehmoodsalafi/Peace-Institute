@@ -96,18 +96,20 @@ class BookingController extends Controller
 
     public function cancel(Request $request, Booking $booking)
     {
-        abort_unless(in_array($booking->student_id, Student::idsForUserId(auth()->id()), true), 403);
+        $myIds = array_map('intval', Student::idsForUserId(auth()->id()));
+        abort_unless(in_array((int) $booking->student_id, $myIds), 403);
         abort_if($booking->isCompleted(), 422, 'Cannot cancel a completed session.');
 
         $request->validate(['reason' => 'required|string']);
         $this->bookingService->cancelBooking($booking, $request->reason, 'Student');
 
-        return back()->with('success', 'Booking cancelled.');
+        return back()->with('success', 'Class cancelled.');
     }
 
     public function review(Request $request, Booking $booking)
     {
-        abort_unless(in_array($booking->student_id, Student::idsForUserId(auth()->id()), true), 403);
+        $myIds = array_map('intval', Student::idsForUserId(auth()->id()));
+        abort_unless(in_array((int) $booking->student_id, $myIds), 403);
         abort_if(!$booking->isCompleted(), 422, 'Can only review completed sessions.');
         abort_if($booking->review, 422, 'Already reviewed.');
 

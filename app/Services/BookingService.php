@@ -104,7 +104,6 @@ class BookingService
         $dayOfWeek    = $date->dayOfWeek;
         $availability = $teacher->availabilities()
             ->where('day_of_week', $dayOfWeek)
-            ->where('is_available', true)
             ->first();
 
         if (!$availability) {

@@ -1,19 +1,20 @@
 @extends('layouts.dashboard')
-@section('title', 'My Bookings')
-@section('page-title', 'My Bookings')
+@section('title', 'My Classes')
+@section('page-title', 'My Classes')
 
 @section('sidebar-nav')
     <a href="{{ route('student.dashboard') }}" class="sidebar-link"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
+    <a href="{{ route('student.enrollments.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-book-open"></i></span> My Enrollments</a>
     <a href="{{ route('teachers') }}" class="sidebar-link"><span class="icon"><i class="fas fa-search"></i></span> Find Teachers</a>
-    <a href="{{ route('student.bookings.index') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-alt"></i></span> My Bookings</a>
+    <a href="{{ route('student.bookings.index') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-alt"></i></span> My Classes</a>
 @endsection
 
 @section('content')
 
 <div class="flex items-center justify-between mb-6">
-    <p class="text-gray-500 text-sm">{{ $bookings->total() }} total bookings</p>
+    <p class="text-gray-500 text-sm">{{ $bookings->total() }} total classes</p>
     <a href="{{ route('teachers') }}" class="btn-gold px-4 py-2 text-sm rounded-lg">
-        <i class="fas fa-plus mr-1"></i> New Booking
+        <i class="fas fa-plus mr-1"></i> Schedule Class
     </a>
 </div>
 
@@ -22,7 +23,7 @@
         <table class="w-full text-sm">
             <thead>
                 <tr class="text-gray-500 text-xs uppercase border-b border-white/5">
-                    <th class="text-left px-5 py-4">Booking</th>
+                    <th class="text-left px-5 py-4">Class</th>
                     <th class="text-left px-5 py-4">Teacher</th>
                     <th class="text-left px-5 py-4">Course</th>
                     <th class="text-left px-5 py-4">Date & Time</th>
@@ -74,8 +75,8 @@
                     <tr>
                         <td colspan="7" class="px-5 py-16 text-center text-gray-600">
                             <i class="fas fa-calendar-times text-4xl mb-3 block text-gold-DEFAULT/20"></i>
-                            No bookings yet.
-                            <a href="{{ route('teachers') }}" class="text-gold-DEFAULT hover:underline ml-1">Book your first session</a>
+                            No classes yet.
+                            <a href="{{ route('teachers') }}" class="text-gold-DEFAULT hover:underline ml-1">Schedule your first class</a>
                         </td>
                     </tr>
                 @endforelse
@@ -89,7 +90,7 @@
 {{-- Cancel Modal --}}
 <div id="cancel-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center">
     <div class="card rounded-2xl p-6 w-full max-w-sm mx-4">
-        <h3 class="text-white font-semibold mb-4">Cancel Booking</h3>
+        <h3 class="text-white font-semibold mb-4">Cancel Class</h3>
         <form id="cancel-form" method="POST">
             @csrf
             <div class="mb-4">
@@ -97,7 +98,7 @@
                 <textarea name="reason" rows="3" required class="input-dark w-full" placeholder="Please provide a reason..."></textarea>
             </div>
             <div class="flex gap-3">
-                <button type="button" onclick="document.getElementById('cancel-modal').classList.add('hidden')" class="btn-outline flex-1 py-2 rounded-lg">Keep Booking</button>
+                <button type="button" onclick="document.getElementById('cancel-modal').classList.add('hidden')" class="btn-outline flex-1 py-2 rounded-lg">Keep Class</button>
                 <button type="submit" class="btn-danger flex-1 py-2 rounded-lg">Confirm Cancel</button>
             </div>
         </form>

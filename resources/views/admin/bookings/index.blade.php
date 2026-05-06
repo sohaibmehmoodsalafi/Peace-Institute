@@ -1,13 +1,14 @@
 @extends('layouts.dashboard')
-@section('title', 'All Bookings')
-@section('page-title', 'Bookings')
-@section('page-subtitle', 'All platform booking activity')
+@section('title', 'All Classes')
+@section('page-title', 'Classes')
+@section('page-subtitle', 'All scheduled class activity')
 
 @section('sidebar-nav')
     <a href="{{ route('admin.dashboard') }}" class="sidebar-link"><span class="icon"><i class="fas fa-chart-line"></i></span> Dashboard</a>
     <a href="{{ route('admin.teachers.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-chalkboard-teacher"></i></span> Teachers</a>
     <a href="{{ route('admin.students.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-users"></i></span> Students</a>
-    <a href="{{ route('admin.bookings.index') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-alt"></i></span> Bookings</a>
+    <a href="{{ route('admin.enrollments.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-book-open"></i></span> Enrollments</a>
+    <a href="{{ route('admin.bookings.index') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-alt"></i></span> Classes</a>
     <a href="{{ route('admin.earnings.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-dollar-sign"></i></span> Earnings</a>
     <a href="{{ route('admin.earnings.payouts') }}" class="sidebar-link"><span class="icon"><i class="fas fa-money-bill-wave"></i></span> Payouts</a>
 @endsection
@@ -32,7 +33,7 @@
 <div class="flex gap-3 mb-5">
     <form action="" method="GET" class="flex gap-2">
         <input type="hidden" name="status" value="{{ request('status') }}">
-        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by booking ref..." class="input-dark">
+        <input type="text" name="search" value="{{ request('search') }}" placeholder="Search by class ref..." class="input-dark">
         <input type="date" name="date" value="{{ request('date') }}" class="input-dark">
         <button class="btn-gold px-4 py-2 rounded-lg">Search</button>
     </form>
@@ -93,7 +94,7 @@
                         </td>
                     </tr>
                 @empty
-                    <tr><td colspan="9" class="px-5 py-12 text-center text-gray-600">No bookings found.</td></tr>
+                    <tr><td colspan="9" class="px-5 py-12 text-center text-gray-600">No classes found.</td></tr>
                 @endforelse
             </tbody>
         </table>
@@ -104,7 +105,7 @@
 {{-- Cancel Modal --}}
 <div id="cancel-modal" class="fixed inset-0 bg-black/70 z-50 hidden flex items-center justify-center">
     <div class="card rounded-2xl p-6 w-full max-w-sm mx-4">
-        <h3 class="text-white font-semibold mb-4">Cancel Booking</h3>
+        <h3 class="text-white font-semibold mb-4">Cancel Class</h3>
         <form id="cancel-form" method="POST">
             @csrf
             <textarea name="reason" rows="3" required class="input-dark w-full mb-4" placeholder="Reason..."></textarea>

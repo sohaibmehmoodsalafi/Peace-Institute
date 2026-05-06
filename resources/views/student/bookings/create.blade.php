@@ -1,12 +1,12 @@
 @extends('layouts.dashboard')
-@section('title', 'Book a Session')
-@section('page-title', 'Book a Session')
+@section('title', 'Schedule a Class')
+@section('page-title', 'Schedule a Class')
 @section('page-subtitle', 'Choose your time slot and confirm')
 
 @section('sidebar-nav')
     <a href="{{ route('student.dashboard') }}" class="sidebar-link"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
     <a href="{{ route('teachers') }}" class="sidebar-link"><span class="icon"><i class="fas fa-search"></i></span> Find Teachers</a>
-    <a href="{{ route('student.bookings.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-calendar-alt"></i></span> My Bookings</a>
+    <a href="{{ route('student.bookings.index') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-alt"></i></span> My Classes</a>
 @endsection
 
 @section('content')

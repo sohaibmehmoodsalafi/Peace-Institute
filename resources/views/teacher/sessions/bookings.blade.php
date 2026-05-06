@@ -1,14 +1,17 @@
 @extends('layouts.dashboard')
-@section('title', 'Manage Sessions')
-@section('page-title', 'Booking Requests')
-@section('page-subtitle', 'Approve, reject and manage student bookings')
+@section('title', 'Manage Classes')
+@section('page-title', 'Class Requests')
+@section('page-subtitle', 'Approve, reject and manage student class requests')
 
 @section('sidebar-nav')
     <a href="{{ route('teacher.dashboard') }}" class="sidebar-link"><span class="icon"><i class="fas fa-home"></i></span> Dashboard</a>
-    <a href="{{ route('teacher.sessions') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-check"></i></span> Sessions</a>
-    <a href="{{ route('teacher.sessions.history') }}" class="sidebar-link"><span class="icon"><i class="fas fa-history"></i></span> History</a>
+    <a href="{{ route('teacher.enrollments') }}" class="sidebar-link"><span class="icon"><i class="fas fa-book-open"></i></span> Enrollments</a>
+    <a href="{{ route('teacher.sessions') }}" class="sidebar-link active"><span class="icon"><i class="fas fa-calendar-check"></i></span> Classes</a>
+    <a href="{{ route('teacher.sessions.history') }}" class="sidebar-link"><span class="icon"><i class="fas fa-history"></i></span> Class History</a>
     <a href="{{ route('teacher.availability') }}" class="sidebar-link"><span class="icon"><i class="fas fa-clock"></i></span> Availability</a>
     <a href="{{ route('teacher.earnings') }}" class="sidebar-link"><span class="icon"><i class="fas fa-dollar-sign"></i></span> Earnings</a>
+    <a href="{{ route('teacher.salary.index') }}" class="sidebar-link"><span class="icon"><i class="fas fa-file-invoice-dollar"></i></span> Salary</a>
+    <a href="{{ route('teacher.profile') }}" class="sidebar-link"><span class="icon"><i class="fas fa-user-circle"></i></span> Profile</a>
 @endsection
 
 @section('content')
@@ -88,7 +91,7 @@
                     </td>
                 </tr>
             @empty
-                <tr><td colspan="7" class="px-5 py-12 text-center text-gray-600">No bookings yet.</td></tr>
+                <tr><td colspan="7" class="px-5 py-12 text-center text-gray-600">No classes yet.</td></tr>
             @endforelse
         </tbody>
     </table>
